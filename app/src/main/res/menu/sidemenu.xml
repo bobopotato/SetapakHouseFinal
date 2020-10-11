@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/aboutUs"
+        android:title="About Us"
+        android:icon="@drawable/ic_info"
+        />
+
+    <item
+        android:id="@+id/help"
+        android:title="Contact Us"
+        android:icon="@drawable/ic_help"
+        />
+
+    <item
+        android:id="@+id/termCondition"
+        android:title="Term and Condition"
+        android:icon="@drawable/ic_contract"
+        />
+
+
+</menu>
