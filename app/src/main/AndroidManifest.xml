@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.setapakhouse">
 
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_page"
@@ -9,7 +13,14 @@
         android:roundIcon="@drawable/ic_page"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".UploadProfilePictureActivity"></activity>
+        <activity android:name=".MessageActivity"></activity>
+        <activity android:name=".detailPost" />
+        <activity android:name=".PostActivity4"></activity>
+        <activity android:name=".test" />
+        <activity android:name=".PostActivity3" />
+        <activity android:name=".PostActivity2" />
+        <activity android:name=".PostActivity1" />
+        <activity android:name=".UploadProfilePictureActivity" />
         <activity android:name=".VerifyOtpActivity" />
         <activity
             android:name=".VerifyPhoneNumberActivity"

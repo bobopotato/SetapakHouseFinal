@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SignUpActivity"
-    >
+    tools:context=".SignUpActivity">
 
     <include
         android:id="@+id/toolbar"
@@ -75,6 +74,7 @@
         app:errorEnabled="true"
         app:counterEnabled="true"
         app:counterMaxLength="15"
+        android:hint="Username"
         app:startIconDrawable="@drawable/ic_profile"
         app:startIconTint="@color/colorPrimary"
         style="@style/underline_layout"
@@ -82,7 +82,7 @@
         >
         <com.google.android.material.textfield.TextInputEditText
             style="@style/underline_input"
-            android:hint="Username"
+
             android:inputType="text"
             />
     </com.google.android.material.textfield.TextInputLayout>
@@ -239,14 +239,14 @@
     android:layout_marginBottom="30dp"
     android:layout_marginHorizontal="15dp">
     <Button
-        android:id="@+id/continueButton"
+        android:id="@+id/createAccButton"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/round_button_blue"
         android:gravity="center"
         android:paddingHorizontal="10dp"
-        android:text="CONTINUE"
+        android:text="CREATE ACCOUNT"
         android:textColor="#FFF"
         />
     <ProgressBar
@@ -256,7 +256,7 @@
         android:layout_height="30dp"
         android:layout_marginRight="10dp"
         android:layout_centerVertical="true"
-        android:layout_alignRight="@+id/continueButton"
+        android:layout_alignRight="@+id/createAccButton"
         android:visibility="invisible"
         android:indeterminate="true"
         />

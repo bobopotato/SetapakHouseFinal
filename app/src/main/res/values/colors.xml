@@ -10,4 +10,8 @@
     <color name="red">#E83B53</color>
     <color name="green">#309C40</color>
     <color name="gray">#A9A9A9</color>
+    <color name="black">#000</color>
+    <color name="hollo_blue_light">#33b5e5</color>
+    <color name="light_blue">#2a9df4</color>
+    <color name="light_grey">#e4e4e4</color>
 </resources>

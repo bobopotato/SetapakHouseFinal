@@ -1,6 +1,7 @@
 package com.example.setapakhouse
 
 
+import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -13,10 +14,10 @@ import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_sign_up.*
-import kotlinx.android.synthetic.main.activity_sign_up.passwordText
-import kotlinx.android.synthetic.main.activity_sign_up.progressBar
-import kotlinx.android.synthetic.main.activity_sign_up.progressBar2
 
 
 class SignUpActivity : AppCompatActivity() {
@@ -27,6 +28,8 @@ class SignUpActivity : AppCompatActivity() {
         setSupportActionBar(toolbar as Toolbar?)
         supportActionBar?.setTitle("Sign Up")
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        var image = "https://firebasestorage.googleapis.com/v0/b/setapak-house.appspot.com/o/Default_Profile_Picture%2Fprofile.png?alt=media&token=2bd74889-561a-488d-982c-e29e56f17b3e"
 
         //Click Outside to hide keyboard
         outside.setOnClickListener {
@@ -76,8 +79,9 @@ class SignUpActivity : AppCompatActivity() {
         }
 
         //Continue Submit Button
-        continueButton.setOnClickListener {
-            continueButton.isEnabled = false
+        createAccButton.setOnClickListener {
+            createAccButton.isEnabled = false
+            createAccButton.setBackgroundResource(R.color.transparent)
             progressBar.visibility =  View.VISIBLE
             progressBar2.visibility =  View.VISIBLE
             var valid = false
@@ -106,15 +110,21 @@ class SignUpActivity : AppCompatActivity() {
 
                                 if(confirmPasswordText.editText?.text.toString().equals(password)){
                                     //Register here
+                                    val username = usernameText.editText?.text.toString().trim()
+                                    val fullname = fullnameText.editText?.text.toString().trim()
+                                    val email = emailText.editText?.text.toString().trim()
+                                    val password = passwordText.editText?.text.toString().trim()
                                     val phoneNo =intent.getStringExtra("PhoneNumber")
-                                    val intent = Intent(this, UploadProfilePictureActivity::class.java)
-                                    intent.putExtra("Username", usernameText.editText?.text.toString().trim())
-                                    intent.putExtra("FullName", fullnameText.editText?.text.toString().trim())
-                                    intent.putExtra("Email", emailText.editText?.text.toString().trim())
-                                    intent.putExtra("Password", passwordText.editText?.text.toString().trim())
-                                    intent.putExtra("PhoneNumber", phoneNo)
-                                    startActivity(intent)
-                                    finish()
+                                    createAccount(username,fullname,email,password,phoneNo,image)
+
+                                    //val intent = Intent(this, UploadProfilePictureActivity::class.java)
+                                    //intent.putExtra("Username", usernameText.editText?.text.toString().trim())
+                                    //intent.putExtra("FullName", fullnameText.editText?.text.toString().trim())
+                                    //intent.putExtra("Email", emailText.editText?.text.toString().trim())
+                                    //intent.putExtra("Password", passwordText.editText?.text.toString().trim())
+                                    //intent.putExtra("PhoneNumber", phoneNo)
+                                    //startActivity(intent)
+                                    //finish()
                                 }
                                 else{
                                     confirmPasswordText.error="                     The password must be same"
@@ -132,7 +142,8 @@ class SignUpActivity : AppCompatActivity() {
             if(usernameText.error!=null || fullnameText.error!=null ||emailText.error!=null || passwordText.error!=null || confirmPasswordText.error!=null){
                 progressBar.visibility =  View.INVISIBLE
                 progressBar2.visibility =  View.INVISIBLE
-                continueButton.isEnabled = true
+                createAccButton.isEnabled = true
+                createAccButton.setBackgroundResource(R.drawable.round_button_blue)
             }
 
         }
@@ -195,6 +206,101 @@ class SignUpActivity : AppCompatActivity() {
             text.setTextColor(getResources().getColor(R.color.gray))
             image.setImageResource(R.drawable.ic_unchecked)
         }
+    }
+
+    private fun createAccount(
+        userName: String,
+        fullName: String,
+        email: String,
+        password: String,
+        phoneNo: String,
+        image: String
+    ) {
+
+        val progressDialog = ProgressDialog(this)
+        progressDialog.setTitle("SignUp")
+        progressDialog.setMessage("Please wait, this may take a while...")
+        progressDialog.setCanceledOnTouchOutside(false)
+        progressDialog.show()
+        val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
+
+        mAuth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener{ task ->
+                if(task.isSuccessful){
+                    saveUserInfo(userName, fullName, email, phoneNo, image, progressDialog)
+                }
+                else
+                {
+                    val message = task.exception!!.toString()
+                    //Toast.makeText(this, "Error: $message", Toast.LENGTH_LONG).show()
+                    mAuth.signOut()
+                    progressDialog.dismiss()
+                    emailText.setError("                     This email is already being used!")
+                    emailText.requestFocus()
+                    progressBar.visibility =  View.INVISIBLE
+                    progressBar2.visibility =  View.INVISIBLE
+                    createAccButton.setBackgroundResource(R.drawable.round_button_blue)
+                    createAccButton.isEnabled = true
+                }
+            }
+
+    }
+
+    private fun saveUserInfo(
+        username: String,
+        fullName: String,
+        email: String,
+        phoneNo: String,
+        image: String,
+        progressDialog: ProgressDialog
+    ) {
+        val currentUserID= FirebaseAuth.getInstance().currentUser!!.uid
+        val usersRef: DatabaseReference = FirebaseDatabase.getInstance().reference.child("Users")
+
+        val userMap=HashMap<String, Any>()
+        userMap["userID"]=currentUserID
+        userMap["username"]=username
+        userMap["fullName"]=fullName
+        userMap["email"]=email
+        userMap["phoneNumber"]=phoneNo
+        userMap["rewardPoint"]=0
+        userMap["balance"]=0
+        userMap["image"]=image
+
+        usersRef.child(currentUserID).setValue(userMap)
+            .addOnCompleteListener{ task ->
+                if(task.isSuccessful){
+                    progressDialog.dismiss()
+                    Toast.makeText(
+                        this,
+                        "Account has been created successfully.",
+                        Toast.LENGTH_LONG
+                    )
+                    val user= FirebaseAuth.getInstance().currentUser
+                    user?.sendEmailVerification()
+                        ?.addOnCompleteListener{ task ->
+                            if(task.isSuccessful){
+                                FirebaseAuth.getInstance().signOut()
+
+                                val intent = Intent(this, UploadProfilePictureActivity::class.java)
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+                                intent.putExtra("UserID", currentUserID)
+                                intent.putExtra("UserName", username)
+                                startActivity(intent)
+                                Toast.makeText(this, "Account created", Toast.LENGTH_SHORT).show()
+                                finish()
+                            }
+                        }
+                }
+                else
+                {
+                    val message = task.exception!!.toString()
+                    //Toast.makeText(this, "Error: $message", Toast.LENGTH_LONG).show()
+                    FirebaseAuth.getInstance().signOut()
+                    progressDialog.dismiss()
+
+                }
+            }
     }
 
 }

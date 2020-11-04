@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PostActivity4">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/search_chatroom_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal"
+        android:layout_gravity="center_horizontal"
+        android:textAlignment="center"
+        />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/scrollView"
+        android:layout_below="@+id/toolbar"
+        android:layout_above="@+id/postButton"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/requestUpload"
+                android:layout_centerHorizontal="true"
+                android:text="Please upload image of property here "
+                android:textSize="20dp"
+
+                android:layout_marginVertical="30dp"
+
+                />
+
+            <ImageView
+                android:id="@+id/uploadButton"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                app:srcCompat="@drawable/upload_button2"
+                tools:layout_editor_absoluteX="49dp"
+                tools:layout_editor_absoluteY="44dp"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/requestUpload"
+
+                />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/uploadPhotoView"
+                android:layout_below="@+id/uploadButton"
+                />
+
+        </RelativeLayout>
+
+    </ScrollView>
+    <Button
+        android:id="@+id/postButton"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/round_button_blue"
+        android:gravity="center"
+        android:paddingHorizontal="10dp"
+        android:text="Save &amp; Next"
+        android:layout_alignParentBottom="true"
+        android:textColor="#fff"
+        />
+
+
+</RelativeLayout>

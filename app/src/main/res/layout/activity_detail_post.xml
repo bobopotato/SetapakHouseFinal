@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".detailPost">
+
+
+
+
+    <ScrollView
+        android:id="@+id/scrollViewDetail"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="1dp">
+
+        <RelativeLayout
+            android:paddingBottom="100dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/linear1">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_backarrow"
+                android:id="@+id/backButton"
+                android:layout_margin="10dp"
+                />
+
+            <com.denzcoskun.imageslider.ImageSlider
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:id="@+id/imgProperty"
+                app:iss_placeholder="@drawable/ic_home"
+                app:iss_error_image="@drawable/ic_home">
+
+            </com.denzcoskun.imageslider.ImageSlider>
+
+
+            <TextView
+                android:id="@+id/txtPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/imgProperty"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="12dp"
+                android:text="PRICE"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtAverage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/light_blue"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="12dp"
+                android:layout_toLeftOf="@id/averageRating"
+                android:layout_marginRight="2dp"
+                android:text="4.8"
+                android:textSize="12dp"
+                android:layout_below="@+id/imgProperty"/>
+            <RatingBar
+                android:id="@+id/averageRating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/imgProperty"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="12dp"
+                android:layout_alignParentRight="true"
+                style="?android:attr/ratingBarStyleSmall" />
+
+
+
+
+            <TextView
+                android:id="@+id/txtRentalType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtPrice"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="4dp"
+                android:text="Rental Type"
+                android:textColor="@color/black"
+                android:textStyle="bold"/>
+
+
+            <ImageView
+                android:id="@+id/blackLine4"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="16dp"
+                android:layout_below="@+id/txtRentalType"
+                android:background="@color/black"
+                android:textColor="@color/black"/>
+            <TextView
+                android:id="@+id/txtDetailTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/blackLine4"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="4dp"
+                android:text="PROPERTY DETAILS"
+                android:textColor="@color/black"
+                android:textStyle="bold"/>
+            <TextView
+                android:id="@+id/txtPropertyName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtDetailTitle"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="4dp"
+                android:text="Property Name"/>
+            <TextView
+                android:id="@+id/txtPropertyType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtPropertyName"
+                android:layout_marginLeft="10dp"
+                android:text="Property Type" />
+
+            <TextView
+                android:id="@+id/txtDetail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txtPropertyType"
+                android:layout_marginLeft="10dp"
+                android:lineSpacingExtra="3dp"
+                android:text="Property Detail" />
+            <com.borjabravo.readmoretextview.ReadMoreTextView
+                android:id="@+id/txtLocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txtDetail"
+                android:layout_marginLeft="10dp"
+                android:text="Address"
+                app:trimExpandedText="Show more"
+                app:trimCollapsedText="Show less"
+                app:trimMode="trimModeLength"
+                app:trimLength="20"
+                app:colorClickableText="@color/hollo_blue_light"/>
+
+            <ImageView
+                android:id="@+id/blackLine3"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="16dp"
+                android:layout_below="@+id/txtLocation"
+                android:background="@color/black"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/txtDescriptionTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/blackLine3"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="4dp"
+                android:text="DESCRIPTION"
+                android:textColor="@color/black"
+                android:textStyle="bold"/>
+
+            <com.ms.square.android.expandabletextview.ExpandableTextView
+                android:id="@+id/expand_tex_view"
+                xmlns:expandableTextView="http://schemas.android.com/apk/res-auto"
+                expandableTextView:animDuration="500"
+                android:layout_marginLeft="10dp"
+                expandableTextView:maxCollapsedLines="2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtDescriptionTitle">
+                <TextView
+                    android:id="@+id/expandable_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <ImageButton
+                    android:id="@+id/expand_collapse"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"/>
+
+            </com.ms.square.android.expandabletextview.ExpandableTextView>
+
+
+            <ImageView
+                android:id="@+id/blackLine"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="16dp"
+                android:layout_below="@+id/expand_tex_view"
+                android:background="@color/black"
+                android:textColor="@color/black"/>
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/detailsTabLayout"
+                android:layout_below="@+id/blackLine"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Accommodations" />
+
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Preferences" />
+
+            </com.google.android.material.tabs.TabLayout>
+
+            <ImageView
+                android:id="@+id/blackLine1"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/detailsTabLayout"
+                android:background="@color/black"
+                android:textColor="@color/black"/>
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/detailViewPager"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_below="@+id/blackLine1"
+                />
+
+            <ImageView
+                android:id="@+id/blackLine2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/detailViewPager"
+                android:background="@color/black"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/txtReviewTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/blackLine2"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="4dp"
+                android:text="PROPERTY REVIEW"
+                android:textColor="@color/black"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/txtTotalRating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/blackLine2"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginRight="2dp"
+                android:layout_toLeftOf="@id/txtAverage1"
+                android:text="3 Ratings |"
+                android:textSize="12dp" />
+
+            <TextView
+                android:id="@+id/txtAverage1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/light_blue"
+                android:layout_marginTop="4dp"
+                android:layout_toLeftOf="@id/averageRating1"
+                android:layout_marginRight="2dp"
+                android:text="4.8"
+                android:textSize="12dp"
+                android:layout_below="@+id/blackLine2"/>
+            <RatingBar
+                android:id="@+id/averageRating1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/blackLine2"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="4dp"
+                android:layout_alignParentRight="true"
+                style="?android:attr/ratingBarStyleSmall" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/reviewRecycle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/txtReviewTitle"
+                android:layout_marginTop="1dp" />
+
+        </RelativeLayout>
+
+
+    </ScrollView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/gradient2">
+
+    </LinearLayout>
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_alignParentBottom="true"
+        android:id="@+id/contactProfile"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@drawable/user1"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="2dp" />
+    <TextView
+        android:id="@+id/contactUsername"
+        android:layout_alignParentBottom="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Username"
+        android:textColor="#FFFFFF"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@id/contactProfile"
+        android:textSize="13dp"
+        android:layout_marginBottom="25dp"
+        android:textStyle="bold"/>
+    <TextView
+        android:layout_alignParentBottom="true"
+        android:id="@+id/contactPhone"
+        android:layout_width="wrap_content"
+        android:textSize="13dp"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/contactProfile"
+        android:layout_marginLeft="5dp"
+        android:text="011-1231234"
+        android:textColor="#FFFFFF"
+        android:layout_marginBottom="10dp"
+        />
+    <Button
+        android:id="@+id/requestBtn"
+        android:layout_width="115dp"
+        android:layout_height="30dp"
+        android:text="Request Rent"
+        android:textSize="10dp"
+        android:layout_alignParentBottom="true"
+        android:drawableLeft="@drawable/ic_request"
+        android:layout_marginBottom="10dp"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/round_button_black"
+        android:textColor="#FFFFFF"
+        android:padding="10dp"
+        android:layout_marginRight="5dp"
+        />
+
+    <Button
+        android:id="@+id/chatBtn"
+        android:layout_width="80dp"
+        android:layout_height="30dp"
+        android:text="Chat"
+        android:textSize="10dp"
+        android:layout_alignParentBottom="true"
+        android:drawableLeft="@drawable/ic_chat"
+        android:layout_marginBottom="10dp"
+        android:layout_toLeftOf="@id/requestBtn"
+        android:background="@drawable/round_button_green"
+        android:textColor="#FFFFFF"
+        android:padding="10dp"
+        android:layout_marginRight="5dp"
+        />
+
+</RelativeLayout>

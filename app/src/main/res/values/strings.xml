@@ -4,4 +4,33 @@
     <string name="close">Close</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <string-array name="house_type">
+        <item>Flat / Apartment</item>
+        <item>Condominium</item>
+        <item>Bungalow</item>
+        <item>Shop House</item>
+        <item>Retail Lot / Shop Lot</item>
+    </string-array>
+
+    <string-array name="room_type">
+        <item>Single Room</item>
+        <item>Medium Room</item>
+        <item>Master Room</item>
+        <item>Soho</item>
+        <item>Studio</item>
+        <item>Suite</item>
+    </string-array>
+
+    <string-array name="number">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+
+    <string name="up">&#x25B2;</string>
+    <string name="down">&#x25BC;</string>
 </resources>

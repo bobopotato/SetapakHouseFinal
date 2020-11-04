@@ -1,14 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PostFragment">
+    android:background="@android:color/white"
+    tools:context=".PostFragment"
+    >
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="ADD POST" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/postTitle"
+        android:textSize="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_centerHorizontal="true"
+        android:text="Post your rental house &amp; room here"
+        android:textColor="@android:color/black"
+        />
 
-</FrameLayout>
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="wrap_content"
+        android:layout_height="367dp"
+        android:layout_below="@id/postTitle"
+        android:layout_centerInParent="true"
+        android:src="@drawable/screenshot" />
+
+    <Button
+        android:id="@+id/getStartButton"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="30dp"
+        android:layout_marginTop="68dp"
+        android:background="@drawable/round_button_blue"
+        android:gravity="center"
+        android:paddingHorizontal="10dp"
+        android:text="Get Started !!! "
+        android:layout_below="@id/imageView4"
+        android:textColor="#FFF"
+        />
+
+</RelativeLayout>

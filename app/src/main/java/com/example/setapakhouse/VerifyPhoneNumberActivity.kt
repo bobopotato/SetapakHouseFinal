@@ -73,9 +73,10 @@ class VerifyPhoneNumberActivity : AppCompatActivity() {
             override fun onVerificationFailed(e: FirebaseException) {
 
                 if(e.toString().contains("TooManyRequests")){
-                    phoneText.setError("This number requested too many times!")
+                    phoneText.setError("This number requested too many times! Please try again later.")
                 }else{
-                    phoneText.setError("Invalid phone number!" + e.toString())
+                    phoneText.setError("Invalid phone number!")
+                    //phoneText.setError("Invalid phone number!" + e.toString())
                 }
                 phoneText.requestFocus()
                 progressBar.visibility =  View.INVISIBLE
@@ -93,13 +94,13 @@ class VerifyPhoneNumberActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        Toast.makeText(this, "wtf = back pressed", Toast.LENGTH_SHORT).show()
+        //Toast.makeText(this, "wtf = back pressed", Toast.LENGTH_SHORT).show()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         if(item.itemId == android.R.id.home){
-            Toast.makeText(this, "wtf = back pressed", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(this, "wtf = back pressed", Toast.LENGTH_SHORT).show()
         }
         return super.onOptionsItemSelected(item)
     }

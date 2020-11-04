@@ -14,6 +14,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -31,6 +33,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        //check User Login
+        val currentUser= FirebaseAuth.getInstance().currentUser
+
+        if(currentUser==null){
+            val intent = Intent(this, LoginActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+            finish()
+
+        }
+
+        //drawer.closeDrawers()
         //Set Action Bar and Navigation Drawer
         setSupportActionBar(toolbar as Toolbar?)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -38,6 +52,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         mToggle = ActionBarDrawerToggle(this, drawer, R.string.close, R.string.open)
         drawer.addDrawerListener(mToggle)
         mToggle.syncState()
+
 
         //Navigation Drawer
         nav_drawer.setNavigationItemSelectedListener(this)
@@ -61,8 +76,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         //log out
         logout.setOnClickListener {
             //Toast.makeText(this, "Log Out Successfully", Toast.LENGTH_SHORT).show()
+            FirebaseAuth.getInstance().signOut()
             val intent = Intent(this, LoginActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intent)
+            finish()
+            // val intent = Intent(this, LoginActivity::class.java)
+            //startActivity(intent)
         }
     }
 
@@ -77,6 +97,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         if (menuItem.itemId == R.id.ic_search) {
             val intent = Intent(this, SearchActivity::class.java)
             startActivity(intent)
+            //Toast.makeText(this, "user = " + currentUser.uid, Toast.LENGTH_SHORT).show()
         }
         if (menuItem.itemId == R.id.ic_chat) {
             val intent = Intent(this, ChatroomActivity::class.java)
@@ -115,5 +136,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             replace(R.id.fl_wrapper, fragment)
             commit()
         }
+
 
 }

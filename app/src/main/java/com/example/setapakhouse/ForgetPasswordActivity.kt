@@ -3,6 +3,7 @@ package com.example.setapakhouse
 import android.app.ProgressDialog
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -11,8 +12,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.PhoneAuthProvider
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_forget_password.*
 import java.util.concurrent.TimeUnit
 
@@ -20,6 +20,7 @@ import java.util.concurrent.TimeUnit
 class ForgetPasswordActivity : AppCompatActivity() {
 
     lateinit var callbacks : PhoneAuthProvider.OnVerificationStateChangedCallbacks
+    lateinit var ref : DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +29,7 @@ class ForgetPasswordActivity : AppCompatActivity() {
         setSupportActionBar(toolbar as Toolbar?)
         supportActionBar?.setTitle("Forgot Password")
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
 
         val timer = object: CountDownTimer(10000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
@@ -53,9 +55,40 @@ class ForgetPasswordActivity : AppCompatActivity() {
         timer.start()
 
         testButton.setOnClickListener {
-           testing(timer)
-
+           updateUsername()
         }
+    }
+
+
+    private fun updateUsername(){
+        //get userID
+        val builder = AlertDialog.Builder(this)
+        with(builder) {
+            setTitle("Icon and Button Color")
+            setMessage("We have a message")
+            setPositiveButton("OK", null)
+            setIcon(resources.getDrawable(android.R.drawable.ic_dialog_alert, theme))
+        }
+        val alertDialog = builder.create()
+        alertDialog.show()
+
+
+
+        /*ref.addValueEventListener(object: ValueEventListener {
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if(snapshot.exists()) {
+                    for (h in snapshot.children) {
+                        //Log.d("Errorhello", "zzzz : " + h.key.toString())
+                        percentage.text = h.child("humid").getValue().toString() + " %"
+                        ref1.child("lcdtext").setValue("Window Is Closed");
+                    }
+                }
+            }
+        })*/
+
     }
 
 
