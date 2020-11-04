@@ -47,11 +47,7 @@ class detailPost : AppCompatActivity() {
 
         //val slideModels:List<SlideModel>
 
-
         reviewList=mutableListOf()
-
-
-
 
         backButton.bringToFront()
 
