@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.setapakhouse.Model.Property
 import com.example.setapakhouse.Model.PropertyImage
@@ -19,7 +20,9 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import kotlinx.android.synthetic.main.activity_post1.*
 import kotlinx.android.synthetic.main.activity_post4.*
+import kotlinx.android.synthetic.main.activity_post4.toolbar
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
@@ -42,6 +45,10 @@ class PostActivity4 : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_post4)
+
+        setSupportActionBar(toolbar as Toolbar?)
+        supportActionBar?.setTitle("Post - Final Step")
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         storage = FirebaseStorage.getInstance()
         storageReference = storage.reference

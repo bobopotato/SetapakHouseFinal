@@ -100,7 +100,7 @@ class VerifyPhoneNumberActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         if(item.itemId == android.R.id.home){
-            //Toast.makeText(this, "wtf = back pressed", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "wtf = back pressed", Toast.LENGTH_SHORT).show()
         }
         return super.onOptionsItemSelected(item)
     }

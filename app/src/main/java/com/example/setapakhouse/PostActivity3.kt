@@ -8,7 +8,11 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import kotlinx.android.synthetic.main.activity_post1.*
 import kotlinx.android.synthetic.main.activity_post3.*
+import kotlinx.android.synthetic.main.activity_post3.saveNextButton
+import kotlinx.android.synthetic.main.activity_post3.toolbar
 
 
 class PostActivity3 : AppCompatActivity() {
@@ -16,6 +20,10 @@ class PostActivity3 : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_post3)
+
+        setSupportActionBar(toolbar as Toolbar?)
+        supportActionBar?.setTitle("Post - Step 3")
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         expandableLayout.collapse()
 

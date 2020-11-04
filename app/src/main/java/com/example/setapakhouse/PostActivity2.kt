@@ -6,7 +6,11 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import androidx.appcompat.widget.Toolbar
+import kotlinx.android.synthetic.main.activity_post1.*
 import kotlinx.android.synthetic.main.activity_post2.*
+import kotlinx.android.synthetic.main.activity_post2.saveNextButton
+import kotlinx.android.synthetic.main.activity_post2.toolbar
 
 
 class PostActivity2 : AppCompatActivity() {
@@ -14,6 +18,9 @@ class PostActivity2 : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_post2)
 
+        setSupportActionBar(toolbar as Toolbar?)
+        supportActionBar?.setTitle("Post - Step 2")
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val renterType = intent.getStringExtra("RenterType")!!
         val propertyType = intent.getStringExtra("PropertyType")!!
