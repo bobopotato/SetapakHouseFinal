@@ -1,19 +1,15 @@
-package com.example.setapakhouse
+package com.example.setapakhouse.Fragment
 
-import android.content.Context
-import android.content.Intent.getIntent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.setapakhouse.Adapter.HomeAdapter
 import com.example.setapakhouse.Model.Property
+import com.example.setapakhouse.R
 import com.google.firebase.database.*
-import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
 
 

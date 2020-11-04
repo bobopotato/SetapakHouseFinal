@@ -1,4 +1,4 @@
-package com.example.setapakhouse
+package com.example.setapakhouse.Fragment
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,8 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.example.setapakhouse.PostActivity1
+import com.example.setapakhouse.R
 import ernestoyaquello.com.verticalstepperform.VerticalStepperFormLayout
-import ernestoyaquello.com.verticalstepperform.interfaces.VerticalStepperForm
 import kotlinx.android.synthetic.main.fragment_post.view.*
 
 

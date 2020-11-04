@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.setapakhouse.Adapter.UploadListAdapter
 import com.example.setapakhouse.Model.Property
 import com.example.setapakhouse.Model.PropertyImage
 import com.google.firebase.auth.FirebaseAuth
@@ -20,7 +21,6 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import kotlinx.android.synthetic.main.activity_post1.*
 import kotlinx.android.synthetic.main.activity_post4.*
 import kotlinx.android.synthetic.main.activity_post4.toolbar
 import java.time.LocalDateTime
