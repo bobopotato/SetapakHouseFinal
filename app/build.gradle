@@ -54,6 +54,8 @@ dependencies {
     implementation 'com.ms-square:expandableTextView:0.1.4'
     implementation 'com.github.denzcoskun:ImageSlideshow:0.1.0'
     implementation 'com.borjabravo:readmoretextview:2.0.1'
+    implementation "com.github.psinetron:slycalendarview:0.0.9"
+    implementation 'com.paypal.sdk:paypal-android-sdk:2.14.2'
 
 
 

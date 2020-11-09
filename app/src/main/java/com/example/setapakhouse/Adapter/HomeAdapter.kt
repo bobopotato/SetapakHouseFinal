@@ -49,13 +49,13 @@ class HomeAdapter(val property : MutableList<Property>): RecyclerView.Adapter<Ho
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.txt_dateTime.text=property[position].releaseDateTime
         holder.txt_location.text=property[position].location
-        if(property[position].rentalType.toString().equals("long")) {
+        if(property[position].rentalType.toString().equals("Long-Term")) {
             holder.txt_price.text = "RM"+property[position].price.toString()+"/MONTH"
         }else{
             holder.txt_price.text = "RM"+property[position].price.toString()+"/DAY"
         }
         holder.txt_propertyType.text="Property Type: "+property[position].propertyType.toString()
-        holder.txt_rentalType.text="Rental Type: "+property[position].rentalType.toString()+" term"
+        holder.txt_rentalType.text="Rental Type: "+property[position].rentalType.toString()
         holder.txt_propertyName.text="Property Name: "+property[position].propertyName.toString()
         ref= FirebaseDatabase.getInstance().getReference("Users")
 

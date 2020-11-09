@@ -13,10 +13,9 @@ class ChatroomActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chatroom)
 
-        setSupportActionBar(toolbar as Toolbar?)
-        supportActionBar?.setTitle("Chatroom")
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
+        chatBackBtn.setOnClickListener {
+            finish()
+        }
         viewPagerChat.adapter= chatViewPagerAdapter(supportFragmentManager)
         tabLayoutChat.setupWithViewPager(viewPagerChat)
     }

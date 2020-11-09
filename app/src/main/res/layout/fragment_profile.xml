@@ -1,14 +1,387 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragment.ProfileFragment">
+    tools:context=".Fragment.ProfileFragment"
+    android:orientation="horizontal">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
+        android:id="@+id/sectionAbove"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="PROFILE" />
+        android:layout_height="wrap_content">
 
-</FrameLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtProperty"
+            android:text="0"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:textColor="@color/black"
+            android:textStyle="bold"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Properties"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/txtProperties"
+            android:layout_marginTop="50dp"/>
+
+        <RatingBar
+            android:id="@+id/personRating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="60dp"
+            android:layout_marginTop="12dp"
+            android:layout_alignParentRight="true"
+            style="?android:attr/ratingBarStyleSmall" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtReview"
+            android:text="0.0"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="90dp"
+            android:layout_marginTop="30dp"
+            android:textColor="@color/black"
+            android:textStyle="bold"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Reviews"
+            android:layout_toRightOf="@id/txtProperties"
+            android:layout_marginLeft="50dp"
+            android:id="@+id/txtReviews"
+            android:layout_marginTop="50dp"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/iconName"
+            android:src="@drawable/ic_user"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/txtProperties"
+            android:layout_marginTop="20dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtFullName"
+            android:text="Full Name"
+            android:layout_toRightOf="@id/iconName"
+            android:layout_below="@id/txtProperties"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="5dp"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/iconEmail"
+            android:src="@drawable/ic_email"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/iconName"
+            android:layout_marginTop="10dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtEmail"
+            android:text="user@gmail.com"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@id/iconEmail"
+            android:layout_below="@id/txtFullName"
+            android:layout_marginTop="10dp"
+            android:textSize="15dp"
+            android:textColor="@color/black"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/iconPhone"
+            android:src="@drawable/ic_phone_call"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/iconEmail"
+            android:layout_marginTop="10dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtPhone"
+            android:text="0123-1231233"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@id/iconPhone"
+            android:layout_below="@id/txtEmail"
+            android:layout_marginTop="10dp"
+            android:textSize="15dp"
+            android:textColor="@color/black"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/iconWallet"
+            android:src="@drawable/ic_wallet_filled_money_tool"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/iconPhone"
+            android:layout_marginTop="10dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtWallet"
+            android:text="RM 300.00"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@id/iconWallet"
+            android:layout_below="@id/txtPhone"
+            android:layout_marginTop="10dp"
+            android:textSize="15dp"
+            android:textColor="@color/black"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/iconGift"
+            android:src="@drawable/ic_gift"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/iconWallet"
+            android:layout_marginTop="10dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtGift"
+            android:text="100 Points"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@id/iconGift"
+            android:layout_below="@id/txtWallet"
+            android:layout_marginTop="10dp"
+            android:textSize="15dp"
+            android:textColor="@color/black"/>
+
+        <LinearLayout
+            android:id="@+id/profileSection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="30dp"
+            android:layout_toLeftOf="@id/txtProperties"
+            android:layout_marginRight="10dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="username"
+                android:textSize="20dp"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/usernameTxt"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                />
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/imgProfile"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="30dp"
+                android:src="@drawable/ic_profile"
+                android:layout_below="@id/usernameTxt"
+                android:layout_gravity="center_horizontal"/>
+
+            <Button
+                android:layout_marginTop="10dp"
+                android:layout_width="120dp"
+                android:layout_height="30dp"
+                android:id="@+id/editBtn"
+                android:background="@drawable/round_button_normalblue"
+                android:text="Edit Profile"
+                android:textColor="#FFFFFF"
+                android:layout_gravity="center_horizontal"/>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imgViewLine"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/light_grey"
+            android:layout_below="@id/profileSection"
+            android:textColor="@color/black"/>
+    </RelativeLayout>
+<ScrollView
+    android:layout_below="@id/sectionAbove"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+<RelativeLayout
+    android:layout_marginTop="20dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/sectionBelow">
+
+    <LinearLayout
+        android:id="@+id/topupSection"
+        android:layout_width="130dp"
+        android:layout_height="110dp"
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical">
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/topupIcon"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/ic_cash"
+        android:layout_gravity="center_horizontal"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Top Up"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"
+            android:textSize="18dp"
+            android:layout_gravity="center_horizontal"/>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/paymentSection"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        android:layout_toLeftOf="@id/topupSection"
+        android:layout_marginRight="20dp"
+        android:orientation="vertical">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/paymentIcon"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/ic_invoice"
+            android:layout_gravity="center_horizontal"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="My Payment"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"
+            android:textSize="18dp"
+            android:layout_gravity="center_horizontal"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/reviewSection"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        android:layout_toRightOf="@id/topupSection"
+        android:layout_marginLeft="20dp"
+        android:orientation="vertical">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/reviewIcon"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/ic_location"
+            android:layout_gravity="center_horizontal"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="My Review"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"
+            android:textSize="18dp"
+            android:layout_gravity="center_horizontal"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/myHouseRenting"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical"
+        android:layout_below="@+id/topupSection"
+        android:layout_marginTop="20dp">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/manageHouseRentingIcon"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/ic_real_estate"
+            android:layout_gravity="center_horizontal"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Manage House Renting"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"
+            android:textSize="18dp"
+            android:layout_gravity="center_horizontal"/>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/manageRentalHouse"
+        android:layout_width="110dp"
+        android:layout_height="130dp"
+        android:layout_toLeftOf="@id/myHouseRenting"
+        android:layout_below="@id/paymentSection"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:orientation="vertical">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/manageRentalHouseIcon"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/ic_rent"
+            android:layout_gravity="center_horizontal"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Manage My Rental House"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"
+            android:textSize="18dp"
+            android:layout_gravity="center_horizontal"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/rewardPoint"
+        android:layout_width="110dp"
+        android:layout_height="130dp"
+        android:layout_toRightOf="@id/myHouseRenting"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/reviewSection"
+        android:layout_marginLeft="20dp"
+        android:orientation="vertical">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/rewardPointIcon"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/ic_promotion"
+            android:layout_gravity="center_horizontal"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Reward Point History"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"
+            android:textSize="18dp"
+            android:layout_gravity="center_horizontal"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/myTransaction"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical"
+        android:layout_below="@+id/myHouseRenting"
+        android:layout_marginTop="20dp">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/transactionIcon"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/ic_lending"
+            android:layout_gravity="center_horizontal"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="My Transaction"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"
+            android:textSize="18dp"
+            android:layout_gravity="center_horizontal"/>
+    </LinearLayout>
+
+</RelativeLayout>
+</ScrollView>
+</RelativeLayout>

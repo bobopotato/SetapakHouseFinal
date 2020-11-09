@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".editProfileActivity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:id="@+id/toolbar"
+        android:background="@drawable/gradient">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_whitebackarrow"
+            android:id="@+id/editBackBtn"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="Change Information"
+            android:textColor="#FFF"
+            android:textStyle="bold"
+            android:textSize="20dp"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editSection"
+        android:layout_below="@id/toolbar"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:id="@+id/profilePic"
+                android:src="@drawable/profile"
+                android:padding="7dp"
+                android:background="@drawable/circle"
+                android:layout_marginLeft="10dp"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/uploadText"
+                />
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:id="@+id/editUploadPhoto"
+                android:src="@drawable/camera"
+                android:padding="7dp"
+                android:layout_alignRight="@id/profilePic"
+                android:layout_alignBottom="@id/profilePic"
+                />
+        </RelativeLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/usernameText"
+            android:layout_below="@id/container"
+            android:layout_marginTop="10dp"
+            app:errorEnabled="true"
+            app:counterEnabled="true"
+            app:counterMaxLength="15"
+            android:hint="Username"
+            app:startIconDrawable="@drawable/ic_profile"
+            app:startIconTint="@color/colorPrimary"
+            style="@style/underline_layout"
+
+            >
+            <com.google.android.material.textfield.TextInputEditText
+                style="@style/underline_input"
+                android:id="@+id/txtSetUser"
+                android:inputType="text"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/fullnameText"
+            android:layout_below="@id/usernameText"
+            app:errorEnabled="true"
+            app:startIconDrawable="@drawable/ic_profile"
+            app:startIconTint="@color/colorPrimary"
+            style="@style/underline_layout"
+
+            >
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txtSetFull"
+                style="@style/underline_input"
+                android:hint="Full name"
+                android:inputType="text"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <Button
+            android:id="@+id/doneBtn"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/round_button_blue"
+            android:gravity="center"
+            android:paddingHorizontal="10dp"
+            android:text="DONE"
+            android:textColor="#FFF"
+            android:layout_marginTop="20dp"
+            />
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>

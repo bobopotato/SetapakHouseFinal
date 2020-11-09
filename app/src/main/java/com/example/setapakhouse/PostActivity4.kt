@@ -1,14 +1,19 @@
 package com.example.setapakhouse
 
 import android.app.Activity
+import android.app.Dialog
 import android.app.ProgressDialog
 import android.content.ContentResolver
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
@@ -41,6 +46,7 @@ class PostActivity4 : AppCompatActivity() {
     lateinit var ref2: DatabaseReference
     lateinit var ref3: DatabaseReference
     lateinit var ref4: DatabaseReference
+    lateinit var epicDialog : Dialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +58,8 @@ class PostActivity4 : AppCompatActivity() {
 
         storage = FirebaseStorage.getInstance()
         storageReference = storage.reference
+
+        epicDialog = Dialog(this)
 
         val currentUser= FirebaseAuth.getInstance().currentUser
         val renterType = intent.getStringExtra("RenterType")!!
@@ -240,16 +248,7 @@ class PostActivity4 : AppCompatActivity() {
                     }
 
                 if((x+1) == imageList.size){
-                    val builder = AlertDialog.Builder(this@PostActivity4)
-                    builder.setTitle("Successful Post")
-                    builder.setMessage("You will be redirected to the main page.")
-
-                    builder.setNeutralButton("Okay", { dialog: DialogInterface?, which: Int ->
-                        val intent = Intent(this@PostActivity4, LoginActivity::class.java)
-                        startActivity(intent)
-                    })
-                    builder.setCancelable(false)
-                    builder.show()
+                    showDialog()
                 }
             }
 
@@ -257,7 +256,6 @@ class PostActivity4 : AppCompatActivity() {
         }else{
             Log.d("zzz", "fail 99")
         }
-
 
     }
 
@@ -268,7 +266,24 @@ class PostActivity4 : AppCompatActivity() {
         return today.format(DateTimeFormatter.ofPattern("d MMM uuuu HH:mm:ss "))
     }
 
+    private fun showDialog(){
+        epicDialog.setContentView(R.layout.popup_positive)
+        //val closeButton : ImageView = epicDialog.findViewById(R.id.closeBtn)
+        val okButton : Button = epicDialog.findViewById(R.id.okBtn)
+        val title : TextView = epicDialog.findViewById(R.id.title)
+        val content : TextView = epicDialog.findViewById(R.id.content)
 
+        title.text = "Post Successful"
+        content.text = "You will be redirected to the main page"
+
+        okButton.setOnClickListener {
+            val intent = Intent(this@PostActivity4, MainActivity::class.java)
+            startActivity(intent)
+        }
+        epicDialog.setCancelable(true)
+        epicDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        epicDialog.show()
+    }
 
 }
 

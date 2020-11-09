@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.setapakhouse.PostActivity1
 import com.example.setapakhouse.R
+import com.example.setapakhouse.test
 import ernestoyaquello.com.verticalstepperform.VerticalStepperFormLayout
 import kotlinx.android.synthetic.main.fragment_post.view.*
 

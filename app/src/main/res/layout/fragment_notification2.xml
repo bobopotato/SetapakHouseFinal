@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragment.NotificationFragment2">
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/container1"
+            >
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/notificationRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:background="#c0c0c0"
+                android:id="@+id/horizontalLine1"
+                android:layout_below="@+id/notificationRecyclerView"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="End of result"
+                android:id="@+id/endResult"
+                android:textColor="@color/colorPrimary"
+                android:layout_below="@+id/notificationRecyclerView"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="20dp"
+                />
+
+
+
+
+        </RelativeLayout>
+    </ScrollView>
+
+
+
+
+
+</FrameLayout>

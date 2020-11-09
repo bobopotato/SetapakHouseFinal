@@ -59,7 +59,7 @@
                 android:layout_marginTop="12dp"
                 android:layout_toLeftOf="@id/averageRating"
                 android:layout_marginRight="2dp"
-                android:text="4.8"
+                android:text="0.0"
                 android:textSize="12dp"
                 android:layout_below="@+id/imgProperty"/>
             <RatingBar
@@ -255,7 +255,7 @@
                 android:layout_marginTop="4dp"
                 android:layout_marginRight="2dp"
                 android:layout_toLeftOf="@id/txtAverage1"
-                android:text="3 Ratings |"
+                android:text="0  Ratings |"
                 android:textSize="12dp" />
 
             <TextView
@@ -266,7 +266,7 @@
                 android:layout_marginTop="4dp"
                 android:layout_toLeftOf="@id/averageRating1"
                 android:layout_marginRight="2dp"
-                android:text="4.8"
+                android:text="0.0"
                 android:textSize="12dp"
                 android:layout_below="@+id/blackLine2"/>
             <RatingBar

@@ -14,6 +14,7 @@ import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
@@ -62,14 +63,46 @@ class test : AppCompatActivity() {
 
 
         }
+        //val builder = MaterialDatePicker.Builder.dateRangePicker()
+        //builder.setTitleText("Select date")
+        //builder.setTheme(R.style.CustomThemeOverlay_MaterialCalendar_Fullscreen)
+        //val materialDatePicker = builder.build();
+
 
         table1.setOnClickListener {
-            choose()
 
+            MaterialDatePicker.Builder.dateRangePicker()
+                .setTheme(R.style.CustomThemeOverlay_MaterialCalendar_Fullscreen)
+                .build()
+                .show(this@test.supportFragmentManager, "DATE_PICKER");
+            //materialDatePicker.show(supportFragmentManager, "DATE_PICKER")
 
         }
 
+        /*val callback: SlyCalendarDialog.Callback = object : SlyCalendarDialog.Callback {
+            override fun onCancelled() {
 
+
+            }
+            override fun onDataSelected(firstDate: Calendar?,secondDate: Calendar?,
+                hours: Int,
+                minutes: Int
+            ) {
+
+                val today = LocalDateTime.now(ZoneId.systemDefault())
+
+                val abc =  today.format(DateTimeFormatter.ofPattern("d MMM uuuu HH:mm:ss "))
+
+
+
+                Toast.makeText(this@test, "abc = " + SimpleDateFormat(("d"),Locale.getDefault()).format(secondDate!!.time), Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        SlyCalendarDialog().setSingle(false)
+            .setCallback(callback)
+            .show(supportFragmentManager, "TAG_SLYCALENDAR")
+        */
 
 
         table2.setOnClickListener {
@@ -110,7 +143,7 @@ class test : AppCompatActivity() {
                 val adapter = UploadListAdapter(imageList, resolverList)
                 val mLayoutManager = LinearLayoutManager(applicationContext)
                 uploadPhotoView.layoutManager = mLayoutManager
-                uploadPhotoView.scrollToPosition(imageList.size-1)
+                uploadPhotoView.scrollToPosition(imageList.size - 1)
                 uploadPhotoView.adapter = adapter
 
                 Toast.makeText(this, "Selected Multiple Files", Toast.LENGTH_SHORT).show()

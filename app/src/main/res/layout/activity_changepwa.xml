@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".editProfileActivity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:id="@+id/toolbar"
+        android:background="@drawable/gradient">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_whitebackarrow"
+            android:id="@+id/editBackBtn"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="Change Password"
+            android:textColor="#FFF"
+            android:textStyle="bold"
+            android:textSize="20dp"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editSection"
+        android:layout_below="@id/toolbar">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/currentPW"
+            app:startIconDrawable="@drawable/ic_lock"
+            app:startIconTint="@color/colorPrimary"
+            app:errorEnabled="true"
+            app:passwordToggleEnabled="true"
+            app:passwordToggleTint="@color/colorPrimary"
+            app:passwordToggleTintMode="multiply"
+            style="@style/underline_layout"
+            android:layout_marginBottom="0dp"
+            >
+            <com.google.android.material.textfield.TextInputEditText
+                style="@style/underline_input"
+                android:hint="Current Password"
+                android:inputType="textPassword"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/passwordText"
+            app:startIconDrawable="@drawable/ic_lock"
+            app:startIconTint="@color/colorPrimary"
+            android:layout_below="@id/currentPW"
+            app:errorEnabled="true"
+            app:passwordToggleEnabled="true"
+            app:passwordToggleTint="@color/colorPrimary"
+            app:passwordToggleTintMode="multiply"
+            style="@style/underline_layout"
+            android:layout_marginBottom="0dp"
+            >
+            <com.google.android.material.textfield.TextInputEditText
+                style="@style/underline_input"
+                android:hint="New Password"
+                android:inputType="textPassword"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+        <ImageView
+            android:id="@+id/lowerCaseImg"
+            android:layout_width="19dp"
+            android:layout_height="18dp"
+            android:layout_marginStart="28dp"
+            android:src="@drawable/ic_unchecked"
+            android:layout_below="@+id/passwordText" />
+        <TextView
+            android:id="@+id/lowerCaseText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="Lowercase Letter"
+            android:textColor="@android:color/darker_gray"
+            android:layout_toRightOf="@+id/lowerCaseImg"
+            android:layout_below="@+id/passwordText"/>
+
+        <ImageView
+            android:id="@+id/upperCaseImg"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/ic_unchecked"
+            android:layout_below="@+id/lowerCaseImg"
+            />
+        <TextView
+            android:id="@+id/upperCaseText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="7dp"
+            android:textColor="@android:color/darker_gray"
+            android:text="Uppercase Letter"
+            android:layout_toRightOf="@+id/upperCaseImg"
+            android:layout_below="@+id/lowerCaseImg" />
+
+        <ImageView
+            android:id="@+id/digitImg"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/ic_unchecked"
+            android:layout_below="@+id/upperCaseImg" />
+
+        <TextView
+            android:id="@+id/digitText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="7dp"
+            android:text="Digits"
+            android:textColor="@android:color/darker_gray"
+            android:layout_toRightOf="@+id/digitImg"
+            android:layout_below="@+id/upperCaseText" />
+
+        <ImageView
+            android:id="@+id/specialImg"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/ic_unchecked"
+            android:layout_below="@+id/digitImg" />
+
+        <TextView
+            android:id="@+id/specialText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="7dp"
+            android:text="Special Character"
+            android:textColor="@android:color/darker_gray"
+            android:layout_toRightOf="@+id/specialImg"
+            android:layout_below="@+id/digitText" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/confirmPasswordText"
+            android:layout_below="@id/specialText"
+            app:startIconDrawable="@drawable/ic_lock"
+            app:startIconTint="@color/colorPrimary"
+            app:errorEnabled="true"
+            app:passwordToggleEnabled="true"
+            app:passwordToggleTint="@color/colorPrimary"
+            app:passwordToggleTintMode="multiply"
+            style="@style/underline_layout"
+            >
+            <com.google.android.material.textfield.TextInputEditText
+                style="@style/underline_input"
+                android:hint="Confirm New Password"
+                android:inputType="textPassword"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/doneBtn"
+            android:layout_below="@id/confirmPasswordText"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/round_button_blue"
+            android:gravity="center"
+            android:paddingHorizontal="10dp"
+            android:text="DONE"
+            android:textColor="#FFF"
+            android:layout_marginTop="20dp"
+            />
+
+    </RelativeLayout>
+
+
+</RelativeLayout>
