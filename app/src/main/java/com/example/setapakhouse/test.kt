@@ -61,8 +61,9 @@ class test : AppCompatActivity() {
 
             startActivityForResult(intent, 100)
 
-
         }
+
+
         //val builder = MaterialDatePicker.Builder.dateRangePicker()
         //builder.setTitleText("Select date")
         //builder.setTheme(R.style.CustomThemeOverlay_MaterialCalendar_Fullscreen)
@@ -70,14 +71,17 @@ class test : AppCompatActivity() {
 
 
         table1.setOnClickListener {
-
-            MaterialDatePicker.Builder.dateRangePicker()
-                .setTheme(R.style.CustomThemeOverlay_MaterialCalendar_Fullscreen)
-                .build()
-                .show(this@test.supportFragmentManager, "DATE_PICKER");
+            //MaterialDatePicker.Builder.dateRangePicker()
+               // .setTheme(R.style.CustomThemeOverlay_MaterialCalendar_Fullscreen)
+               // .build()
+               // .show(this@test.supportFragmentManager, "DATE_PICKER");
             //materialDatePicker.show(supportFragmentManager, "DATE_PICKER")
+            Toast.makeText(this,"location = " + abc.text.toString(), Toast.LENGTH_SHORT).show()
 
         }
+
+
+
 
         /*val callback: SlyCalendarDialog.Callback = object : SlyCalendarDialog.Callback {
             override fun onCancelled() {
@@ -111,17 +115,9 @@ class test : AppCompatActivity() {
 
     }
 
-    private fun choose() {
-        val intent = Intent()
-        intent.type = "image/*"
-        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-        intent.action = Intent.ACTION_GET_CONTENT
-        startActivityForResult(Intent.createChooser(intent, "SELECT PICTURE"), PICK_IMAGE_REQUEST)
-        //Toast.makeText(this@MainActivity, "FAIL 99", Toast.LENGTH_SHORT).show()
 
-    }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    /*override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         //Toast.makeText(this@MainActivity, "FAIL 99", Toast.LENGTH_SHORT).show()
 
@@ -156,7 +152,7 @@ class test : AppCompatActivity() {
 
         }
     }
-
+    */
     /*private fun upload() {
         ref1 = FirebaseDatabase.getInstance().getReference("PropertyImage")
         ref2 = FirebaseDatabase.getInstance().getReference("Property")

@@ -1,5 +1,6 @@
 package com.example.setapakhouse
 
+import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -11,8 +12,12 @@ import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.core.widget.addTextChangedListener
 import androidx.core.widget.doOnTextChanged
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.widget.Autocomplete
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import kotlinx.android.synthetic.main.activity_post1.*
-
+import java.util.*
 
 
 class PostActivity1 : AppCompatActivity() {
@@ -33,6 +38,23 @@ class PostActivity1 : AppCompatActivity() {
 
         var renterType = "Long-Term"
         var propertyType = "House"
+
+        Places.initialize(this, "AIzaSyBAtADCWISs8VHLbeNRZq2Kk1jPBEGVpRg")
+
+        locationText.setFocusable(false)
+
+        locationText.setOnClickListener {
+            var fieldList : List<Place.Field>  = Arrays.asList(
+                Place.Field.ADDRESS, Place.Field.LAT_LNG, Place.Field.NAME
+            )
+
+            val intent = Autocomplete.IntentBuilder(
+                AutocompleteActivityMode.OVERLAY, fieldList
+            ).build(this)
+
+            startActivityForResult(intent, 100)
+
+        }
 
         longTermButton.setOnTouchListener { v, event ->
             val action = event.action
@@ -204,6 +226,21 @@ class PostActivity1 : AppCompatActivity() {
             finish()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        //Toast.makeText(this@MainActivity, "FAIL 99", Toast.LENGTH_SHORT).show()
+
+        if (requestCode == 100 && resultCode == Activity.RESULT_OK) {
+            //when success
+            //initialize place
+            val place : Place = Autocomplete.getPlaceFromIntent(data!!)
+            //set address on editText
+            locationText.setText(place.address)
+
+
+        }
     }
 
 }
