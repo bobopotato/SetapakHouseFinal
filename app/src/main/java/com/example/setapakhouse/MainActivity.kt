@@ -64,7 +64,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 R.id.ic_housekeeping -> makeCurrentFragment(housekeepingFragment)
                 R.id.ic_notification -> makeCurrentFragment(notificationFragment)
                 R.id.ic_profile -> makeCurrentFragment(profileFragment)
-
             }
             true
         }

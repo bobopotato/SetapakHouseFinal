@@ -13,6 +13,8 @@ class ChatroomActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chatroom)
 
+
+
         chatBackBtn.setOnClickListener {
             finish()
         }

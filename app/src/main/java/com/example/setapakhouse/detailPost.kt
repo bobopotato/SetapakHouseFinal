@@ -392,6 +392,8 @@ class detailPost : AppCompatActivity() {
             val approvalID = ref1.push().key.toString()
             val notificationID = ref3.push().key.toString()
 
+            var store1 = 1
+
             ref2.addValueEventListener(object : ValueEventListener {
                 override fun onCancelled(error: DatabaseError) {
                     TODO("Not yet implemented")
@@ -407,40 +409,46 @@ class detailPost : AppCompatActivity() {
                             }
 
                             override fun onDataChange(p0: DataSnapshot) {
-                                if (p0.exists()) {
-                                    val targetUser = p0.getValue(User::class.java)
-                                    val approvalContent = targetUser!!.username + " had requested to rent your " + propertyName + " property on " + firstDate.toString() + " to " + secondDate.toString()
-                                    val notificationContent = targetUser!!.username + " had requested to rent one of your property"
+                                if (store1 == 1){
+                                    if (p0.exists()) {
+                                        val targetUser = p0.getValue(User::class.java)
+                                        val approvalContent =
+                                            targetUser!!.username + " had requested to rent your " + propertyName + " property on " + firstDate.toString() + " to " + secondDate.toString()
+                                        val notificationContent =
+                                            targetUser!!.username + " had requested to rent one of your property"
 
-                                    //Toast.makeText(this@RequestRentActivity, "abc = " + currentUserID + "wtf = " +  targetUser!!.username, Toast.LENGTH_SHORT).show()
-                                    val storeApproval = Approval(
-                                        approvalID,
-                                        approvalContent,
-                                        getTime(),
-                                        firstDate,
-                                        secondDate,
-                                        "pending",
-                                        currentUserID,
-                                        selectedPropertyID,
-                                        notificationID
-                                    )
+                                        //Toast.makeText(this@RequestRentActivity, "abc = " + currentUserID + "wtf = " +  targetUser!!.username, Toast.LENGTH_SHORT).show()
+                                        val storeApproval = Approval(
+                                            approvalID,
+                                            approvalContent,
+                                            getTime(),
+                                            firstDate,
+                                            secondDate,
+                                            "pending",
+                                            currentUserID,
+                                            selectedPropertyID,
+                                            notificationID,
+                                            selectedUserID
+                                        )
 
-                                    ref1.child(approvalID).setValue(storeApproval)
+                                        ref1.child(approvalID).setValue(storeApproval)
 
-                                    val storeNotification = Notification(
-                                        notificationID,
-                                        currentUserID,
-                                        "delivered",
-                                        notificationContent,
-                                        getTime(),
-                                        "approval",
-                                        selectedUserID
-                                    )
+                                        val storeNotification = Notification(
+                                            notificationID,
+                                            currentUserID,
+                                            "delivered",
+                                            notificationContent,
+                                            getTime(),
+                                            "approval",
+                                            selectedUserID
+                                        )
 
-                                    ref3.child(notificationID).setValue(storeNotification)
+                                        ref3.child(notificationID).setValue(storeNotification)
 
 
+                                    }
                                 }
+                                store1++
                             }
                         })
 

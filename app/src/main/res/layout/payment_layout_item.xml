@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginHorizontal="10dp"
+        android:id="@+id/wholeLayoutt"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/propertyName"
+            android:text="PV13 abc house"
+            android:textColor="@color/colorPrimary"
+            android:textSize="22sp"
+            android:layout_margin="10dp"
+            android:textStyle="bold"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/hiddenUserID123"
+            android:visibility="gone"
+
+            />
+
+        <ImageView
+            android:id="@+id/propertyImage1"
+            android:layout_width="200dp"
+            android:layout_height="150dp"
+            android:layout_margin="10dp"
+            app:srcCompat="@drawable/ic_page"
+            tools:layout_editor_absoluteX="24dp"
+            tools:layout_editor_absoluteY="28dp"
+            android:layout_below="@+id/propertyName"
+            android:background="@drawable/border"
+            />
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/container1"
+            android:layout_toRightOf="@id/propertyImage1"
+            android:layout_below="@+id/propertyName"
+
+            >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:id="@+id/container2"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Payment Title"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:textSize="16dp"
+                    android:layout_margin="3dp"
+                    android:id="@+id/paymentTitle"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="RM 2000.00"
+                    android:id="@+id/price"
+                    android:layout_margin="3dp"
+                    android:layout_below="@id/paymentTitle"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Status : Pending"
+                    android:id="@+id/status"
+                    android:layout_margin="3dp"
+                    android:layout_below="@id/price"
+                    />
+
+                <Button
+                    android:layout_width="200dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/round_button_blue"
+                    android:text="Pay"
+                    android:id="@+id/payBtn"
+                    android:layout_margin="3dp"
+                    android:layout_below="@id/status"
+                    />
+            </RelativeLayout>
+
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#c0c0c0"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/wholeLayoutt"
+
+        />
+
+</RelativeLayout>

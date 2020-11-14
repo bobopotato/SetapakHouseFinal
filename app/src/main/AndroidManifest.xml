@@ -13,13 +13,15 @@
         android:roundIcon="@drawable/ic_page"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".addReviewActivity"/>
-        <activity android:name=".editReviewActivity"/>
+        <activity android:name=".PaymentActivity2"/>
+        <activity android:name=".PaymentActivity" />
+        <activity android:name=".addReviewActivity" />
+        <activity android:name=".editReviewActivity" />
         <activity android:name=".myReviewActivity" />
+        <activity android:name=".ConfirmAct" />
         <activity android:name=".myPaymentActivity" />
         <activity android:name=".changepwaActivity" />
         <activity android:name=".editProfileActivity" />
-        <activity android:name=".RequestRentActivity"/>
         <activity android:name=".MessageActivity" />
         <activity android:name=".detailPost" />
         <activity

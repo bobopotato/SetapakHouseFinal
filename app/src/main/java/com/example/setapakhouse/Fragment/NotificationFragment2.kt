@@ -70,7 +70,7 @@ class NotificationFragment2 : Fragment() {
 
 
 
-    return root
+        return root
     }
 
 }

@@ -120,7 +120,6 @@ class ApprovalAdapter(val approvalList: MutableList<Approval>): RecyclerView.Ada
         holder.date.text = approvalList[position].approvalDateTime
         holder.content.text = approvalList[position].approvalContent
 
-0
         if(approvalList[position].status == "pending"){
             holder.wholeLayout.setBackgroundColor(Color.rgb(135, 206, 250))
         }
@@ -146,20 +145,22 @@ class ApprovalAdapter(val approvalList: MutableList<Approval>): RecyclerView.Ada
             //var username123 = holder.username.text.toString()
             epicDialog.setContentView(R.layout.popup_confirmation)
             //val closeButton : ImageView = epicDialog.findViewById(R.id.closeBtn)
-            val yesButton : Button = epicDialog.findViewById(R.id.yesBtn)
-            val cancelButton : Button = epicDialog.findViewById(R.id.cancelBtn)
-            val title : TextView = epicDialog.findViewById(R.id.title)
-            val content : TextView = epicDialog.findViewById(R.id.content)
+            val yesButton: Button = epicDialog.findViewById(R.id.yesBtn)
+            val cancelButton: Button = epicDialog.findViewById(R.id.cancelBtn)
+            val title: TextView = epicDialog.findViewById(R.id.title)
+            val content: TextView = epicDialog.findViewById(R.id.content)
 
             title.text = "Approval Confirmation"
             content.text = "Are you sure to approve this request?"
+            yesButton.text = "Approve Request"
 
             yesButton.setOnClickListener {
-                ref1 = FirebaseDatabase.getInstance().getReference("Approval").child(approvalList[position].approvalID)
+                ref1 = FirebaseDatabase.getInstance().getReference("Approval")
+                    .child(approvalList[position].approvalID)
                 ref2 = FirebaseDatabase.getInstance().getReference("Notification")
 
-                ref3 = FirebaseDatabase.getInstance().getReference("Property").child(approvalList[position].propertyID)
-
+                ref3 = FirebaseDatabase.getInstance().getReference("Property")
+                    .child(approvalList[position].propertyID)
 
 
                 //Send notification to the requester
@@ -189,7 +190,7 @@ class ApprovalAdapter(val approvalList: MutableList<Approval>): RecyclerView.Ada
                                 approvalList[position].userID
                             )
 
-                            if(store1==1){
+                            if (store1 == 1) {
                                 ref2.child(notificationID).setValue(storeNotification)
                                 store1++
                             }
@@ -207,14 +208,14 @@ class ApprovalAdapter(val approvalList: MutableList<Approval>): RecyclerView.Ada
                     rentID,
                     approvalList[position].requestStartDate,
                     approvalList[position].requestEndDate,
-                    "continuing",
+                    "new",
                     approvalList[position].propertyID,
                     approvalList[position].userID
                 )
                 ref4.child(rentID).setValue(storeRent)
 
-                var firstDate=approvalList[position].requestStartDate.split("/")
-                var secondDate=approvalList[position].requestEndDate.split("/")
+                var firstDate = approvalList[position].requestStartDate.split("/")
+                var secondDate = approvalList[position].requestEndDate.split("/")
 
                 var day1 = firstDate[0].toInt()
                 var month1 = firstDate[1].toInt()
@@ -241,20 +242,63 @@ class ApprovalAdapter(val approvalList: MutableList<Approval>): RecyclerView.Ada
                     }
 
                     override fun onDataChange(p0: DataSnapshot) {
-                        if (store2==1){
-                        if (p0.exists()) {
-                            if (p0.child("rentalType").getValue().toString() == "Long-Term") {
-                                var month = month1
-                                var year = year1
-                                var monthh = month2
-                                var yearr = year2
+                        if (store2 == 1) {
+                            if (p0.exists()) {
+                                if (p0.child("rentalType").getValue().toString() == "Long-Term") {
+                                    var month = month1
+                                    var year = year1          //12-2020
+                                    var monthh = month + 1
+                                    var yearr = year          //1-2021
+                                    if (monthh == 13) {
+                                        monthh = 1
+                                        yearr++
+                                    }
 
-                                for (x in 0 until monthCount) { //monthCount = 0
-                                    var first =
-                                        day1.toString() + "/" + month.toString() + "/" + year.toString()
-                                    var second =
-                                        day2.toString() + "/" + monthh.toString() + "/" + yearr.toString()
-                                    var paymentTitle = first + " to " + second + " Rental"
+                                    for (x in 0 until monthCount) { //monthCount = 0
+                                        var first =
+                                            day1.toString() + "/" + month.toString() + "/" + year.toString()
+                                        var second =
+                                            day2.toString() + "/" + monthh.toString() + "/" + yearr.toString()
+                                        var paymentTitle = first + " to " + second + " Rental"
+
+                                        ref5 =
+                                            FirebaseDatabase.getInstance().getReference("Payment")
+
+                                        val paymentID = ref5.push().key.toString()
+
+                                        val storePayment = Payment(
+                                            paymentID,
+                                            paymentTitle,
+                                            getTime(),
+                                            p0.child("price").getValue().toString().toDouble(),
+                                            0,
+                                            "new",
+                                            "",
+                                            "",
+                                            rentID
+                                        )
+
+
+                                        ref5.child(paymentID).setValue(storePayment)
+
+                                        month++
+                                        monthh++
+                                        if (month == 13) {
+                                            month = 1
+                                            year++
+                                        }
+                                        if (monthh == 13) {
+                                            monthh = 1
+                                            yearr++
+                                        }
+                                    }
+                                } else if (p0.child("rentalType").getValue()
+                                        .toString() == "Short-Term"
+                                ) {
+                                    var paymentTitle = firstShort + " to " + secondShort + " Rental"
+                                    val dailyPrice =
+                                        p0.child("price").getValue().toString().toDouble()
+                                    val totalPrice = dailyPrice * (dayCount + 1)
 
                                     ref5 = FirebaseDatabase.getInstance().getReference("Payment")
 
@@ -263,68 +307,27 @@ class ApprovalAdapter(val approvalList: MutableList<Approval>): RecyclerView.Ada
                                     val storePayment = Payment(
                                         paymentID,
                                         paymentTitle,
-                                        getTime(),
-                                        p0.child("price").getValue().toString().toDouble(),
+                                        "",
+                                        totalPrice,
                                         0,
                                         "new",
                                         "",
                                         "",
                                         rentID
                                     )
-
-
+                                    if (store2 == 1) {
                                         ref5.child(paymentID).setValue(storePayment)
-
-
-                                    month++
-                                    monthh++
-                                    if (month == 13) {
-                                        month = 1
-                                        year++
+                                        store2++
                                     }
-                                    if (monthh == 13) {
-                                        monthh = 1
-                                        yearr++
-                                    }
+
                                 }
-                            } else if (p0.child("rentalType").getValue()
-                                    .toString() == "Short-Term"
-                            ) {
-                                var paymentTitle = firstShort + " to " + secondShort + " Rental"
-                                val dailyPrice = p0.child("price").getValue().toString().toDouble()
-                                val totalPrice = dailyPrice * (dayCount + 1)
 
-                                ref5 = FirebaseDatabase.getInstance().getReference("Payment")
-
-                                val paymentID = ref5.push().key.toString()
-
-                                val storePayment = Payment(
-                                    paymentID,
-                                    paymentTitle,
-                                    "",
-                                    totalPrice,
-                                    0,
-                                    "new",
-                                    "",
-                                    "",
-                                    rentID
-                                )
-                                if(store2==1){
-                                    ref5.child(paymentID).setValue(storePayment)
-                                    store2++
-                                }
 
                             }
-
-
                         }
+                        store2++
                     }
-                    store2++
-                }
                 })
-
-
-
 
 
                 //Short-Term Payment
@@ -340,7 +343,7 @@ class ApprovalAdapter(val approvalList: MutableList<Approval>): RecyclerView.Ada
                     }
 
                     override fun onDataChange(p0: DataSnapshot) {
-                        if(storeOne == 1) {
+                        if (storeOne == 1) {
                             if (p0.exists()) {
                                 for (h in p0.children) {
                                     var storeTwo = 1
@@ -382,13 +385,11 @@ class ApprovalAdapter(val approvalList: MutableList<Approval>): RecyclerView.Ada
                                                         targetApproval.userID
                                                     )
 
-                                                        if(storeTwo==1){
-                                                            ref2.child(notificationID)
-                                                                .setValue(storeNotification)
-                                                            storeTwo++
-                                                        }
-
-
+                                                    if (storeTwo == 1) {
+                                                        ref2.child(notificationID)
+                                                            .setValue(storeNotification)
+                                                        storeTwo++
+                                                    }
 
 
                                                 }
@@ -412,11 +413,10 @@ class ApprovalAdapter(val approvalList: MutableList<Approval>): RecyclerView.Ada
                 ref1.child("status").setValue("approved")
 
 
-
                 //close everything
                 showDialog1(epicDialog)
 
-                val notificationFragment = NotificationFragment()
+                /*val notificationFragment = NotificationFragment()
 
                 val manager: FragmentManager = (holder.wholeLayout.context as AppCompatActivity).supportFragmentManager
 
@@ -429,12 +429,87 @@ class ApprovalAdapter(val approvalList: MutableList<Approval>): RecyclerView.Ada
                 editor
                     .putString("changeTab","approval")
                     .apply()
-
+                */
                 //val sharedPref = getSharedPreferences("wtfisThis", Context.MODE_PRIVATE)
 
 
                 //makeCurrentFragment(notificationFragment, holder.wholeLayout.context)
 
+
+            }
+
+            cancelButton.setOnClickListener {
+                epicDialog.dismiss()
+            }
+            epicDialog.setCancelable(true)
+            epicDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            epicDialog.show()
+
+        }
+
+        holder.rejectBtn.setOnClickListener {
+            //var username123 = holder.username.text.toString()
+            epicDialog.setContentView(R.layout.popup_negative)
+            //val closeButton : ImageView = epicDialog.findViewById(R.id.closeBtn)
+            val yesButton : Button = epicDialog.findViewById(R.id.yesBtn)
+            val cancelButton : Button = epicDialog.findViewById(R.id.cancelBtn)
+            val title : TextView = epicDialog.findViewById(R.id.title)
+            val content : TextView = epicDialog.findViewById(R.id.content)
+
+            title.text = "Approval Confirmation"
+            content.text = "Are you sure to reject this request?"
+
+
+            yesButton.setOnClickListener {
+                ref1 = FirebaseDatabase.getInstance().getReference("Approval").child(approvalList[position].approvalID)
+                ref2 = FirebaseDatabase.getInstance().getReference("Notification")
+
+                ref3 = FirebaseDatabase.getInstance().getReference("Property").child(approvalList[position].propertyID)
+
+
+
+                //Send notification to the requester
+                ref3.addValueEventListener(object : ValueEventListener {
+                    override fun onCancelled(p0: DatabaseError) {
+                        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                    }
+
+                    override fun onDataChange(p0: DataSnapshot) {
+
+                        if (p0.exists()) {
+                            val targetProperty = p0.getValue(Property::class.java)
+                            val propertyName = targetProperty!!.propertyName
+
+                            var notificationID = ref2.push().key.toString()
+                            //IMPORTANT - change the user ID to username
+                            val notificationContent =
+                                holder.hiddenValue.text.toString() + " had rejected your request to rent " + propertyName
+
+                            val storeNotification = Notification(
+                                notificationID,
+                                currentUserID,
+                                "delivered",
+                                notificationContent,
+                                getTime(),
+                                "approvalConfirmation",
+                                approvalList[position].userID
+                            )
+
+                            if(store1==1){
+                                ref2.child(notificationID).setValue(storeNotification)
+                                store1++
+                            }
+
+                        }
+                    }
+                })
+
+
+                ref1.child("status").setValue("rejected")
+
+
+                //close everything
+                showDialog2(epicDialog)
 
 
             }
@@ -443,11 +518,13 @@ class ApprovalAdapter(val approvalList: MutableList<Approval>): RecyclerView.Ada
                 epicDialog.dismiss()
             }
 
-            epicDialog.setCancelable(false)
+            epicDialog.setCancelable(true)
             epicDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             epicDialog.show()
 
         }
+
+
 
 
     }
@@ -496,7 +573,7 @@ class ApprovalAdapter(val approvalList: MutableList<Approval>): RecyclerView.Ada
         epicDialog.show()
     }
 
-    private fun showDialog2(){
+    private fun showDialog2(abc: Dialog){
         epicDialog.setContentView(R.layout.popup_positive)
         //val closeButton : ImageView = epicDialog.findViewById(R.id.closeBtn)
         val okButton : Button = epicDialog.findViewById(R.id.okBtn)
@@ -508,6 +585,7 @@ class ApprovalAdapter(val approvalList: MutableList<Approval>): RecyclerView.Ada
 
         okButton.setOnClickListener {
             epicDialog.dismiss()
+            abc.dismiss()
         }
         epicDialog.setCancelable(true)
         epicDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))

@@ -27,7 +27,7 @@ class ProfileFragment : Fragment() {
     lateinit var ref: DatabaseReference
     lateinit var ref1: DatabaseReference
     lateinit var propertyIDList:MutableList<Property>
-    val currentUserID = FirebaseAuth.getInstance().currentUser!!.uid
+    lateinit var currentUserID : String
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -35,6 +35,8 @@ class ProfileFragment : Fragment() {
         val root:View = inflater.inflate(R.layout.fragment_profile, container, false)
 
         propertyIDList= mutableListOf()
+
+        currentUserID = FirebaseAuth.getInstance().currentUser!!.uid
 
         root.reviewSection.setOnClickListener {
             var intent=Intent(context,myReviewActivity::class.java)
@@ -48,6 +50,12 @@ class ProfileFragment : Fragment() {
             startActivity(intent)
 
         }
+
+        root.paymentIcon.setOnClickListener {
+            val intent=Intent(context,PaymentActivity::class.java)
+            startActivity(intent)
+        }
+
         displayProfile(root)
         return root
     }
