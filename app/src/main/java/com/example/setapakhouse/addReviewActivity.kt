@@ -3,10 +3,12 @@ package com.example.setapakhouse
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
+import com.example.setapakhouse.Model.Notification
 import com.example.setapakhouse.Model.Review
 import com.example.setapakhouse.Model.Topup
 import com.google.firebase.auth.FirebaseAuth
@@ -21,6 +23,8 @@ import java.time.format.DateTimeFormatter
 class addReviewActivity : AppCompatActivity() {
     val currentUserID = FirebaseAuth.getInstance().currentUser!!.uid
     lateinit var ref: DatabaseReference
+    lateinit var ref1: DatabaseReference
+    lateinit var ref2: DatabaseReference
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_review)
@@ -31,6 +35,37 @@ class addReviewActivity : AppCompatActivity() {
         propertyName.text=selectedPropertyName
         //Toast.makeText(this@addReviewActivity,hiddenReviewID.text.toString(),Toast.LENGTH_SHORT).show()
 
+        ref1=FirebaseDatabase.getInstance().getReference("Users")
+        ref1.addValueEventListener(object :ValueEventListener{
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for(h in snapshot.children){
+                    if(h.child("userID").getValue().toString().equals(currentUserID)){
+                        hiddenUsername.text=h.child("username").getValue().toString()
+                        Log.d("QQ",hiddenUsername.text.toString())
+                    }
+                }
+            }
+
+        })
+        ref1=FirebaseDatabase.getInstance().getReference("Property")
+        ref1.addValueEventListener(object :ValueEventListener{
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for(h in snapshot.children){
+                    if(h.child("propertyID").getValue().toString().equals(selectedPropertyID)){
+                        hiddenReceiverName.text=h.child("userID").getValue().toString()
+                    }
+                }
+            }
+
+        })
         ref=FirebaseDatabase.getInstance().getReference("PropertyImage")
         ref.addValueEventListener(object :ValueEventListener{
             override fun onCancelled(error: DatabaseError) {
@@ -83,6 +118,9 @@ class addReviewActivity : AppCompatActivity() {
 
             if(validateContent()) {
 
+                ref2 = FirebaseDatabase.getInstance().getReference("Notification")
+                var notificationID = ref2.push().key.toString()
+
                 ref = FirebaseDatabase.getInstance().getReference("Review")
                 val reviewID = ref.push().key.toString()
                 var review = Review(
@@ -92,12 +130,33 @@ class addReviewActivity : AppCompatActivity() {
                     newRating.rating.toDouble(),
                     selectedPropertyID,
                     currentUserID,
-                    "fakeNotification",
+                    notificationID,
                     "completed"
                 )
                 ref.child(reviewID).setValue(review)
+
                 ref= FirebaseDatabase.getInstance().getReference("Review").child(hiddenReviewID.text.toString())
                 ref.removeValue()
+
+                //add notification
+
+
+
+
+                Log.d("QQ1",hiddenUsername.text.toString())
+                //IMPORTANT - change the user ID to username
+                val notificationContent = hiddenUsername.text.toString() + " had give a rating to your property " + propertyName.text.toString()
+
+                val storeNotification = Notification(
+                    notificationID,
+                    currentUserID,
+                    "delivered",
+                    notificationContent,
+                    getTime(),
+                    "review",
+                    hiddenReceiverName.text.toString()
+                )
+                ref2.child(notificationID).setValue(storeNotification)
                 Toast.makeText(this, "ADDED SUCCESSFUL", Toast.LENGTH_LONG).show()
                 finish()
             }

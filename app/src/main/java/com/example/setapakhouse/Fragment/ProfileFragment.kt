@@ -27,17 +27,23 @@ class ProfileFragment : Fragment() {
     lateinit var ref: DatabaseReference
     lateinit var ref1: DatabaseReference
     lateinit var propertyIDList:MutableList<Property>
-    lateinit var currentUserID : String
+    lateinit var currentUserID:String
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val root:View = inflater.inflate(R.layout.fragment_profile, container, false)
-
+        currentUserID=FirebaseAuth.getInstance().currentUser!!.uid
         propertyIDList= mutableListOf()
 
-        currentUserID = FirebaseAuth.getInstance().currentUser!!.uid
-
+        root.myHouseRenting.setOnClickListener {
+            var intent=Intent(context,houseRentingActivity::class.java)
+            startActivity(intent)
+        }
+        root.myTransaction.setOnClickListener {
+            var intent=Intent(context,myTransactionActivity::class.java)
+            startActivity(intent)
+        }
         root.reviewSection.setOnClickListener {
             var intent=Intent(context,myReviewActivity::class.java)
             startActivity(intent)
@@ -50,7 +56,6 @@ class ProfileFragment : Fragment() {
             startActivity(intent)
 
         }
-
         root.paymentIcon.setOnClickListener {
             val intent=Intent(context,PaymentActivity::class.java)
             startActivity(intent)
@@ -159,7 +164,7 @@ class ProfileFragment : Fragment() {
 
             override fun onDataChange(snapshot: DataSnapshot) {
                 if(snapshot.exists()){
-
+                    propertyIDList.clear()
                     for(h in snapshot.children){
                         if(h.child("userID").getValue().toString().equals(currentUserID)){
                             val property=h.getValue(Property::class.java)

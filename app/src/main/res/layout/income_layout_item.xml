@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:id="@+id/payerIcon"
+        android:src="@drawable/ic_profile"
+        android:padding="5dp"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"/>
+
+    <RelativeLayout
+        android:layout_width="230dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/detailSection"
+        android:layout_toRightOf="@id/payerIcon"
+        android:layout_centerVertical="true">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Property Name"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"
+            android:id="@+id/payForPropertyTxt" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/duration"
+            android:layout_below="@id/payForPropertyTxt"
+            android:text="12-2-2020-12-2-2020"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Received from PayerName"
+            android:layout_below="@id/duration"
+            android:id="@+id/payerName"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="EARN: 5RP"
+            android:layout_below="@id/payerName"
+            android:id="@+id/rewardEarn"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="20 Nov 2020 5:30 PM"
+            android:id="@+id/receivedDate"
+            android:layout_below="@id/rewardEarn"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/detailSection"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:id="@+id/moneySection"
+        android:layout_centerVertical="true">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+RM00.00"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"
+            android:layout_alignParentRight="true"
+            android:id="@+id/receiveMoney"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Successful"
+            android:textColor="@color/black"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/receiveMoney"/>
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/imgViewLine"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/light_grey"
+        android:layout_below="@id/detailSection"/>
+
+</RelativeLayout>

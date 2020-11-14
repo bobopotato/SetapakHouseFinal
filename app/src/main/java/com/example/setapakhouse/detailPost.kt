@@ -1,6 +1,5 @@
 package com.example.setapakhouse
 
-
 import android.app.Dialog
 import android.content.DialogInterface
 import android.content.Intent
@@ -71,13 +70,12 @@ class detailPost : AppCompatActivity() {
         epicDialog = Dialog(this)
         epicDialog2 = Dialog(this)
 
+
         backButton.bringToFront()
 
         backButton.setOnClickListener{
             finish()
         }
-
-
         val slideModels=ArrayList<SlideModel>()
 
         val selectedPropertyID=intent.getStringExtra("selectedPosition")
@@ -169,12 +167,12 @@ class detailPost : AppCompatActivity() {
         if(selectedUserID.equals(currentUserID)){
             chatBtn.isEnabled=false
             chatBtn.isClickable=false
-            chatBtn.setBackgroundResource(R.drawable.round_button_grey)
-            chatBtn.visibility = View.INVISIBLE
+            chatBtn.setBackgroundResource(R.drawable.round_button_disable)
+            //chatBtn.visibility = View.INVISIBLE
             requestBtn.isEnabled=false
             requestBtn.isClickable=false
-            requestBtn.setBackgroundResource(R.drawable.round_button_grey)
-            requestBtn.visibility = View.INVISIBLE
+            requestBtn.setBackgroundResource(R.drawable.round_button_disable)
+            //requestBtn.visibility = View.INVISIBLE
         }
 
         chatBtn.setOnClickListener {
@@ -204,12 +202,21 @@ class detailPost : AppCompatActivity() {
                         if(h.child("propertyID").getValue().toString().equals(selectedPropertyID)){
                             if(h.child("status").getValue().toString().equals("available")){
                                 if(selectedUserID.equals(currentUserID)) {
-                                    requestBtn.visibility = View.INVISIBLE
+                                    //requestBtn.visibility = View.INVISIBLE
+                                    requestBtn.isEnabled=false
+                                    requestBtn.isClickable=false
+                                    requestBtn.setBackgroundResource(R.drawable.round_button_disable)
                                 }else{
-                                    requestBtn.visibility = View.VISIBLE
+                                    requestBtn.isEnabled=true
+                                    requestBtn.isClickable=true
+                                    requestBtn.setBackgroundResource(R.drawable.round_button_black)
+                                    //requestBtn.visibility = View.VISIBLE
                                 }
                             }else{
-                                requestBtn.visibility = View.INVISIBLE
+                                requestBtn.isEnabled=false
+                                requestBtn.isClickable=false
+                                requestBtn.setBackgroundResource(R.drawable.round_button_disable)
+                                //requestBtn.visibility = View.INVISIBLE
                             }
                             if(h.child("rentalType").getValue().toString().equals("long")){
                                 txtPrice.text="RM"+h.child("price").getValue().toString()+"/MONTH"

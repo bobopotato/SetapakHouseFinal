@@ -13,6 +13,8 @@
         android:roundIcon="@drawable/ic_page"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".houseRentingActivity"/>
+        <activity android:name=".myTransactionActivity" />
         <activity android:name=".PaymentActivity2"/>
         <activity android:name=".PaymentActivity" />
         <activity android:name=".addReviewActivity" />

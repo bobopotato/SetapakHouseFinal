@@ -6,98 +6,101 @@
     android:gravity="center"
     android:id="@+id/wholeReview">
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/hiddenUserID"
-        android:visibility="gone"
-        />
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/contentSection"
-        android:gravity="center">
-
-        <ImageView
-            android:layout_centerVertical="true"
-            android:padding="1dp"
-            android:id="@+id/propertyImage"
-            android:layout_width="150dp"
-            android:layout_marginTop="10dp"
-            android:layout_height="120dp"
-            android:src="@drawable/ic_home"
-            android:layout_marginRight="20dp"
-            />
-
-        <RelativeLayout
-            android:id="@+id/contentSection1"
-            android:layout_marginTop="10dp"
-            android:layout_toRightOf="@id/propertyImage"
-            android:layout_width="200dp"
-            android:padding="10dp"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/rec_white_border">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Property Name"
-                android:textColor="@color/black"
-                android:id="@+id/txtPropertyName"/>
-            <RatingBar
-                android:layout_below="@id/reviewDate"
-                android:id="@+id/ratingBar"
-                style="?android:attr/ratingBarStyleSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                 android:layout_marginTop="5dp"/>
-            <TextView
-                android:layout_marginTop="5dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/reviewDate"
-                android:text="10/8/2009 14:55:30PM"
-                android:textSize="10dp"
-                android:layout_below="@id/txtPropertyName"/>
+            android:id="@+id/hiddenUserID"
+            android:visibility="gone"
+            />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/contentSection"
+            android:gravity="center">
 
-            <com.borjabravo.readmoretextview.ReadMoreTextView
-                android:id="@+id/reviewContent"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/ratingBar"
-                android:layout_marginTop="5dp"
-                android:text="reviewContent"
-                app:colorClickableText="@color/hollo_blue_light"
-                app:trimCollapsedText="Show less"
-                app:trimExpandedText="Show more"
-                app:trimLength="50"
-                app:trimMode="trimModeLength" />
+            <ImageView
+                android:layout_centerVertical="true"
+                android:padding="5dp"
+                android:id="@+id/propertyImage"
+                android:layout_width="150dp"
+                android:layout_marginTop="20dp"
+                android:layout_height="120dp"
+                android:src="@drawable/ic_home"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/border"
+                />
+
+            <RelativeLayout
+                android:id="@+id/contentSection1"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@id/propertyImage"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Property Name"
+                    android:textColor="@color/colorPrimary"
+                    android:id="@+id/txtPropertyName"/>
+                <RatingBar
+                    android:layout_below="@id/reviewDate"
+                    android:id="@+id/ratingBar"
+                    style="?android:attr/ratingBarStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"/>
+                <TextView
+                    android:layout_marginTop="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/reviewDate"
+                    android:text="10/8/2009 14:55:30PM"
+                    android:textSize="10dp"
+                    android:layout_below="@id/txtPropertyName"/>
+
+                <com.borjabravo.readmoretextview.ReadMoreTextView
+                    android:id="@+id/reviewContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/ratingBar"
+                    android:layout_marginTop="5dp"
+                    android:text="reviewContent"
+                    app:colorClickableText="@color/hollo_blue_light"
+                    app:trimCollapsedText="Show less"
+                    app:trimExpandedText="Show more"
+                    app:trimLength="50"
+                    app:trimMode="trimModeLength" />
+
+
+
+
+            </RelativeLayout>
 
         </RelativeLayout>
 
-    </RelativeLayout>
-
-    <Button
-        android:id="@+id/editBtn"
-        android:layout_marginTop="10dp"
-        android:layout_width="150dp"
-        android:layout_height="30dp"
-        android:layout_marginLeft="20dp"
-        android:background="@drawable/round_button_black"
-        android:padding="5dp"
-        android:textColor="@android:color/white"
-        android:text="Edit"
-        android:drawableLeft="@drawable/ic_edit"/>
+        <Button
+            android:id="@+id/editBtn"
+            android:layout_marginTop="10dp"
+            android:layout_width="150dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/round_button_black"
+            android:padding="5dp"
+            android:textColor="@android:color/white"
+            android:text="Edit"
+            android:drawableLeft="@drawable/ic_edit"/>
 
 
-    <ImageView
-        android:layout_marginTop="10dp"
-        android:id="@+id/imgViewLine"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/light_grey"/>
-</LinearLayout>
+        <ImageView
+            android:layout_marginTop="10dp"
+            android:id="@+id/imgViewLine"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/light_grey"/>
+    </LinearLayout>
 </RelativeLayout>
