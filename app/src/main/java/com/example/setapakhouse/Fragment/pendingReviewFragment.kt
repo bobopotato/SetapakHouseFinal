@@ -13,9 +13,9 @@ import com.example.setapakhouse.Model.Review
 import com.example.setapakhouse.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
-import kotlinx.android.synthetic.main.fragment_completed_review.view.*
+import kotlinx.android.synthetic.main.fragment_pending_review.*
 import kotlinx.android.synthetic.main.fragment_pending_review.view.*
-import kotlinx.android.synthetic.main.fragment_profile.view.*
+
 
 class pendingReviewFragment : Fragment() {
     val currentUserID = FirebaseAuth.getInstance().currentUser!!.uid
@@ -53,6 +53,13 @@ class pendingReviewFragment : Fragment() {
                                     }
                                 }
                             }
+                            if(propertyList.size==0){
+                                root.noRecordFound.visibility = View.VISIBLE
+                            }
+                            else{
+                                root.noRecordFound.visibility = View.GONE
+                            }
+
                             val mLayoutManager = LinearLayoutManager(context)
                             root.pendingReviewRecycle.layoutManager = mLayoutManager
                             root.pendingReviewRecycle.adapter = pendingReviewAdapter(propertyList)

@@ -40,19 +40,13 @@
             android:layout_below="@id/duration"
             android:id="@+id/payerName"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="EARN: 5RP"
-            android:layout_below="@id/payerName"
-            android:id="@+id/rewardEarn"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="20 Nov 2020 5:30 PM"
             android:id="@+id/receivedDate"
-            android:layout_below="@id/rewardEarn"/>
+            android:layout_below="@id/payerName"/>
     </RelativeLayout>
 
     <RelativeLayout

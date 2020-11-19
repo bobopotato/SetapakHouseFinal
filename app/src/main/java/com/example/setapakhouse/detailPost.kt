@@ -119,26 +119,33 @@ class detailPost : AppCompatActivity() {
                         val secondd = LocalDate.of(year2.toInt(), month2.toInt(), day2.toInt())
 
                         if (firstt.isBefore(today) || firstt.isEqual(today)) {
-                            Toast.makeText(
-                                this@detailPost,
-                                "Please choose start date after today",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            Toast.makeText(this@detailPost,"Please choose start date after today",Toast.LENGTH_SHORT).show()
                             calendarZ(this)
                         } else {
                             validDate = true
                         }
 
                         if (txtRentalType.text == "Rental Type: Long-Term" && completeDate) {
-                            if (day1 == day2) {
+                            if (day1.toInt() == day2.toInt()) {
                                 validDuration = true
-                            } else {
-                                Toast.makeText(
-                                    this@detailPost,
-                                    "Please choose the same date of month afterward",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                                calendarZ(this)
+                            }
+                            else {
+                                if(day1.toInt() == 31 || day1.toInt() == 30){
+                                    if(month2.toInt() == 2 && (day2.toInt()==28 || day2.toInt() == 29)){
+                                        validDuration = true
+                                    }
+                                    if(day2.toInt() == 31 || day2.toInt() == 30){
+                                        validDuration = true
+                                    }
+
+                                }
+
+                                if(!validDuration){
+                                    Toast.makeText(this@detailPost,"Please choose the same date of month afterward",Toast.LENGTH_SHORT).show()
+                                    calendarZ(this)
+                                }
+
+
                             }
 
                         } else if (txtRentalType.text == "Rental Type: Short-Term" && completeDate) {
@@ -219,9 +226,9 @@ class detailPost : AppCompatActivity() {
                                 //requestBtn.visibility = View.INVISIBLE
                             }
                             if(h.child("rentalType").getValue().toString().equals("long")){
-                                txtPrice.text="RM"+h.child("price").getValue().toString()+"/MONTH"
+                                txtPrice.text="RM"+String.format("%.2f",h.child("price").getValue().toString().toDouble())+"/MONTH"
                             }else{
-                                txtPrice.text="RM"+h.child("price").getValue().toString()+"/DAY"
+                                txtPrice.text="RM"+String.format("%.2f",h.child("price").getValue().toString().toDouble())+"/DAY"
                             }
 
                             txtPropertyType.text="Property Type: "+h.child("propertyType").getValue().toString()
@@ -400,6 +407,7 @@ class detailPost : AppCompatActivity() {
             val notificationID = ref3.push().key.toString()
 
             var store1 = 1
+            var store2 = 1
 
             ref2.addValueEventListener(object : ValueEventListener {
                 override fun onCancelled(error: DatabaseError) {
@@ -407,78 +415,83 @@ class detailPost : AppCompatActivity() {
                 }
 
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    if (snapshot.exists()) {
-                        val propertyName = snapshot.child("propertyName").getValue().toString()
+                    if (store2 == 1){
+                        if (snapshot.exists()) {
+                            val propertyName = snapshot.child("propertyName").getValue().toString()
 
-                        ref4.addValueEventListener(object : ValueEventListener {
-                            override fun onCancelled(p0: DatabaseError) {
-                                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                            }
-
-                            override fun onDataChange(p0: DataSnapshot) {
-                                if (store1 == 1){
-                                    if (p0.exists()) {
-                                        val targetUser = p0.getValue(User::class.java)
-                                        val approvalContent =
-                                            targetUser!!.username + " had requested to rent your " + propertyName + " property on " + firstDate.toString() + " to " + secondDate.toString()
-                                        val notificationContent =
-                                            targetUser!!.username + " had requested to rent one of your property"
-
-                                        //Toast.makeText(this@RequestRentActivity, "abc = " + currentUserID + "wtf = " +  targetUser!!.username, Toast.LENGTH_SHORT).show()
-                                        val storeApproval = Approval(
-                                            approvalID,
-                                            approvalContent,
-                                            getTime(),
-                                            firstDate,
-                                            secondDate,
-                                            "pending",
-                                            currentUserID,
-                                            selectedPropertyID,
-                                            notificationID,
-                                            selectedUserID
-                                        )
-
-                                        ref1.child(approvalID).setValue(storeApproval)
-
-                                        val storeNotification = Notification(
-                                            notificationID,
-                                            currentUserID,
-                                            "delivered",
-                                            notificationContent,
-                                            getTime(),
-                                            "approval",
-                                            selectedUserID
-                                        )
-
-                                        ref3.child(notificationID).setValue(storeNotification)
-
-
-                                    }
+                            ref4.addValueEventListener(object : ValueEventListener {
+                                override fun onCancelled(p0: DatabaseError) {
+                                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
                                 }
-                                store1++
+
+                                override fun onDataChange(p0: DataSnapshot) {
+                                    if (store1 == 1) {
+                                        if (p0.exists()) {
+                                            val targetUser = p0.getValue(User::class.java)
+                                            val approvalContent =
+                                                targetUser!!.username + " had requested to rent your " + propertyName + " property on " + firstDate.toString() + " to " + secondDate.toString()
+                                            val notificationContent =
+                                                targetUser!!.username + " had requested to rent one of your property"
+
+                                            //Toast.makeText(this@RequestRentActivity, "abc = " + currentUserID + "wtf = " +  targetUser!!.username, Toast.LENGTH_SHORT).show()
+                                            val storeApproval = Approval(
+                                                approvalID,
+                                                approvalContent,
+                                                getTime(),
+                                                firstDate,
+                                                secondDate,
+                                                "pending",
+                                                currentUserID,
+                                                selectedPropertyID,
+                                                notificationID,
+                                                selectedUserID
+                                            )
+
+                                            ref1.child(approvalID).setValue(storeApproval)
+
+                                            val storeNotification = Notification(
+                                                notificationID,
+                                                currentUserID,
+                                                "delivered",
+                                                notificationContent,
+                                                getTime(),
+                                                "approval",
+                                                selectedUserID
+                                            )
+
+                                            ref3.child(notificationID).setValue(storeNotification)
+
+
+                                        }
+                                    }
+                                    store1++
+                                }
+                            })
+
+                            epicDialog2.setContentView(R.layout.popup_positive)
+                            //val closeButton : ImageView = epicDialog.findViewById(R.id.closeBtn)
+                            val okButton1: Button = epicDialog2.findViewById(R.id.okBtn)
+                            val title1: TextView = epicDialog2.findViewById(R.id.title)
+                            val content1: TextView = epicDialog2.findViewById(R.id.content)
+
+                            title1.text = "Request Successful"
+                            content1.text = "You will be redirected to the main page"
+
+                            okButton1.setOnClickListener {
+                                epicDialog.dismiss()
+                                epicDialog2.dismiss()
+                                //val intent = Intent(this@detailPost, MainActivity::class.java)
+                                //startActivity(intent)
                             }
-                        })
+                            epicDialog2.setCancelable(true)
+                            epicDialog2.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                            epicDialog2.show()
 
-                        epicDialog2.setContentView(R.layout.popup_positive)
-                        //val closeButton : ImageView = epicDialog.findViewById(R.id.closeBtn)
-                        val okButton : Button = epicDialog2.findViewById(R.id.okBtn)
-                        val title : TextView = epicDialog2.findViewById(R.id.title)
-                        val content : TextView = epicDialog2.findViewById(R.id.content)
 
-                        title.text = "Request Successful"
-                        content.text = "You will be redirected to the main page"
-
-                        okButton.setOnClickListener {
-                            val intent = Intent(this@detailPost, MainActivity::class.java)
-                            startActivity(intent)
                         }
-                        epicDialog2.setCancelable(true)
-                        epicDialog2.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-                        epicDialog2.show()
-
 
                     }
-
+                    store2++
                 }
             })
         }

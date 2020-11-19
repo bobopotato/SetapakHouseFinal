@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.view.View
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -80,6 +81,14 @@ class PaymentActivity : AppCompatActivity() {
                                     }
 
                                 }
+
+                                if(paymentList.size==0){
+                                    noRecordFound.visibility = View.VISIBLE
+                                }
+                                else{
+                                    noRecordFound.visibility = View.GONE
+                                }
+
                                 val adapter = PaymentAdapter(paymentList, rentList)
                                 val mLayoutManager = LinearLayoutManager(this@PaymentActivity)
                                 mLayoutManager.reverseLayout = true

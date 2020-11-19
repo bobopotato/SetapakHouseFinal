@@ -35,22 +35,29 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Paid By ReceiverName"
+            android:text="Paid To ReceiverName"
             android:layout_below="@+id/duration"
             android:id="@+id/receiverName"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="USED: 0RP"
+            android:text="Redeemed: 0RP"
             android:layout_below="@+id/receiverName"
             android:id="@+id/rpUsed"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="Gained: 0RP"
+            android:layout_below="@+id/rpUsed"
+            android:id="@+id/rpEarn"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="20 Nov 2020 5:30 PM"
             android:id="@+id/paidDate"
-            android:layout_below="@id/rpUsed"/>
+            android:layout_below="@id/rpEarn"/>
     </RelativeLayout>
 
     <RelativeLayout

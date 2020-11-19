@@ -56,7 +56,8 @@ dependencies {
     implementation 'com.borjabravo:readmoretextview:2.0.1'
     implementation "com.github.psinetron:slycalendarview:0.0.9"
     implementation 'com.paypal.sdk:paypal-android-sdk:2.14.2'
-
+    implementation 'com.github.MindorksOpenSource:EditDrawableText:1.1.0'
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.19'
 
 
 }

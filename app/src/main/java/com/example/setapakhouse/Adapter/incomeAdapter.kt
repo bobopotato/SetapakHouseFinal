@@ -22,7 +22,6 @@ class incomeAdapter(private var idList:List<String>,private var dateTimeList:Lis
         val received_Date: TextView =itemView.findViewById<TextView>(R.id.receivedDate)
         val received_amount: TextView =itemView.findViewById<TextView>(R.id.receiveMoney)
         val duration: TextView =itemView.findViewById<TextView>(R.id.duration)
-        val rp: TextView =itemView.findViewById<TextView>(R.id.rewardEarn)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -35,15 +34,15 @@ class incomeAdapter(private var idList:List<String>,private var dateTimeList:Lis
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        if(((amountList[position].toDouble())/100).roundToInt().equals(0)){
-            holder.rp.text =
-                "EARN: 0RP"
-        }else {
-            holder.rp.text =
-                "EARN: " + ((amountList[position].toDouble()) / 100).roundToInt().toString() + "RP"
-        }
+//        if(((amountList[position].toDouble())/100).roundToInt().equals(0)){
+//            holder.rp.text =
+//                "EARN: 0RP"
+//        }else {
+//            holder.rp.text =
+//                "EARN: " + ((amountList[position].toDouble()) / 100).roundToInt().toString() + "RP"
+//        }
         holder.received_Date.text=dateTimeList[position]
-        holder.received_amount.text="+RM"+amountList[position]
+        holder.received_amount.text="+RM"+String.format("%.2f",amountList[position].toDouble())
         holder.pay_for.text=propertyNameList[position]
         holder.duration.text=durationList[position]
         ref=FirebaseDatabase.getInstance().getReference("Users")

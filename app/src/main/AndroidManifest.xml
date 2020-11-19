@@ -13,9 +13,23 @@
         android:roundIcon="@drawable/ic_page"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".houseRentingActivity"/>
+        <activity android:name=".SplashScreenActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".EditProfileActivity1" />
+        <activity android:name=".EditRentalHouse" />
+        <activity android:name=".ManageMyRentalHouse" />
+        <activity android:name=".SearchWithoutFilter" />
+        <activity android:name=".SearchActivity2" />
+        <activity android:name=".SearchActivity1" />
+        <activity android:name=".SearchResultActivity" />
+        <activity android:name=".houseRentingActivity" />
         <activity android:name=".myTransactionActivity" />
-        <activity android:name=".PaymentActivity2"/>
+        <activity android:name=".PaymentActivity2" />
         <activity android:name=".PaymentActivity" />
         <activity android:name=".addReviewActivity" />
         <activity android:name=".editReviewActivity" />
@@ -65,12 +79,12 @@
             android:name=".SearchActivity"
             android:parentActivityName=".MainActivity" />
         <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

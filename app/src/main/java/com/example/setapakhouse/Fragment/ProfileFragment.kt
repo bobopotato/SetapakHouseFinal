@@ -49,15 +49,21 @@ class ProfileFragment : Fragment() {
             startActivity(intent)
         }
         root.editBtn.setOnClickListener{
-            changeOrEdit(root)
+            //changeOrEdit(root)
+            val intent=Intent(context,EditProfileActivity1::class.java)
+            startActivity(intent)
         }
         root.topupSection.setOnClickListener {
-            var intent=Intent(context,myPaymentActivity::class.java)
+            val intent=Intent(context,myPaymentActivity::class.java)
             startActivity(intent)
 
         }
         root.paymentIcon.setOnClickListener {
             val intent=Intent(context,PaymentActivity::class.java)
+            startActivity(intent)
+        }
+        root.manageRentalHouseIcon.setOnClickListener {
+            val intent=Intent(context,ManageMyRentalHouse::class.java)
             startActivity(intent)
         }
 

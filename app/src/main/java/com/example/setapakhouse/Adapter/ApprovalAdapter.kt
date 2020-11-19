@@ -140,6 +140,15 @@ class ApprovalAdapter(val approvalList: MutableList<Approval>): RecyclerView.Ada
             //holder.wholeLayout.setBackgroundColor(Color.rgb(128,128,128))
         }
 
+        if(approvalList[position].status == "expired"){
+            holder.approveBtn.visibility = View.GONE
+            holder.rejectBtn.visibility = View.GONE
+            holder.statusBtn.visibility = View.VISIBLE
+            holder.statusBtn.setText("Status : Expired")
+            holder.statusBtn.setBackgroundResource(R.drawable.round_button_disable)
+            //holder.wholeLayout.setBackgroundColor(Color.rgb(128,128,128))
+        }
+
 
         holder.approveBtn.setOnClickListener {
             //var username123 = holder.username.text.toString()
@@ -227,11 +236,15 @@ class ApprovalAdapter(val approvalList: MutableList<Approval>): RecyclerView.Ada
                 var year2 = secondDate[2].toInt()
                 var secondShort = day2.toString() + "/" + month2.toString() + "/" + year2.toString()
 
-                var firstt = LocalDate.of(year1, month1, day1)
-                var secondd = LocalDate.of(year2, month2, day2)
+                var firstt = LocalDate.of(year1, month1, day1)   // 1/1/2020 - 1/2/2020
+                var secondd = LocalDate.of(year2, month2, day2)  // 6/1/2020
 
                 var monthCount = ChronoUnit.MONTHS.between(firstt, secondd)
                 var dayCount = ChronoUnit.DAYS.between(firstt, secondd)
+
+                if(dayCount%30>20){
+                    monthCount++
+                }
                 //Create payment
 
                 //Long-Term Payment + Short-Term Payment
@@ -245,6 +258,8 @@ class ApprovalAdapter(val approvalList: MutableList<Approval>): RecyclerView.Ada
                         if (store2 == 1) {
                             if (p0.exists()) {
                                 if (p0.child("rentalType").getValue().toString() == "Long-Term") {
+                                    var day = day1
+                                    var dayy = day1
                                     var month = month1
                                     var year = year1          //12-2020
                                     var monthh = month + 1
@@ -254,11 +269,183 @@ class ApprovalAdapter(val approvalList: MutableList<Approval>): RecyclerView.Ada
                                         yearr++
                                     }
 
-                                    for (x in 0 until monthCount) { //monthCount = 0
-                                        var first =
-                                            day1.toString() + "/" + month.toString() + "/" + year.toString()
-                                        var second =
-                                            day2.toString() + "/" + monthh.toString() + "/" + yearr.toString()
+                                    var i = 0
+                                    var count = 0
+                                    while(i < monthCount){
+
+                                        Log.d("abc", "count = " + count)
+                                        if(i == (monthCount-1).toInt()){
+                                            if(monthh != month2){
+                                                i--
+                                                Log.d("abc", "last1 = " + i)
+
+                                            }
+
+                                            //Log.d("abc", "last2 = " + monthCount)
+                                        }
+                                        if((day1 == 30 && (month1 == 4 || month1 == 6 || month1 == 9 || month1 == 11))|| (day1==31 && (month1 == 1 || month1 == 3 || month1 == 5 || month1 == 7|| month1 == 8|| month1 == 10|| month1 == 12))){
+                                            if(month == 4 || month == 6 || month == 9 || month == 11){
+                                                if(day == 31){
+                                                    day = 30
+                                                }
+                                            }
+                                            if(monthh == 4 || monthh == 6 || monthh == 9 || monthh == 11){
+                                                if(dayy == 31){
+                                                    dayy = 30
+                                                }
+                                            }
+                                            if(month == 1 || month == 3 || month == 5 || month == 7|| month == 8|| month == 10|| month == 12){
+                                                if(day == 30  && (month1 == 4 || month1 == 6 || month1 == 9 || month1 == 11)){
+                                                    day = 30
+                                                }
+                                                else{
+                                                    day = 31
+                                                }
+                                            }
+                                            if(monthh == 1 || monthh == 3 || monthh == 5 || monthh == 7|| monthh == 8|| monthh == 10|| monthh == 12){
+                                                if(dayy == 30  && (month1 == 4 || month1 == 6 || month1 == 9 || month1 == 11)){
+                                                    dayy = 30
+                                                }
+                                                else{
+                                                    dayy = 31
+                                                }
+                                            }
+                                            if(month == 2){
+                                                if(day == 31 || day == 30){
+                                                    if(year%4 == 0){
+                                                        day = 29
+                                                    }else{
+                                                        day = 28
+                                                    }
+                                                }
+                                            }
+                                            if(monthh == 2){
+                                                if(dayy == 31 || dayy == 30){
+                                                    if(yearr%4 == 0){
+                                                        dayy = 29
+                                                    }else{
+                                                        dayy = 28
+                                                    }
+                                                }
+                                            }
+                                            if(month ==3){
+                                                if(day == 28 || day == 29){
+                                                    day = 31
+                                                }
+                                            }
+                                            if(monthh ==3){
+                                                if(dayy == 28 || dayy == 29){
+                                                    dayy = 31
+                                                }
+                                            }
+                                        }
+
+                                        var first = day.toString() + "/" + month.toString() + "/" + year.toString()
+                                        var second = dayy.toString() + "/" + monthh.toString() + "/" + yearr.toString()
+                                        var paymentTitle = first + " to " + second + " Rental"
+
+                                        ref5 =
+                                            FirebaseDatabase.getInstance().getReference("Payment")
+
+                                        val paymentID = ref5.push().key.toString()
+
+                                        val storePayment = Payment(
+                                            paymentID,
+                                            paymentTitle,
+                                            getTime(),
+                                            p0.child("price").getValue().toString().toDouble(),
+                                            0,
+                                            "new",
+                                            "",
+                                            "",
+                                            rentID,
+                                            "installment"
+                                        )
+
+
+                                        ref5.child(paymentID).setValue(storePayment)
+
+                                        month++
+                                        monthh++
+                                        if (month == 13) {
+                                            month = 1
+                                            year++
+                                        }
+                                        if (monthh == 13) {
+                                            monthh = 1
+                                            yearr++
+                                        }
+
+                                        i++
+                                    }
+
+                                    /*for (x in 0 until monthCount) { //monthCount = 0
+                                        Log.d("abc", "abbb = " + x)
+                                        if(x == monthCount-1){
+                                            monthCount++
+                                            continue
+                                            Log.d("abc", "last1 = " + x)
+                                            //Log.d("abc", "last2 = " + monthCount)
+                                        }
+                                        if((day1 == 30 && (month1 == 4 || month1 == 6 || month1 == 9 || month1 == 11))|| (day1==31 && (month1 == 1 || month1 == 3 || month1 == 5 || month1 == 7|| month1 == 8|| month1 == 10|| month1 == 12))){
+                                            if(month == 4 || month == 6 || month == 9 || month == 11){
+                                                if(day == 31){
+                                                    day = 30
+                                                }
+                                            }
+                                            if(monthh == 4 || monthh == 6 || monthh == 9 || monthh == 11){
+                                                if(dayy == 31){
+                                                    dayy = 30
+                                                }
+                                            }
+                                            if(month == 1 || month == 3 || month == 5 || month == 7|| month == 8|| month == 10|| month == 12){
+                                                if(day == 30  && (month1 == 4 || month1 == 6 || month1 == 9 || month1 == 11)){
+                                                    day = 30
+                                                }
+                                                else{
+                                                    day = 31
+                                                }
+                                            }
+                                            if(monthh == 1 || monthh == 3 || monthh == 5 || monthh == 7|| monthh == 8|| monthh == 10|| monthh == 12){
+                                                if(dayy == 30  && (month1 == 4 || month1 == 6 || month1 == 9 || month1 == 11)){
+                                                    dayy = 30
+                                                }
+                                                else{
+                                                    dayy = 31
+                                                }
+                                            }
+                                            if(month == 2){
+                                                if(day == 31 || day == 30){
+                                                    if(year%4 == 0){
+                                                        day = 29
+                                                    }else{
+                                                        day = 28
+                                                    }
+                                                }
+                                            }
+                                            if(monthh == 2){
+                                                if(dayy == 31 || dayy == 30){
+                                                    if(yearr%4 == 0){
+                                                        dayy = 29
+                                                    }else{
+                                                        dayy = 28
+                                                    }
+                                                }
+                                            }
+                                            if(month ==3){
+                                                if(day == 28 || day == 29){
+                                                    day = 31
+                                                }
+                                            }
+                                            if(monthh ==3){
+                                                if(dayy == 28 || dayy == 29){
+                                                    dayy = 31
+                                                }
+                                            }
+                                        }
+
+                                        var first = day.toString() + "/" + month.toString() + "/" + year.toString()
+                                        var second = dayy.toString() + "/" + monthh.toString() + "/" + yearr.toString()
                                         var paymentTitle = first + " to " + second + " Rental"
 
                                         ref5 =
@@ -291,10 +478,9 @@ class ApprovalAdapter(val approvalList: MutableList<Approval>): RecyclerView.Ada
                                             monthh = 1
                                             yearr++
                                         }
-                                    }
-                                } else if (p0.child("rentalType").getValue()
-                                        .toString() == "Short-Term"
-                                ) {
+                                    }*/
+
+                                } else if (p0.child("rentalType").getValue().toString() == "Short-Term") {
                                     var paymentTitle = firstShort + " to " + secondShort + " Rental"
                                     val dailyPrice =
                                         p0.child("price").getValue().toString().toDouble()
@@ -313,7 +499,8 @@ class ApprovalAdapter(val approvalList: MutableList<Approval>): RecyclerView.Ada
                                         "new",
                                         "",
                                         "",
-                                        rentID
+                                        rentID,
+                                        "fullpayment"
                                     )
                                     if (store2 == 1) {
                                         ref5.child(paymentID).setValue(storePayment)
@@ -350,11 +537,9 @@ class ApprovalAdapter(val approvalList: MutableList<Approval>): RecyclerView.Ada
                                     val targetApproval = h.getValue(Approval::class.java)
                                     var propertyID = targetApproval!!.propertyID
                                     var approvalID = targetApproval!!.approvalID
-                                    if (propertyID == approvalList[position].propertyID && approvalID != approvalList[position].approvalID) {
+                                    if (propertyID == approvalList[position].propertyID && approvalID != approvalList[position].approvalID && targetApproval.status=="pending") {
 
-                                        ref7 =
-                                            FirebaseDatabase.getInstance().getReference("Approval")
-                                                .child(approvalID)
+                                        ref7 =FirebaseDatabase.getInstance().getReference("Approval").child(approvalID)
                                         ref7.child("status").setValue("rejected")
 
                                         //send reject notification
@@ -366,14 +551,12 @@ class ApprovalAdapter(val approvalList: MutableList<Approval>): RecyclerView.Ada
                                             override fun onDataChange(p0: DataSnapshot) {
 
                                                 if (p0.exists()) {
-                                                    val targetProperty =
-                                                        p0.getValue(Property::class.java)
+                                                    val targetProperty = p0.getValue(Property::class.java)
                                                     val propertyName = targetProperty!!.propertyName
 
                                                     var notificationID = ref2.push().key.toString()
                                                     //IMPORTANT - change the user ID to username
-                                                    val notificationContent =
-                                                        holder.hiddenValue.text.toString() + " had rejected your request to rent " + propertyName
+                                                    val notificationContent = holder.hiddenValue.text.toString() + " had rejected your request to rent " + propertyName
 
                                                     val storeNotification = Notification(
                                                         notificationID,
@@ -385,9 +568,8 @@ class ApprovalAdapter(val approvalList: MutableList<Approval>): RecyclerView.Ada
                                                         targetApproval.userID
                                                     )
 
-                                                    if (storeTwo == 1) {
-                                                        ref2.child(notificationID)
-                                                            .setValue(storeNotification)
+                                                    if (storeTwo == 1 && targetApproval.userID!= approvalList[position].userID && targetApproval.status=="pending") {
+                                                        ref2.child(notificationID).setValue(storeNotification)
                                                         storeTwo++
                                                     }
 

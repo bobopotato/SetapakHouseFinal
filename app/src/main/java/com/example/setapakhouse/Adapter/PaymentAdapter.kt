@@ -21,6 +21,10 @@ import com.google.firebase.database.*
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.fragment_notification.*
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.temporal.ChronoUnit
+import java.util.*
 
 class PaymentAdapter(val paymentList:MutableList<Payment>, val rentList:MutableList<Rent>): RecyclerView.Adapter<PaymentAdapter.ViewHolder>() {
 
@@ -42,6 +46,33 @@ class PaymentAdapter(val paymentList:MutableList<Payment>, val rentList:MutableL
     override fun onBindViewHolder(holder: ViewHolder, position: Int, payloads: MutableList<Any>) {
 
         val currentUserID = FirebaseAuth.getInstance().currentUser!!.uid
+
+        val titleSplit = paymentList[position].paymentTitle.split(" ")
+        val startDate = titleSplit[0].split("/")
+        val startDay = startDate[0]
+        val startMonth = startDate[1]
+        val startYear = startDate[2]
+
+        val cal: Calendar = Calendar.getInstance()
+        val thisDay = SimpleDateFormat(("d"), Locale.getDefault()).format(cal.time)
+        val thisMonth = SimpleDateFormat(("MM"), Locale.getDefault()).format(cal.time)
+        val thisYear = SimpleDateFormat(("yyyy"), Locale.getDefault()).format(cal.time)
+        val today = LocalDate.of(thisYear.toInt(), thisMonth.toInt(), thisDay.toInt())
+        val startingDate = LocalDate.of(startYear.toInt(), startMonth.toInt(), startDay.toInt())
+
+
+        if(paymentList[position].paymentType.equals("fullpayment")){
+            var dayCount1 = ChronoUnit.DAYS.between(today,startingDate)
+            val leftday = 1 + dayCount1
+            holder.dayLeftText.text = "You have left " + leftday +" days to make this payment"
+        }
+
+        if(paymentList[position].paymentType.equals("installment")){
+            var dayCount1 = ChronoUnit.DAYS.between(today,startingDate)
+            val leftday = 5 + dayCount1
+            holder.dayLeftText.text = "You have left " + leftday +" days to make this payment"
+        }
+
 
         for(x in rentList){
             if(x.rentID.equals(paymentList[position].rentID)){
@@ -110,6 +141,8 @@ class PaymentAdapter(val paymentList:MutableList<Payment>, val rentList:MutableL
         val priceText : TextView = itemView.findViewById(R.id.price)
         val payButton : Button = itemView.findViewById(R.id.payBtn)
         val hiddenUserID : TextView = itemView.findViewById(R.id.hiddenUserID123)
+        val dayLeftText : TextView = itemView.findViewById(R.id.dayLeft)
+
 
 
         //val uploadedImage : ImageView = itemView.findViewById(R.id.uploadedImage)

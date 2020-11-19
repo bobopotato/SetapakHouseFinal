@@ -16,8 +16,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.fragment_approval.*
 import kotlinx.android.synthetic.main.fragment_approval.view.*
-import kotlinx.android.synthetic.main.fragment_notification2.*
-import kotlinx.android.synthetic.main.fragment_notification2.view.*
+
 
 
 class ApprovalFragment : Fragment() {
@@ -33,7 +32,7 @@ class ApprovalFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val root1: View = inflater.inflate(R.layout.fragment_notification2, container, false)
+        //val root1: View = inflater.inflate(R.layout.fragment_notification2, container, false)
         val root2: View = inflater.inflate(R.layout.fragment_approval, container, false)
 
         val currentUserID = FirebaseAuth.getInstance().currentUser!!.uid
@@ -68,12 +67,20 @@ class ApprovalFragment : Fragment() {
                         }
                     }
                 }
+
+                if(approvalList.size == 0){
+                    root2.noRecordFound.visibility = View.VISIBLE
+                }
+                else{
+                    root2.noRecordFound.visibility = View.GONE
+                }
+
                 val adapter = ApprovalAdapter(approvalList)
                 val mLayoutManager = LinearLayoutManager(activity)
                 mLayoutManager.reverseLayout = true
-                root1.notificationRecyclerView.layoutManager = mLayoutManager
-                root1.notificationRecyclerView.scrollToPosition(approvalList.size - 1)
-                root1.notificationRecyclerView.adapter = adapter
+                root2.approvalRecyclerView.layoutManager = mLayoutManager
+                root2.approvalRecyclerView.scrollToPosition(approvalList.size - 1)
+                root2.approvalRecyclerView.adapter = adapter
 
                 //store++
             }
@@ -185,7 +192,7 @@ class ApprovalFragment : Fragment() {
         })*/
 
 
-        return root1
+        return root2
     }
 
 }

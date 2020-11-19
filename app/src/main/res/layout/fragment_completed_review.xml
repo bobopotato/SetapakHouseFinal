@@ -3,7 +3,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragment.completedReviewFragment">
+    tools:context=".Fragment.completedReviewFragment"
+    android:background="#fff"
+    >
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/noRecordFound"
+        android:src="@drawable/no_record_found"
+        android:visibility="gone"
+        android:layout_centerVertical="true"
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"

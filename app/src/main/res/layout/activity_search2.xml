@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SearchActivity2">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/search_chatroom_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal"
+        android:layout_gravity="center_horizontal"
+        android:textAlignment="center"
+        />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/scrollView"
+        android:layout_below="@+id/toolbar"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/container1"
+
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/accomodationTitle"
+                    android:textSize="24sp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp"
+                    android:text="Accommodation"
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold"
+                    />
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/accomodationTitle"
+                    android:fitsSystemWindows="true"
+                    android:layout_marginHorizontal="30dp"
+                    android:id="@+id/table1"
+                    >
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp">
+                        <CheckBox
+                            android:id="@+id/showerCheck"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".5"
+                            android:text="Shower" />
+
+                        <CheckBox
+                            android:id="@+id/privateBathCheck"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".5"
+                            android:text="Private Bathroom" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp">
+                        <CheckBox
+                            android:id="@+id/shareBathCheck"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".5"
+                            android:text="Share Bathroom" />
+
+                        <CheckBox
+                            android:id="@+id/tvCheck"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".5"
+                            android:text="Television" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp">
+                        <CheckBox
+                            android:id="@+id/cookingCheck"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".5"
+                            android:text="Cooking Allowed" />
+
+                        <CheckBox
+                            android:id="@+id/wifiCheck"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".5"
+                            android:text="Wifi" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp">
+                        <CheckBox
+                            android:id="@+id/washingMachineCheck"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".5"
+                            android:text="Washing Machine" />
+
+                        <CheckBox
+                            android:id="@+id/airconCheck"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".5"
+                            android:text="Air-Conditioning" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp">
+                        <CheckBox
+                            android:id="@+id/miniMarketCheck"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".5"
+                            android:text="Mini Market" />
+
+                        <CheckBox
+                            android:id="@+id/surauCheck"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".5"
+                            android:text="Surau" />
+                    </TableRow>
+                </TableLayout>
+
+                <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+                    android:id="@+id/expandableLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/table1"
+                    app:ael_duration="300"
+                    app:ael_expanded="true"
+                    app:ael_interpolator="accelerate"
+                    app:ael_orientation="vertical">
+                    <TableLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fitsSystemWindows="true"
+                        android:layout_marginHorizontal="30dp"
+                        android:id="@+id/table2"
+                        >
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp">
+                            <CheckBox
+                                android:id="@+id/carParkCheck"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight=".35"
+                                android:text="Car Park" />
+
+                            <CheckBox
+                                android:id="@+id/playgroundCheck"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight=".5"
+                                android:text="Play Ground" />
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp">
+                            <CheckBox
+                                android:id="@+id/multiPurposeHallCheck"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight=".35"
+                                android:text="Multi-purpose Hall" />
+
+                            <CheckBox
+                                android:id="@+id/okuFriendlyCheck"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight=".5"
+                                android:text="OKU Friendly" />
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp">
+                            <CheckBox
+                                android:id="@+id/gymCheck"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight=".35"
+                                android:text="Gymnasium Facility" />
+
+                            <CheckBox
+                                android:id="@+id/swimmingPoolCheck"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight=".5"
+                                android:text="Swimming Pools" />
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp">
+                            <CheckBox
+                                android:id="@+id/securityGuardCheck"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight=".35"
+                                android:text="24-hour Security" />
+
+                            <CheckBox
+                                android:id="@+id/busStopCheck"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight=".5"
+                                android:text="Near Bus Stop" />
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp">
+                            <CheckBox
+                                android:id="@+id/lrtCheck"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight=".35"
+                                android:text="Near LRT" />
+
+                            <CheckBox
+                                android:id="@+id/ktmCheck"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight=".5"
+                                android:text="Near KTM" />
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp">
+                            <CheckBox
+                                android:id="@+id/mrtCheck"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight=".35"
+                                android:text="Near MRT" />
+
+                            <CheckBox
+                                android:id="@+id/restaurantCheck"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight=".5"
+                                android:text="Near Restaurant" />
+                        </TableRow>
+                    </TableLayout>
+                </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="#c0c0c0"
+                    android:layout_marginTop="10dp"
+                    android:layout_below="@+id/expandableLayout"
+                    android:id="@+id/linee"
+                    />
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Show More  &#x25BC;"
+                    android:id="@+id/showMoreButton"
+                    android:layout_below="@id/linee"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/round_button_white_borderless"
+                    android:paddingHorizontal="50dp"
+                    android:textColor="@color/colorPrimary"
+                    />
+
+
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#c0c0c0"
+                android:layout_below="@+id/container1"
+                android:id="@+id/horizontalLine"/>
+
+
+
+            <Button
+                android:id="@+id/searchBtn"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/round_button_blue"
+                android:gravity="center"
+                android:drawableRight="@drawable/ic_search"
+                android:drawableTint="#fff"
+                android:paddingRight="50dp"
+                android:paddingLeft="50dp"
+                android:layout_marginHorizontal="50dp"
+                android:layout_marginVertical="20dp"
+                android:text="Search"
+                android:layout_below="@id/horizontalLine"
+                android:textColor="#fff"
+                />
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+
+
+</RelativeLayout>
+

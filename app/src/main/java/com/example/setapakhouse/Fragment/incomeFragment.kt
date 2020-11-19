@@ -17,9 +17,9 @@ import com.example.setapakhouse.Model.Rent
 import com.example.setapakhouse.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
-import kotlinx.android.synthetic.main.fragment_accom.view.*
-import kotlinx.android.synthetic.main.fragment_chat_user.view.*
+import kotlinx.android.synthetic.main.fragment_income.*
 import kotlinx.android.synthetic.main.fragment_income.view.*
+
 
 class incomeFragment : Fragment() {
 
@@ -103,8 +103,8 @@ class incomeFragment : Fragment() {
                                                 for(p in paymentList){
                                                     for(pr in propertyList){
                                                         if(!(r.child("userID").getValue().toString().equals(currentUserID))&&
-                                                                r.child("rentID").getValue().toString().equals(p.rentID)&&
-                                                                    r.child("propertyID").getValue().toString().equals(pr.propertyID)){
+                                                            r.child("rentID").getValue().toString().equals(p.rentID)&&
+                                                            r.child("propertyID").getValue().toString().equals(pr.propertyID)){
                                                             payerIDList.add(r.child("userID").getValue().toString())
                                                             paidDateTimeList.add(p.paymentDate)
                                                             paidAmountList.add(p.paymentAmount.toString())
@@ -114,7 +114,16 @@ class incomeFragment : Fragment() {
                                                     }
                                                 }
                                             }
+
+                                            if(payerIDList.size==0){
+                                                root.noRecordFound.visibility = View.VISIBLE
+                                            }
+                                            else{
+                                                root.noRecordFound.visibility = View.GONE
+                                            }
+
                                             val mLayoutManager = LinearLayoutManager(context)
+                                            mLayoutManager.reverseLayout = true
 
                                             root.incomeRecycle.layoutManager = mLayoutManager
                                             root.incomeRecycle.adapter = incomeAdapter(payerIDList,paidDateTimeList,paidAmountList,propertyNameList,durationList)

@@ -1,6 +1,5 @@
 package com.example.setapakhouse.Fragment
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,12 +9,14 @@ import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.setapakhouse.Adapter.ChatUserAdapter
+import com.example.setapakhouse.Adapter.HomeAdapter
 import com.example.setapakhouse.Model.Chat
 import com.example.setapakhouse.Model.User
 import com.example.setapakhouse.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.fragment_chatroom2.view.*
+
 
 
 class chatroomFragment : Fragment() {
@@ -25,7 +26,8 @@ class chatroomFragment : Fragment() {
     lateinit var ref:DatabaseReference
     lateinit var userList : MutableList<User>
     lateinit var mUser:MutableList<String>
-    lateinit var mUser1:List<String>
+    lateinit var mUser1:MutableList<String>
+    lateinit var mUser2:MutableList<String>
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -36,6 +38,8 @@ class chatroomFragment : Fragment() {
 
 
         mUser= mutableListOf()
+        mUser1= mutableListOf()
+        mUser2= mutableListOf()
         userList= mutableListOf()
         ref=FirebaseDatabase.getInstance().getReference("Chats")
         ref.addValueEventListener(object :ValueEventListener{
@@ -45,6 +49,9 @@ class chatroomFragment : Fragment() {
 
             override fun onDataChange(snapshot: DataSnapshot) {
                 mUser.clear()
+                mUser1.clear()
+                mUser2.clear()
+
                 for(h in snapshot.children){
                     val chat=h.getValue(Chat::class.java)
                     //take all ppl who chat with me
@@ -56,8 +63,12 @@ class chatroomFragment : Fragment() {
                     }
 
                 }
-                mUser1=mUser.distinct()
-                Log.d("name",mUser1.toString().toString())
+
+                mUser1=mUser.reversed().toMutableList()
+                mUser2=mUser1.distinct().toMutableList()
+                Log.d("name",mUser.toString().toString())
+                Log.d("name1",mUser1.toString().toString())
+                Log.d("name2",mUser2.toString().toString())
                 readChats(root)
             }
 
@@ -74,18 +85,27 @@ class chatroomFragment : Fragment() {
 
             override fun onDataChange(snapshot: DataSnapshot) {
                 userList.clear()
-
-                for(h in snapshot.children){
-                    val user=h.getValue(User::class.java)
-                    //validate for those who chat with me and only add in 1 time into the userlist
-                    for(id in mUser1){
+                for(id in mUser2){
+                    for(h in snapshot.children){
+                        val user=h.getValue(User::class.java)
+                        //validate for those who chat with me and only add in 1 time into the userlist
                         if(user!!.userID.equals(id)){
-                                userList.add(user)
+                            userList.add(user)
                         }
                     }
                 }
+
+                if(userList.size == 0){
+                    root.noRecordFound.visibility = View.VISIBLE
+                }
+                else{
+                    root.noRecordFound.visibility = View.GONE
+                }
+
+                val mLayoutManager = LinearLayoutManager(context)
+                root.chatRoomRecycler.layoutManager = mLayoutManager
                 root.chatRoomRecycler.setHasFixedSize(true)
-                root.chatRoomRecycler.setLayoutManager(LinearLayoutManager(context))
+
                 root.chatRoomRecycler.adapter=ChatUserAdapter(userList,true)
             }
 

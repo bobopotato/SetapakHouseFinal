@@ -8,34 +8,40 @@
     tools:context=".myPaymentActivity"
     android:orientation="vertical">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:id="@+id/toolbar"
-        android:background="@drawable/gradient">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_whitebackarrow"
-            android:id="@+id/houseBack"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            />
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_whitebackarrow"
+        android:id="@+id/houseBack"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:text="House Renting"
-            android:textColor="#FFF"
-            android:textStyle="bold"
-            android:textSize="20dp"/>
-    </RelativeLayout>
-    <androidx.recyclerview.widget.RecyclerView
+
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayoutRentingHouse"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/toolbar"
-        android:id="@+id/houseRentingRecycle"/>
+        app:tabBackground="@drawable/gradient"
+        app:tabSelectedTextColor="@android:color/white"
+        app:tabTextColor="@android:color/darker_gray">
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="House Renting" />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rent History" />
+
+    </com.google.android.material.tabs.TabLayout>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPagerRentingHouse"
+        android:layout_below="@id/tabLayoutRentingHouse"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
 </RelativeLayout>

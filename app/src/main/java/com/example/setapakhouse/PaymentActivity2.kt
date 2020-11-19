@@ -25,6 +25,7 @@ class PaymentActivity2 : AppCompatActivity() {
 
     lateinit var ref1 :DatabaseReference
     lateinit var ref2 :DatabaseReference
+    lateinit var ref3 :DatabaseReference
     lateinit var epicDialog : Dialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -102,90 +103,110 @@ class PaymentActivity2 : AppCompatActivity() {
         }
 
         confirmPayBtn.setOnClickListener {
-            epicDialog.setContentView(R.layout.popup_confirmation)
 
-            val yesButton: Button = epicDialog.findViewById(R.id.yesBtn)
-            val cancelButton: Button = epicDialog.findViewById(R.id.cancelBtn)
-            val title: TextView = epicDialog.findViewById(R.id.title)
-            val content: TextView = epicDialog.findViewById(R.id.content)
+            val balance1 = balanceAfterPayText.text.toString().toDouble()
 
-            title.text = "Payment Confirmation"
-            content.text = "Are you sure to pay?"
-            yesButton.text = "Confirm"
-            yesButton.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
+            if(balance1 <0){
+                showDialog1()
+            }
+            else{
+                epicDialog.setContentView(R.layout.popup_confirmation)
 
-            yesButton.setOnClickListener {
-                val balance = balanceAfterPayText.text.toString().toDouble()
-                val currentRewardPoint = hiddenRewardPoint.text.toString()
-                val rewardPointGained =  (paymentAmount.toDouble() / 100).roundToInt().toString()
+                val yesButton: Button = epicDialog.findViewById(R.id.yesBtn)
+                val cancelButton: Button = epicDialog.findViewById(R.id.cancelBtn)
+                val title: TextView = epicDialog.findViewById(R.id.title)
+                val content: TextView = epicDialog.findViewById(R.id.content)
 
-                //change payment status to paid
-                ref2 = FirebaseDatabase.getInstance().getReference("Payment").child(paymentID)
-                ref2.child("status").setValue("paid")
+                title.text = "Payment Confirmation"
+                content.text = "Are you sure to pay?"
+                yesButton.text = "Confirm"
+                yesButton.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
 
-                //update user - balance, reward point +/-
-                ref1.child("balance").setValue(balance)
+                yesButton.setOnClickListener {
+                    val balance = balanceAfterPayText.text.toString().toDouble()
+                    var currentRewardPoint = hiddenRewardPoint.text.toString()
+                    val rewardPointGained =  (paymentAmount.toDouble() / 100).roundToInt().toString()
 
-                if(yesBtn.isChecked){
-                    ref1.child("rewardPoint").setValue(rewardPointGained.toInt())
-                    //Log.d("antimage112", "aa = " + rewardPointGained)
-                }
-
-                if(noBtn.isChecked){
-                    val newRewardPoint = currentRewardPoint.toInt() + rewardPointGained.toInt()
-                    ref1.child("rewardPoint").setValue(newRewardPoint)
-                }
-
-                //send notification to payment receiver
-                ref2 = FirebaseDatabase.getInstance().getReference("Notification")
-                var notificationID = ref2.push().key.toString()
-
-                val notificationContent = hiddenUsername.text.toString() + " had paid for your rental"
-
-                val storeNotification = Notification(
-                    notificationID,
-                    currentUserID,
-                    "delivered",
-                    notificationContent,
-                    getTime(),
-                    "approvalConfirmation",
-                    targetUserID
-                )
-
-                ref2.child(notificationID).setValue(storeNotification)
-
-                //add targetUser balance++
-                var store = 0
-                ref1 = FirebaseDatabase.getInstance().getReference("Users").child(targetUserID)
-                ref1.addValueEventListener(object: ValueEventListener {
-                    override fun onCancelled(error: DatabaseError) {
-                        TODO("Not yet implemented")
+                    if(currentRewardPoint.isEmpty()){
+                        currentRewardPoint = "0"
                     }
 
-                    override fun onDataChange(snapshot: DataSnapshot) {
-                        if (store == 0){
-                            if (snapshot.exists()) {
-                                val balance = snapshot.child("balance").getValue().toString()
-                                val newBalance = balance.toDouble() + paymentAmount.toDouble()
+                    //change payment status to paid
+                    ref2 = FirebaseDatabase.getInstance().getReference("Payment").child(paymentID)
+                    ref2.child("paymentDate").setValue(getTime())
+                    ref2.child("status").setValue("paid")
 
-                                ref1.child("balance").setValue(newBalance)
-                            }
-                            store++
+
+
+                    //update user - balance, reward point +/-
+                    ref1.child("balance").setValue(balance)
+
+                    if(yesBtn.isChecked){
+                        ref1.child("rewardPoint").setValue(rewardPointGained.toInt())
+                        //Log.d("antimage112", "aa = " + rewardPointGained)
+                    }
+
+                    if(noBtn.isChecked){
+                        val newRewardPoint = currentRewardPoint.toInt() + rewardPointGained.toInt()
+                        ref1.child("rewardPoint").setValue(newRewardPoint)
+                    }
+
+                    //send notification to payment receiver
+                    ref2 = FirebaseDatabase.getInstance().getReference("Notification")
+                    var notificationID = ref2.push().key.toString()
+
+                    //set payment notificationID
+                    ref3 = FirebaseDatabase.getInstance().getReference("Payment").child(paymentID)
+                    ref3.child("notificationID").setValue(notificationID)
+
+                    val notificationContent = hiddenUsername.text.toString() + " had paid for your rental"
+
+                    val storeNotification = Notification(
+                        notificationID,
+                        currentUserID,
+                        "delivered",
+                        notificationContent,
+                        getTime(),
+                        "approvalConfirmation",
+                        targetUserID
+                    )
+
+                    ref2.child(notificationID).setValue(storeNotification)
+
+                    //add targetUser balance++
+                    var store = 0
+                    ref1 = FirebaseDatabase.getInstance().getReference("Users").child(targetUserID)
+                    ref1.addValueEventListener(object: ValueEventListener {
+                        override fun onCancelled(error: DatabaseError) {
+                            TODO("Not yet implemented")
                         }
-                    }
-                })
 
-                showDialog(epicDialog, rewardPointGained)
-                //epicDialog.dismiss()
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            if (store == 0){
+                                if (snapshot.exists()) {
+                                    val balance = snapshot.child("balance").getValue().toString()
+                                    val newBalance = balance.toDouble() + paymentAmount.toDouble()
+
+                                    ref1.child("balance").setValue(newBalance)
+                                }
+                                store++
+                            }
+                        }
+                    })
+
+                    showDialog(epicDialog, rewardPointGained)
+                    //epicDialog.dismiss()
+
+                }
+
+                cancelButton.setOnClickListener {
+                    epicDialog.dismiss()
+                }
+                epicDialog.setCancelable(true)
+                epicDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                epicDialog.show()
 
             }
-
-            cancelButton.setOnClickListener {
-                epicDialog.dismiss()
-            }
-            epicDialog.setCancelable(true)
-            epicDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            epicDialog.show()
 
         }
 
@@ -213,6 +234,24 @@ class PaymentActivity2 : AppCompatActivity() {
             val intent = Intent(this@PaymentActivity2, PaymentActivity::class.java)
             startActivity(intent)
             finish()
+        }
+        epicDialog.setCancelable(true)
+        epicDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        epicDialog.show()
+    }
+
+    private fun showDialog1(){
+        epicDialog.setContentView(R.layout.popup_error)
+        //val closeButton : ImageView = epicDialog.findViewById(R.id.closeBtn)
+        val okButton : Button = epicDialog.findViewById(R.id.okBtn)
+        val title : TextView = epicDialog.findViewById(R.id.title)
+        val content : TextView = epicDialog.findViewById(R.id.content)
+
+        title.text = "Insufficient Balance"
+        content.text = "Your balance is not enough to make this payment!"
+
+        okButton.setOnClickListener {
+            epicDialog.dismiss()
         }
         epicDialog.setCancelable(true)
         epicDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))

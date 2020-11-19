@@ -30,7 +30,7 @@ class UploadListAdapter(val imageList : ArrayList<Uri>, val resolverList : Array
         var bitmap = MediaStore.Images.Media.getBitmap(resolverList[position], imageList[position])
         holder.uploadedImage.setImageBitmap(bitmap)
 
-        holder.imageName.text = (position+1).toString()
+        holder.imageName.text = "image" + (position+1).toString() + ".jpeg"
 
         //super.onBindViewHolder(holder, position, payloads)
     }

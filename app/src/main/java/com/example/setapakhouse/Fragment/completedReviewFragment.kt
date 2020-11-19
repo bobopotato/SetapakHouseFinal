@@ -46,6 +46,14 @@ class completedReviewFragment : Fragment() {
 
                         }
                     }
+
+                    if(reviewList.size==0){
+                        root.noRecordFound.visibility = View.VISIBLE
+                    }
+                    else{
+                        root.noRecordFound.visibility = View.GONE
+                    }
+
                     val mLayoutManager = LinearLayoutManager(context)
                     mLayoutManager.reverseLayout = true
                     root.completedReviewRecycle.layoutManager = mLayoutManager

@@ -12,7 +12,6 @@ import com.example.setapakhouse.Model.Topup
 import com.example.setapakhouse.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
-import kotlinx.android.synthetic.main.fragment_home.view.*
 import kotlinx.android.synthetic.main.fragment_topup_history.view.*
 
 
@@ -41,12 +40,20 @@ class TopupHistoryFragment : Fragment() {
                         if(h.child("userID").getValue().toString().equals(currentUserID)){
                             val topup=h.getValue(Topup::class.java)
                             topupList.add(topup!!)
-                            val mLayoutManager = LinearLayoutManager(context)
-                            mLayoutManager.reverseLayout = true
-                            root.topupRecycle.layoutManager = mLayoutManager
-                            root.topupRecycle.adapter = topupAdapter(topupList)
                         }
                     }
+
+                    if(topupList.size==0){
+                        root.noRecordFound.visibility = View.VISIBLE
+                    }
+                    else{
+                        root.noRecordFound.visibility = View.GONE
+                    }
+
+                    val mLayoutManager = LinearLayoutManager(context)
+                    mLayoutManager.reverseLayout = true
+                    root.topupRecycle.layoutManager = mLayoutManager
+                    root.topupRecycle.adapter = topupAdapter(topupList)
                 }
             }
 

@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="5dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginRight="5dp"
+    android:layout_marginBottom="10dp"
+    app:cardCornerRadius="5dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/postDetails"
+            android:layout_below="@+id/rela1"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:id="@+id/imgProperty"
+                android:src="@drawable/ic_home">
+
+            </ImageView>
+
+            <TextView
+                android:id="@+id/txtPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/imgProperty"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="12dp"
+                android:text="Price"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtPropertyName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtPrice"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="4dp"
+                android:text="PropertyName"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/txtPropertyType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtPropertyName"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="4dp"
+                android:text="PropertyType"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtRentalType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtPropertyType"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="4dp"
+                android:text="RentalType"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
+
+            <com.borjabravo.readmoretextview.ReadMoreTextView
+                android:id="@+id/txtLocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txtPropertyName"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="4dp"
+                android:text="Address"
+                app:trimExpandedText="Show more"
+                app:trimCollapsedText="Show less"
+                app:trimMode="trimModeLength"
+                app:trimLength="20"
+                app:colorClickableText="@color/hollo_blue_light"/>
+
+
+        </LinearLayout>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/postDetails"
+            android:layout_marginVertical="15dp"
+            android:layout_marginHorizontal="15dp"
+            android:padding="10dp"
+            android:id="@+id/statusContainer"
+            android:background="@drawable/border"
+            >
+
+            <TextView
+                android:id="@+id/statusText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="4dp"
+                android:text="Status : Available"
+                android:textColor="@color/green"
+                android:layout_gravity="center_vertical"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/hiddenUserID"
+                android:visibility="gone"
+                />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/statusText"
+                android:layout_gravity="center_vertical"
+                android:layout_centerHorizontal="true"
+                >
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="65dp"
+                    android:layout_height="65dp"
+                    android:id="@+id/profilePhoto"
+                    android:padding="10dp"
+                    android:src="@drawable/profile"
+                    android:visibility="gone"
+                    app:civ_border_color="@color/colorPrimary"
+                    app:civ_border_width="1dp"
+                    />
+
+                <Button
+                    android:id="@+id/chatBtn"
+                    android:layout_width="80dp"
+                    android:layout_height="30dp"
+                    android:text="Chat"
+                    android:textSize="10dp"
+                    android:drawableLeft="@drawable/ic_chat"
+                    android:background="@drawable/round_button_green"
+                    android:textColor="#FFFFFF"
+                    android:layout_toRightOf="@+id/profilePhoto"
+                    android:layout_centerVertical="true"
+                    android:visibility="gone"
+                    android:padding="10dp"
+                    />
+
+            </RelativeLayout>
+
+
+
+        </RelativeLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@+id/statusContainer"
+            android:layout_margin="10dp"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/buttonContainer"
+            >
+
+            <Button
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/round_button_black"
+                android:layout_marginHorizontal="20dp"
+                android:text="Edit"
+                android:textColor="#fff"
+                android:drawableRight="@drawable/ic_edit"
+                android:paddingRight="30dp"
+                android:paddingLeft="30dp"
+                android:id="@+id/editBtn"
+                />
+
+            <Button
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/round_button_red"
+                android:id="@+id/removeBtn"
+                android:layout_marginHorizontal="20dp"
+                android:text="Remove"
+                android:textColor="#fff"
+                android:drawableRight="@drawable/ic_remove"
+                android:drawableTint="#fff"
+                android:paddingRight="30dp"
+                android:paddingLeft="30dp"
+                />
+
+        </LinearLayout>
+        <ImageView
+            android:id="@+id/imgViewLine"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_marginTop="6dp"
+            android:background="@color/light_grey"
+            android:layout_below="@id/buttonContainer"
+            android:textColor="@color/black"/>
+    </RelativeLayout>
+
+
+
+</androidx.cardview.widget.CardView>

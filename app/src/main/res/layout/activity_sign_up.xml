@@ -53,6 +53,13 @@
                 app:srcCompat="@drawable/ic_page"
                 tools:ignore="VectorDrawableCompat" />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/hiddenExist"
+                    android:visibility="gone"
+                    />
+
             <TextView
                 android:id="@+id/textView7"
                 android:layout_width="205dp"
@@ -80,11 +87,11 @@
         style="@style/underline_layout"
 
         >
+
         <com.google.android.material.textfield.TextInputEditText
             style="@style/underline_input"
 
-            android:inputType="text"
-            />
+            android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout

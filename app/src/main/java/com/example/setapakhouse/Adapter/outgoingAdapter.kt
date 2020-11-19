@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.setapakhouse.R
 import com.google.firebase.database.*
 import com.squareup.picasso.Picasso
+import kotlin.math.roundToInt
 
 class outgoingAdapter(private var receiverIdList:List<String>,private var paidDateTimeList:List<String>,private var paidAmountList:List<String>,private var receivedPropertyNameList:List<String>,private var rewardList:List<Int>,private var durationList:List<String>): RecyclerView.Adapter<outgoingAdapter.ViewHolder>() {
 
@@ -22,6 +23,7 @@ class outgoingAdapter(private var receiverIdList:List<String>,private var paidDa
         val paid_Date: TextView =itemView.findViewById<TextView>(R.id.paidDate)
         val paid_amount: TextView =itemView.findViewById<TextView>(R.id.paidMoney)
         val reward_point: TextView =itemView.findViewById<TextView>(R.id.rpUsed)
+        val gain_rp: TextView =itemView.findViewById<TextView>(R.id.rpEarn)
         val duration: TextView =itemView.findViewById<TextView>(R.id.duration)
     }
 
@@ -36,11 +38,17 @@ class outgoingAdapter(private var receiverIdList:List<String>,private var paidDa
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.duration.text=durationList[position]
-        holder.reward_point.text="USED: "+rewardList[position].toString()+"RP"
+        holder.reward_point.text="Redeemed: "+rewardList[position].toString()+"RP"
         holder.paid_Date.text=paidDateTimeList[position]
-        holder.paid_amount.text="-RM"+paidAmountList[position]
+        holder.paid_amount.text="-RM"+String.format("%.2f",(paidAmountList[position].toDouble()-rewardList[position].toString().toDouble()))
         holder.received_from.text=receivedPropertyNameList[position]
-
+        if(((paidAmountList[position].toDouble())/100).roundToInt().equals(0)){
+            holder.gain_rp.text =
+                "Gain: 0RP"
+        }else {
+            holder.gain_rp.text =
+                "Gain: " + ((paidAmountList[position].toDouble()) / 100).roundToInt().toString() + "RP"
+        }
         ref= FirebaseDatabase.getInstance().getReference("Users")
         ref.addValueEventListener(object: ValueEventListener {
             override fun onCancelled(error: DatabaseError) {
@@ -50,7 +58,7 @@ class outgoingAdapter(private var receiverIdList:List<String>,private var paidDa
             override fun onDataChange(snapshot: DataSnapshot) {
                 for(h in snapshot.children){
                     if(h.child("userID").getValue().toString().equals(receiverIdList[position])){
-                        holder.user_name.text="Paid by "+h.child("username").getValue().toString()
+                        holder.user_name.text="Paid To "+h.child("username").getValue().toString()
                         Picasso.get().load(h.child("image").getValue().toString()).placeholder(R.drawable.ic_profile).into(holder.img_user)
                     }
                 }

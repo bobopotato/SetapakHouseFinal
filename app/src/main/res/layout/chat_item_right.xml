@@ -3,13 +3,23 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:padding="8dp"
-    android:layout_height="wrap_content">
-
+    android:layout_height="wrap_content"
+    android:id="@+id/backgroundID">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="18 Nov 2020 11:22:01"
+        android:id="@+id/messageTime"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="5dp"
+        />
     <RelativeLayout
         android:layout_width="300dp"
+        android:layout_below="@id/messageTime"
         android:layout_alignParentEnd="true"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true">
+
         <de.hdodenhof.circleimageview.CircleImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

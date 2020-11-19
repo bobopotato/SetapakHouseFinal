@@ -26,7 +26,7 @@
         >
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             >
 
             <TextView
@@ -55,7 +55,8 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 android:id="@+id/uploadPhotoView"
                 android:layout_below="@+id/uploadButton"
                 />
@@ -68,10 +69,10 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_gravity="center_horizontal"
-        android:background="@drawable/round_button_blue"
+        android:background="@drawable/round_button_blue1"
         android:gravity="center"
         android:paddingHorizontal="10dp"
-        android:text="Save &amp; Next"
+        android:text="Confirm Add Post"
         android:layout_alignParentBottom="true"
         android:textColor="#fff"
         />

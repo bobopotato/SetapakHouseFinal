@@ -14,7 +14,26 @@
         <item>Retail Lot / Shop Lot</item>
     </string-array>
 
+    <string-array name="house_type_filter">
+        <item>House Type</item>
+        <item>Flat / Apartment</item>
+        <item>Condominium</item>
+        <item>Bungalow</item>
+        <item>Shop House</item>
+        <item>Retail Lot / Shop Lot</item>
+    </string-array>
+
     <string-array name="room_type">
+        <item>Single Room</item>
+        <item>Medium Room</item>
+        <item>Master Room</item>
+        <item>Soho</item>
+        <item>Studio</item>
+        <item>Suite</item>
+    </string-array>
+
+    <string-array name="room_type_filter">
+        <item>Room Type</item>
         <item>Single Room</item>
         <item>Medium Room</item>
         <item>Master Room</item>
@@ -29,6 +48,44 @@
         <item>3</item>
         <item>4</item>
         <item>5</item>
+    </string-array>
+
+    <string-array name="min_price">
+        <item>From Min</item>
+        <item>RM 100</item>
+        <item>RM 200</item>
+        <item>RM 300</item>
+        <item>RM 400</item>
+        <item>RM 500</item>
+        <item>RM 800</item>
+        <item>RM 1000</item>
+        <item>RM 1500</item>
+        <item>RM 2000</item>
+        <item>RM 2500</item>
+        <item>RM 3000</item>
+        <item>RM 3500</item>
+        <item>RM 4000</item>
+        <item>RM 4500</item>
+        <item>RM 5000</item>
+    </string-array>
+
+    <string-array name="max_price">
+        <item>To Max</item>
+        <item>RM 100</item>
+        <item>RM 200</item>
+        <item>RM 300</item>
+        <item>RM 400</item>
+        <item>RM 500</item>
+        <item>RM 800</item>
+        <item>RM 1000</item>
+        <item>RM 1500</item>
+        <item>RM 2000</item>
+        <item>RM 2500</item>
+        <item>RM 3000</item>
+        <item>RM 3500</item>
+        <item>RM 4000</item>
+        <item>RM 4500</item>
+        <item>RM 5000</item>
     </string-array>
 
     <string name="up">&#x25B2;</string>

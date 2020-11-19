@@ -1,8 +1,11 @@
 package com.example.setapakhouse.Fragment
 
 import android.app.Activity
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -10,6 +13,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat.getSystemService
 import com.example.setapakhouse.ConfirmAct
@@ -43,6 +48,8 @@ class topupFragment : Fragment() {
     val currentUserID = FirebaseAuth.getInstance().currentUser!!.uid
     var config: PayPalConfiguration?=null
     var amount:Double=0.0
+    lateinit var epicDialog : Dialog
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -76,6 +83,8 @@ class topupFragment : Fragment() {
             root.txtAmount.setText(root.amount6.text.toString())
         }
 
+        epicDialog = Dialog(context!!)
+
         displayProfile(root)
         config=PayPalConfiguration().environment(PayPalConfiguration.ENVIRONMENT_SANDBOX).clientId(
             UserInfo.client_id)
@@ -85,14 +94,20 @@ class topupFragment : Fragment() {
 
         root.paymentBtn.setOnClickListener {
             //amount=paymentAmount.text.toString().toDouble()
-            amount=txtAmount.text.toString().toDouble()
-            var payment= PayPalPayment(
-                BigDecimal.valueOf(amount),"MYR","SETAPAK HOUSE",
-                PayPalPayment.PAYMENT_INTENT_SALE)
-            var intent= Intent(getActivity(), PaymentActivity::class.java)
-            intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION,config)
-            intent.putExtra(PaymentActivity.EXTRA_PAYMENT,payment)
-            startActivityForResult(intent,123)
+            if(root.txtAmount.text.toString().isNotEmpty()){
+                amount= root.txtAmount.text.toString().toDouble()
+                var payment= PayPalPayment(
+                    BigDecimal.valueOf(amount),"MYR","SETAPAK HOUSE",
+                    PayPalPayment.PAYMENT_INTENT_SALE)
+                var intent= Intent(getActivity(), PaymentActivity::class.java)
+                intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION,config)
+                intent.putExtra(PaymentActivity.EXTRA_PAYMENT,payment)
+                startActivityForResult(intent,123)
+            }
+            else{
+                showDialog()
+            }
+
 
         }
         return root
@@ -140,7 +155,8 @@ class topupFragment : Fragment() {
                 val topupID = ref.push().key.toString()
                 var topup= Topup(topupID,getTime(),txtAmount.text.toString().toDouble(),currentUserID)
                 ref.child(topupID).setValue(topup)
-                Toast.makeText(context,"Top-up Successful",Toast.LENGTH_LONG).show()
+                showDialog1()
+                //Toast.makeText(context,"Top-up Successful",Toast.LENGTH_LONG).show()
                 getView()!!.txtAmount.getText().clear()
                 //var obj=Intent(getActivity(), ConfirmAct::class.java)
                 //startActivity(obj)
@@ -151,6 +167,42 @@ class topupFragment : Fragment() {
     override fun onDestroy() {
         getActivity()!!.stopService(Intent(getActivity(),PayPalService::class.java))
         super.onDestroy()
+    }
+
+    private fun showDialog(){
+        epicDialog.setContentView(R.layout.popup_error)
+        //val closeButton : ImageView = epicDialog.findViewById(R.id.closeBtn)
+        val okButton : Button = epicDialog.findViewById(R.id.okBtn)
+        val title : TextView = epicDialog.findViewById(R.id.title)
+        val content : TextView = epicDialog.findViewById(R.id.content)
+
+        title.text = "Invalid Amount"
+        content.text = "Please choose an amount to top up"
+
+        okButton.setOnClickListener {
+            epicDialog.dismiss()
+        }
+        epicDialog.setCancelable(true)
+        epicDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        epicDialog.show()
+    }
+
+    private fun showDialog1(){
+        epicDialog.setContentView(R.layout.popup_positive)
+        //val closeButton : ImageView = epicDialog.findViewById(R.id.closeBtn)
+        val okButton : Button = epicDialog.findViewById(R.id.okBtn)
+        val title : TextView = epicDialog.findViewById(R.id.title)
+        val content : TextView = epicDialog.findViewById(R.id.content)
+
+        title.text = "Top-up Successful"
+        content.text = "Your balance has been updated successfully!"
+
+        okButton.setOnClickListener {
+            epicDialog.dismiss()
+        }
+        epicDialog.setCancelable(true)
+        epicDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        epicDialog.show()
     }
 
 

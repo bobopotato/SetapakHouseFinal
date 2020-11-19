@@ -1,6 +1,7 @@
 package com.example.setapakhouse.Adapter
 
 import android.content.Intent
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,12 +17,13 @@ import com.example.setapakhouse.detailPost
 import com.google.firebase.database.*
 import com.squareup.picasso.Picasso
 
-class houseRentingAdapter(val propertyList : MutableList<Property>,val checkIn:MutableList<String>,val checkOut:MutableList<String>): RecyclerView.Adapter<houseRentingAdapter.ViewHolder>() {
+class houseRentingAdapter(val propertyList : MutableList<Property>,val checkIn:MutableList<String>,val checkOut:MutableList<String>,val rentingStatus:MutableList<String>): RecyclerView.Adapter<houseRentingAdapter.ViewHolder>() {
     lateinit var ref: DatabaseReference
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         val property_Image: ImageView =itemView.findViewById(R.id.imgProperty)
         val property_name: TextView =itemView.findViewById(R.id.txtPropertyName)
         val property_price: TextView =itemView.findViewById(R.id.txtPrice)
+        val renting_status: TextView =itemView.findViewById(R.id.rentingStatus)
         val duration: TextView =itemView.findViewById(R.id.durationTxt)
         val whole: RelativeLayout =itemView.findViewById(R.id.wholeLayout)
     }
@@ -37,12 +39,19 @@ class houseRentingAdapter(val propertyList : MutableList<Property>,val checkIn:M
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
+        if(rentingStatus[position].equals("new")) {
+            holder.renting_status.setTextColor(Color.parseColor("#056608"))
+            holder.renting_status.text = "Status : " + rentingStatus[position]
+        }else if(rentingStatus[position].equals("continuing")) {
+            holder.renting_status.setTextColor(Color.parseColor("#FF7F00"))
+            holder.renting_status.text = "Status : " + rentingStatus[position]
+        }
         holder.duration.text="Rental Duration: "+checkIn[position]+" to "+checkOut[position]
         holder.property_name.text=propertyList[position].propertyName
         if(propertyList[position].rentalType.toString().equals("Long-Term")) {
-            holder.property_price.text = "RM"+propertyList[position].price.toString()+"/MONTH"
+            holder.property_price.text = "RM"+String.format("%.2f",propertyList[position].price.toString().toDouble())+"/MONTH"
         }else{
-            holder.property_price.text = "RM"+propertyList[position].price.toString()+"/DAY"
+            holder.property_price.text = "RM"+String.format("%.2f",propertyList[position].price.toString().toDouble())+"/DAY"
         }
         ref=FirebaseDatabase.getInstance().getReference("PropertyImage")
         ref.addValueEventListener(object :ValueEventListener{

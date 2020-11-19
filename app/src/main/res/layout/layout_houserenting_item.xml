@@ -23,7 +23,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
                 android:id="@+id/imgProperty"
-                android:src="@drawable/ic_home">
+                android:src="@drawable/ic_home"
+                >
 
             </ImageView>
 
@@ -58,7 +59,16 @@
                 android:textColor="@color/black"
                 android:textStyle="bold" />
 
-
+            <TextView
+                android:id="@+id/rentingStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/durationTxt"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="12dp"
+                android:text="Status : new / continuing"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
 
             <ImageView
                 android:id="@+id/imgViewLine"

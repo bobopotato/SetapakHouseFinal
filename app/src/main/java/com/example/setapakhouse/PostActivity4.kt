@@ -47,6 +47,7 @@ class PostActivity4 : AppCompatActivity() {
     lateinit var ref3: DatabaseReference
     lateinit var ref4: DatabaseReference
     lateinit var epicDialog : Dialog
+    var valid : Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,7 +79,12 @@ class PostActivity4 : AppCompatActivity() {
         }
 
         postButton.setOnClickListener {
-            upload(location, rentalPrice, postCode, accomodation, preference, propertyName, renterType, "available", getTime(), currentUser!!.uid, description, propertyType)
+            if(valid){
+                upload(location, rentalPrice, postCode, accomodation, preference, propertyName, renterType, "available", getTime(), currentUser!!.uid, description, propertyType)
+            }
+            else{
+                showDialog1()
+            }
 
         }
 
@@ -100,7 +106,7 @@ class PostActivity4 : AppCompatActivity() {
         //Toast.makeText(this@MainActivity, "FAIL 99", Toast.LENGTH_SHORT).show()
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK) {
-
+            valid = true
             if(data!!.clipData != null){
                 val imageCount = data.clipData!!.itemCount
                 imageList.clear()
@@ -120,12 +126,11 @@ class PostActivity4 : AppCompatActivity() {
                 uploadPhotoView.scrollToPosition(imageList.size-1)
                 uploadPhotoView.adapter = adapter
 
-                Toast.makeText(this, "Selected Multiple Files", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(this, "Selected Multiple Files", Toast.LENGTH_SHORT).show()
 
             }else{
-
-                Toast.makeText(this, "Please Select Files", Toast.LENGTH_SHORT).show()
-
+                showDialog1()
+                //Toast.makeText(this, "Please Select Files", Toast.LENGTH_SHORT).show()
             }
 
         }
@@ -242,13 +247,13 @@ class PostActivity4 : AppCompatActivity() {
                         Log.d("Testing", "fail")
                     }
                     .addOnProgressListener { taskSnapshot ->
-                        val progress =
-                            100.0 * taskSnapshot.bytesTransferred / taskSnapshot.totalByteCount
+                        val progress = 100.0 * taskSnapshot.bytesTransferred / taskSnapshot.totalByteCount
                         progressDialog.setMessage("Uploaded " + progress.toInt() + "%...")
+                        showDialog()
                     }
 
                 if((x+1) == imageList.size){
-                    showDialog()
+                    //showDialog()
                 }
             }
 
@@ -277,8 +282,27 @@ class PostActivity4 : AppCompatActivity() {
         content.text = "You will be redirected to the main page"
 
         okButton.setOnClickListener {
+            epicDialog.dismiss()
             val intent = Intent(this@PostActivity4, MainActivity::class.java)
             startActivity(intent)
+        }
+        epicDialog.setCancelable(true)
+        epicDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        epicDialog.show()
+    }
+
+    private fun showDialog1(){
+        epicDialog.setContentView(R.layout.popup_error)
+        //val closeButton : ImageView = epicDialog.findViewById(R.id.closeBtn)
+        val okButton : Button = epicDialog.findViewById(R.id.okBtn)
+        val title : TextView = epicDialog.findViewById(R.id.title)
+        val content : TextView = epicDialog.findViewById(R.id.content)
+
+        title.text = "No Picture Selected"
+        content.text = "Please select at least 2 photo of your property"
+
+        okButton.setOnClickListener {
+            epicDialog.dismiss()
         }
         epicDialog.setCancelable(true)
         epicDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))

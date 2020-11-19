@@ -63,7 +63,7 @@ class chatUserFragment : Fragment() {
             }
 
             override fun onDataChange(snapshot: DataSnapshot) {
-                if (searchUser.text.toString().equals("")) {
+                if (root.searchUser.text.toString().equals("")) {
                     userList.clear()
                     if (snapshot.exists()) {
                         for (h in snapshot.children) {

@@ -47,9 +47,9 @@ class pendingReviewAdapter(val property : MutableList<Property>): RecyclerView.A
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.txt_location.text=property[position].location
         if(property[position].rentalType.toString().equals("Long-Term")) {
-            holder.txt_price.text = "RM"+property[position].price.toString()+"/MONTH"
+            holder.txt_price.text = "RM"+String.format("%.2f",property[position].price.toString().toDouble())+"/MONTH"
         }else{
-            holder.txt_price.text = "RM"+property[position].price.toString()+"/DAY"
+            holder.txt_price.text = "RM"+String.format("%.2f",property[position].price.toString().toDouble())+"/DAY"
         }
         holder.txt_propertyType.text="Property Type: "+property[position].propertyType.toString()
         holder.txt_rentalType.text="Rental Type: "+property[position].rentalType.toString()

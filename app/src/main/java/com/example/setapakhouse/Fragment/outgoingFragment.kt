@@ -15,6 +15,7 @@ import com.example.setapakhouse.Model.Rent
 import com.example.setapakhouse.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import kotlinx.android.synthetic.main.fragment_outgoing.*
 import kotlinx.android.synthetic.main.fragment_outgoing.view.*
 
 
@@ -103,12 +104,13 @@ class outgoingFragment : Fragment() {
                                             receiverIDList.clear()
                                             rewardList.clear()
                                             durationList.clear()
-                                            for(pr in snapshot.children){
-                                                if(!(pr.child("userID").getValue().toString().equals(currentUserID))){
-                                                    for(r in rentList){
-                                                        for(p in paymentList){
+                                            for(p in paymentList){
+                                                for(pr in snapshot.children){
+                                                    if(!(pr.child("userID").getValue().toString().equals(currentUserID))){
+                                                        for(r in rentList){
+
                                                             if(pr.child("propertyID").getValue().toString().equals(r.propertyID) &&
-                                                                    r.rentID.equals(p.rentID)){
+                                                                r.rentID.equals(p.rentID)){
                                                                 //Toast.makeText(context,h.child("propertyName").getValue().toString(), Toast.LENGTH_SHORT).show()
                                                                 receiverIDList.add(
                                                                     pr.child("userID").getValue()
@@ -126,8 +128,16 @@ class outgoingFragment : Fragment() {
                                                     }
                                                 }
                                             }
-                                            val mLayoutManager = LinearLayoutManager(context)
 
+                                            if(receiverIDList.size==0){
+                                                root.noRecordFound.visibility = View.VISIBLE
+                                            }
+                                            else{
+                                                root.noRecordFound.visibility = View.GONE
+                                            }
+
+                                            val mLayoutManager = LinearLayoutManager(context)
+                                            mLayoutManager.reverseLayout = true
                                             root.outgoingRecycle.layoutManager = mLayoutManager
                                             root.outgoingRecycle.adapter = outgoingAdapter(receiverIDList,receivedDateTimeList,receivedAmountList,propertyNameList,rewardList,durationList)
 

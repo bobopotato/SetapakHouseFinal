@@ -14,7 +14,6 @@ import com.example.setapakhouse.Model.Notification
 import com.example.setapakhouse.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
-import kotlinx.android.synthetic.main.fragment_accom.view.*
 import kotlinx.android.synthetic.main.fragment_notification2.*
 import kotlinx.android.synthetic.main.fragment_notification2.view.*
 
@@ -48,11 +47,18 @@ class NotificationFragment2 : Fragment() {
                         if(h.child("userID").getValue().toString().equals(currentUserID)) {
                             val notification = h.getValue(Notification::class.java)
                             notificationList.add(notification!!)
-                            Log.d("abcdc", "zzz fail")
+                            //Log.d("abcdc", "zzz fail")
                         }
                         else{
-                            Log.d("abcc", "zzz fail")
+                            //Log.d("abcc", "zzz fail")
                         }
+                    }
+
+                    if(notificationList.size == 0){
+                        root.noRecordFound.visibility = View.VISIBLE
+                    }
+                    else{
+                        root.noRecordFound.visibility = View.GONE
                     }
                     val adapter = NotificationAdapter(notificationList)
                     val mLayoutManager = LinearLayoutManager(activity)

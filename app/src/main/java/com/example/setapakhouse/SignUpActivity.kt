@@ -4,8 +4,10 @@ package com.example.setapakhouse
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
@@ -15,12 +17,18 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_sign_up.*
+import kotlinx.android.synthetic.main.activity_sign_up.fullnameText
+import kotlinx.android.synthetic.main.activity_sign_up.usernameText
 
 
 class SignUpActivity : AppCompatActivity() {
+
+    lateinit var ref : DatabaseReference
+    lateinit var ref1: DatabaseReference
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
@@ -30,6 +38,9 @@ class SignUpActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         var image = "https://firebasestorage.googleapis.com/v0/b/setapak-house.appspot.com/o/Default_Profile_Picture%2Fprofile.png?alt=media&token=2bd74889-561a-488d-982c-e29e56f17b3e"
+
+        ref = FirebaseDatabase.getInstance().getReference("Users")
+        ref1 = FirebaseDatabase.getInstance().getReference("Users")
 
         //Click Outside to hide keyboard
         outside.setOnClickListener {
@@ -59,6 +70,32 @@ class SignUpActivity : AppCompatActivity() {
 
         //validate when there is changes
         usernameText.editText?.addTextChangedListener {
+            var username1 = usernameText.editText?.text.toString().trim()
+            var exist = "false"
+
+            ref1.addValueEventListener(object: ValueEventListener {
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.exists()) {
+                        for(h in snapshot.children){
+                            if(h.child("username").getValue().toString().equals(username1)){
+                                exist = "true"
+                                hiddenExist.text = exist
+                                validateUsername()
+                            }
+                            else{
+                                hiddenExist.text = exist
+                                validateUsername()
+                            }
+
+                        }
+
+                    }
+                }
+            })
             validateUsername()
         }
 
@@ -115,6 +152,7 @@ class SignUpActivity : AppCompatActivity() {
                                     val email = emailText.editText?.text.toString().trim()
                                     val password = passwordText.editText?.text.toString().trim()
                                     val phoneNo =intent.getStringExtra("PhoneNumber")
+
                                     createAccount(username,fullname,email,password,phoneNo,image)
 
                                     //val intent = Intent(this, UploadProfilePictureActivity::class.java)
@@ -152,6 +190,18 @@ class SignUpActivity : AppCompatActivity() {
 
     private fun validateUsername():Boolean{
         var username = usernameText.editText?.text.toString().trim()
+        usernameText.setError(null)
+
+        if(hiddenExist.text.equals("true")){
+            usernameText.setError("                     This username is being taken")
+            return false
+        }
+
+        if(username.contains(" ")){
+            usernameText.setError("                     Username can't contain empty space")
+            return false
+        }
+
 
         if(username.length>15){
             usernameText.setError("                     Username too long")

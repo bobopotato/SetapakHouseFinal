@@ -104,13 +104,23 @@
 
         </RelativeLayout>
 
+
     </RelativeLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="You have left 1 day to make this payment"
+        android:id="@+id/dayLeft"
+        android:layout_below="@+id/wholeLayoutt"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/red"
+        />
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#c0c0c0"
         android:layout_marginTop="10dp"
-        android:layout_below="@+id/wholeLayoutt"
+        android:layout_below="@+id/dayLeft"
 
         />
 

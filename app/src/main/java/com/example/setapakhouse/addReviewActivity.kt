@@ -145,7 +145,7 @@ class addReviewActivity : AppCompatActivity() {
 
                 Log.d("QQ1",hiddenUsername.text.toString())
                 //IMPORTANT - change the user ID to username
-                val notificationContent = hiddenUsername.text.toString() + " had give a rating to your property " + propertyName.text.toString()
+                val notificationContent = hiddenUsername.text.toString() + " had gave a rating to your property " + propertyName.text.toString()
 
                 val storeNotification = Notification(
                     notificationID,

@@ -1,0 +1,553 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SearchActivity1">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/search_chatroom_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal"
+        android:layout_gravity="center_horizontal"
+        android:textAlignment="center"
+        />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@id/wholeContainer"
+            >
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/container1"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Rental Type           :"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginHorizontal="20dp"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:id="@+id/text1"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Long-Term"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_toRightOf="@+id/text1"
+                    android:id="@+id/rentalTypeText"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Property Type       :"
+                    android:layout_marginVertical="10dp"
+                    android:layout_marginHorizontal="20dp"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:id="@+id/text2"
+                    android:layout_below="@+id/text1"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="House"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_marginVertical="10dp"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_toRightOf="@+id/text2"
+                    android:layout_below="@+id/rentalTypeText"
+                    android:id="@+id/propertyTypeText"
+                    />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:background="#c0c0c0"
+                android:layout_marginTop="15dp"
+                android:layout_below="@id/container1"
+                android:id="@+id/horizontalLine1"
+                />
+
+            <com.mindorks.editdrawabletext.EditDrawableText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/searchBox"
+                android:layout_marginTop="20dp"
+                android:paddingLeft="30dp"
+                android:textSize="14sp"
+                android:layout_marginHorizontal="60dp"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/border2"
+                android:hint="Enter Location or Property Name"
+                android:drawableRight="@drawable/ic_search"
+                android:drawableTint="@color/colorPrimary"
+                android:layout_below="@id/horizontalLine1"
+                />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/container2"
+                android:layout_below="@id/searchBox"
+                android:layout_margin="20dp"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Price per month (RM)"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:id="@+id/text3"
+                    />
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/table1"
+                    android:layout_below="@id/text3"
+                    android:layout_marginVertical="10dp"
+                    >
+                    <TableRow
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        >
+                        <Spinner
+                            android:id="@+id/minPrice"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".5"
+                            android:layout_below="@+id/text3"
+                            android:hint="From Min"
+                            android:layout_marginVertical="5dp"
+                            style="@style/Widget.AppCompat.Spinner.Underlined"
+                            />
+
+                        <Spinner
+                            android:id="@+id/maxPrice"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".5"
+                            android:hint="to Max"
+                            android:layout_below="@+id/text3"
+                            android:layout_marginVertical="5dp"
+                            style="@style/Widget.AppCompat.Spinner.Underlined"
+                            />
+
+                    </TableRow>
+                </TableLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="House Type"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:id="@+id/text4"
+                    android:layout_below="@id/table1"
+                    android:layout_marginVertical="10dp"
+
+                    />
+
+                <Spinner
+                    android:id="@+id/houseTypeSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:layout_below="@+id/text4"
+                    android:layout_marginVertical="5dp"
+                    style="@style/Widget.AppCompat.Spinner.Underlined"
+                    />
+
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/preferenceTitle"
+                android:textSize="24sp"
+                android:layout_marginLeft="20dp"
+
+                android:text="Preferences"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
+                android:layout_below="@id/container2"
+                />
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/preferenceTitle"
+                android:id="@+id/container3"
+                >
+                <TextView
+                    android:id="@+id/status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Status"
+                    tools:layout_editor_absoluteX="44dp"
+                    tools:layout_editor_absoluteY="40dp"
+                    android:textSize="16sp"
+                    android:layout_marginHorizontal="20dp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    />
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="10dp"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_below="@id/status"
+                    android:id="@+id/statusGroup">
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <CheckBox
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="Single Male"
+                            android:layout_weight="0.5"
+                            android:id="@+id/singleMaleCheck"
+                            />
+
+                        <CheckBox
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="Single Female"
+                            android:layout_weight="0.5"
+                            android:id="@+id/singleFemaleCheck"
+                            />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <CheckBox
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="Couple"
+                            android:layout_weight="0.5"
+                            android:id="@+id/coupleCheck"
+                            />
+
+                        <CheckBox
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="Family"
+                            android:layout_weight="0.5"
+                            android:id="@+id/familyCheck"
+                            />
+
+                    </TableRow>
+                </TableLayout>
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/container3"
+                android:id="@+id/container4"
+                >
+                <TextView
+                    android:id="@+id/nationality"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nationality"
+                    tools:layout_editor_absoluteX="44dp"
+                    tools:layout_editor_absoluteY="40dp"
+                    android:textSize="16sp"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="10dp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    />
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="10dp"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_below="@id/nationality"
+                    >
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <CheckBox
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="Malaysian"
+                            android:layout_weight="0.5"
+                            android:id="@+id/malaysianCheck"
+                            />
+
+                        <CheckBox
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="Non-Malaysian"
+                            android:layout_weight="0.5"
+                            android:id="@+id/nonMalaysianCheck"
+                            />
+                    </TableRow>
+                </TableLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/container4"
+                android:id="@+id/container5"
+                >
+                <TextView
+                    android:id="@+id/race"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Race"
+                    tools:layout_editor_absoluteX="44dp"
+                    tools:layout_editor_absoluteY="40dp"
+                    android:textSize="16sp"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="10dp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    />
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="10dp"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_below="@+id/race"
+                    >
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <CheckBox
+                            android:id="@+id/malayCheck"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".25"
+                            android:text="Malay" />
+
+                        <CheckBox
+                            android:id="@+id/chineseCheck"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".25"
+                            android:text="Chinese" />
+
+                        <CheckBox
+                            android:id="@+id/indianCheck"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".25"
+                            android:text="Indian" />
+
+                        <CheckBox
+                            android:id="@+id/otherCheck"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".25"
+                            android:text="Others" />
+
+                    </TableRow>
+
+                </TableLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/container5"
+                android:id="@+id/container6"
+                >
+                <TextView
+                    android:id="@+id/occupation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Occupation"
+                    tools:layout_editor_absoluteX="44dp"
+                    tools:layout_editor_absoluteY="40dp"
+                    android:textSize="16sp"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="20dp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    />
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginVertical="10dp"
+                    android:layout_below="@+id/occupation"
+                    >
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <CheckBox
+                            android:id="@+id/studentCheck"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".25"
+                            android:text="Student" />
+
+                        <CheckBox
+                            android:id="@+id/employedCheck"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".25"
+                            android:text="Employed" />
+
+                        <CheckBox
+                            android:id="@+id/unemployedCheck"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".25"
+                            android:text="Unemployed" />
+
+
+                    </TableRow>
+
+                </TableLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/container6"
+                android:id="@+id/container7"
+                >
+                <TextView
+                    android:id="@+id/general"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="General"
+                    tools:layout_editor_absoluteX="44dp"
+                    tools:layout_editor_absoluteY="40dp"
+                    android:textSize="16sp"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="20dp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    />
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginVertical="10dp"
+                    android:layout_below="@+id/general"
+                    >
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <CheckBox
+                            android:id="@+id/smokingCheck"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".25"
+                            android:text="Smoking Allowed" />
+
+                        <CheckBox
+                            android:id="@+id/petCheck"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".25"
+                            android:text="Pet Allowed" />
+
+                    </TableRow>
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <CheckBox
+                            android:id="@+id/muslimCheck"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".25"
+                            android:text="Muslim Friendly" />
+
+                        <CheckBox
+                            android:id="@+id/moveInCheck"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".25"
+                            android:text="Move-in immediately" />
+
+                    </TableRow>
+
+                </TableLayout>
+
+            </RelativeLayout>
+            <Button
+                android:id="@+id/searchBtn"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="20dp"
+                android:background="@drawable/round_button_blue"
+                android:gravity="center"
+                android:textAlignment="center"
+                android:paddingRight="50dp"
+                android:paddingLeft="50dp"
+                android:text="More Filter"
+                android:drawableRight="@drawable/ic_forward"
+                android:layout_below="@id/container7"
+                android:textColor="#fff"
+                />
+        </RelativeLayout>
+
+
+
+    </ScrollView>
+
+
+
+</RelativeLayout>
