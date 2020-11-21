@@ -1,12 +1,19 @@
 package com.example.setapakhouse
 
+import android.app.Dialog
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
+import android.view.MenuItem
 import android.view.View
+import android.widget.Button
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import com.google.firebase.auth.*
@@ -20,6 +27,7 @@ class VerifyOtpActivity : AppCompatActivity() {
 
     lateinit var mAuth : FirebaseAuth
     lateinit var mAuthVerificationId : String
+    lateinit var epicDialog : Dialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +36,8 @@ class VerifyOtpActivity : AppCompatActivity() {
         setSupportActionBar(toolbar as Toolbar?)
         supportActionBar?.setTitle("OTP Verification")
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        epicDialog = Dialog(this)
 
         mAuth = FirebaseAuth.getInstance()
 
@@ -41,16 +51,7 @@ class VerifyOtpActivity : AppCompatActivity() {
             override fun onFinish() {
                 countdownText.text = "OTP is already expired!!"
 
-                val builder = AlertDialog.Builder(this@VerifyOtpActivity)
-                builder.setTitle("OTP is already expired!!")
-                builder.setMessage("Click Okay to try again.")
-
-                builder.setNeutralButton("Okay", { dialog: DialogInterface?, which: Int ->
-                    val intent = Intent(this@VerifyOtpActivity, VerifyPhoneNumberActivity::class.java)
-                    startActivity(intent)
-                })
-                builder.setCancelable(false)
-                builder.show()
+                showDialog3()
 
             }
         }
@@ -117,6 +118,77 @@ class VerifyOtpActivity : AppCompatActivity() {
 
                 }
             }
+    }
+
+    private fun showDialog3(){
+        epicDialog.setContentView(R.layout.popup_confirmation)
+        //val closeButton : ImageView = epicDialog.findViewById(R.id.closeBtn)
+        val yesButton : Button = epicDialog.findViewById(R.id.yesBtn)
+        val cancelButton : Button = epicDialog.findViewById(R.id.cancelBtn)
+        val title : TextView = epicDialog.findViewById(R.id.title)
+        val content : TextView = epicDialog.findViewById(R.id.content)
+
+
+        title.text = "Stop Progress"
+        content.text = "You are in the middle of verifying OTP. Are you sure to cancel this progress?"
+        yesButton.text = "Yes"
+        yesButton.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
+
+        yesButton.setOnClickListener {
+            val intent = Intent(this@VerifyOtpActivity, LoginActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+        cancelButton.setOnClickListener {
+            epicDialog.dismiss()
+            val intent = Intent(this@VerifyOtpActivity, VerifyPhoneNumberActivity::class.java)
+            startActivity(intent)
+        }
+        epicDialog.setCancelable(true)
+        epicDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        epicDialog.show()
+    }
+
+    private fun showDialog1(abc: Dialog){
+        epicDialog.setContentView(R.layout.popup_error)
+        //val closeButton : ImageView = epicDialog.findViewById(R.id.closeBtn)
+        val okButton : Button = epicDialog.findViewById(R.id.okBtn)
+        val title : TextView = epicDialog.findViewById(R.id.title)
+        val content : TextView = epicDialog.findViewById(R.id.content)
+
+        title.text = "OTP Is Expired"
+        content.text = "Click Okay to try again."
+
+        okButton.setOnClickListener {
+            epicDialog.dismiss()
+        }
+        epicDialog.setCancelable(true)
+        epicDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        epicDialog.show()
+    }
+
+    override fun onBackPressed() {
+        //super.onBackPressed()
+        //Toast.makeText(this, "wtf = back pressed", Toast.LENGTH_SHORT).show()
+        //val intent = Intent(this@VerifyOtpActivity, VerifyOtpActivity::class.java)
+        //intent.putExtra("code1", mAuthVerificationId)
+        //startActivity(intent)
+        showDialog3()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        if(item.itemId == android.R.id.home){
+            //Toast.makeText(this, "wtf = back pressed", Toast.LENGTH_SHORT).show()
+            //val intent = Intent(this@VerifyOtpActivity, VerifyOtpActivity::class.java)
+            //intent.putExtra("code1", mAuthVerificationId)
+            //startActivity(intent)
+            showDialog3()
+
+        }
+        //return super.onOptionsItemSelected(item)
+        return true
+
     }
 
 }

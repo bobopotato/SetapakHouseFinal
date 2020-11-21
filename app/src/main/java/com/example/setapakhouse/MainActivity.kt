@@ -308,31 +308,34 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             })
         }
 
-        val chatRef = FirebaseDatabase.getInstance().getReference("Chats").orderByChild("receiver").equalTo(currentUser!!.uid)
+        if(currentUser!=null){
+            val chatRef = FirebaseDatabase.getInstance().getReference("Chats").orderByChild("receiver").equalTo(currentUser!!.uid)
 
-        chatRef.addValueEventListener(object : ValueEventListener {
-            override fun onCancelled(p0: DatabaseError) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
+            chatRef.addValueEventListener(object : ValueEventListener {
+                override fun onCancelled(p0: DatabaseError) {
+                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                }
 
-            override fun onDataChange(p0: DataSnapshot) {
-                var gotMessage = false
-                if (p0.exists()) {
-                    for (h in p0.children) {
-                        if (h.child("isseen").getValue().toString().equals("false")) {
-                            gotMessage = true
+                override fun onDataChange(p0: DataSnapshot) {
+                    var gotMessage = false
+                    if (p0.exists()) {
+                        for (h in p0.children) {
+                            if (h.child("isseen").getValue().toString().equals("false")) {
+                                gotMessage = true
+                            }
+                        }
+
+                        if (gotMessage) {
+                            redDot.visibility = View.VISIBLE
+                        }
+                        else{
+                            redDot.visibility = View.GONE
                         }
                     }
-
-                    if (gotMessage) {
-                        redDot.visibility = View.VISIBLE
-                    }
-                    else{
-                        redDot.visibility = View.GONE
-                    }
                 }
-            }
-        })
+            })
+        }
+
 
         if(intent.getStringExtra("goProfile")!=null){
             makeCurrentFragment(notificationFragment)
