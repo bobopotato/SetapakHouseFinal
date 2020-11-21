@@ -14,16 +14,15 @@ import com.denzcoskun.imageslider.ImageSlider
 import com.example.setapakhouse.Adapter.fragmentAdapter
 import com.example.setapakhouse.Adapter.fragmentAdapter2
 import com.example.setapakhouse.Adapter.preAdapter
+import com.example.setapakhouse.Adapter.rentingHouseFragmentAdapter
 import com.example.setapakhouse.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import kotlinx.android.synthetic.main.activity_detail_post.*
 import kotlinx.android.synthetic.main.fragment_notification.*
-import kotlinx.android.synthetic.main.fragment_notification.view.*
-import kotlinx.android.synthetic.main.fragment_pre.view.*
+
 
 class NotificationFragment : Fragment() {
 

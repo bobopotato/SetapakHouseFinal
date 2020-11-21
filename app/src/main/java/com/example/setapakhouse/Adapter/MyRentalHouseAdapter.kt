@@ -9,6 +9,7 @@ import android.graphics.Color.rgb
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.media.Image
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,11 +17,16 @@ import android.widget.*
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.setapakhouse.*
+import com.example.setapakhouse.Model.Notification
 import com.example.setapakhouse.Model.Property
 import com.example.setapakhouse.R
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 
 
 class MyRentalHouseAdapter(val property : MutableList<Property>): RecyclerView.Adapter<MyRentalHouseAdapter.MyViewHolder>() {
@@ -44,15 +50,32 @@ class MyRentalHouseAdapter(val property : MutableList<Property>): RecyclerView.A
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         epicDialog = Dialog(holder.editButton.context)
 
+        val currentUserID11 = FirebaseAuth.getInstance().currentUser!!.uid
+
         holder.txt_location.text=property[position].location
         if(property[position].rentalType.toString().equals("Long-Term")) {
-            holder.txt_price.text = "RM"+property[position].price.toString()+"/MONTH"
+            holder.txt_price.text = "RM"+String.format("%.2f",property[position].price.toString().toDouble())+"/MONTH"
         }else{
-            holder.txt_price.text = "RM"+property[position].price.toString()+"/DAY"
+            holder.txt_price.text = "RM"+String.format("%.2f",property[position].price.toString().toDouble())+"/DAY"
         }
         holder.txt_propertyType.text="Property Type: "+property[position].propertyType.toString()
         holder.txt_rentalType.text="Rental Type: "+property[position].rentalType.toString()
         holder.txt_propertyName.text="Property Name: "+property[position].propertyName.toString()
+
+        val userRef = FirebaseDatabase.getInstance().getReference("Users").child(currentUserID11)
+
+        userRef.addValueEventListener(object:ValueEventListener{
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if(snapshot.exists()){
+                    holder.hiddenCurrentUsername.text = snapshot.child("username").getValue().toString()
+                }
+            }
+
+        })
 
 
         ref=FirebaseDatabase.getInstance().getReference("PropertyImage")
@@ -178,7 +201,7 @@ class MyRentalHouseAdapter(val property : MutableList<Property>): RecyclerView.A
                     //Change property status to "unavailable"
                     ref1 = FirebaseDatabase.getInstance().getReference("Property").child(property[position].propertyID)
 
-                    showDialog(epicDialog, property[position].propertyName)
+                    showDialog(epicDialog, property[position].propertyName, property[position].propertyID, holder.hiddenCurrentUsername.text.toString())
                 }
 
                 cancelButton.setOnClickListener {
@@ -214,7 +237,7 @@ class MyRentalHouseAdapter(val property : MutableList<Property>): RecyclerView.A
         }
     }
 
-    private fun showDialog(abc: Dialog, propertyName : String){
+    private fun showDialog(abc: Dialog, propertyName : String, position: String, username :String){
         epicDialog.setContentView(R.layout.popup_user_confirmation)
         //val closeButton : ImageView = epicDialog.findViewById(R.id.closeBtn)
         val okButton : Button = epicDialog.findViewById(R.id.yesBtn)
@@ -234,12 +257,63 @@ class MyRentalHouseAdapter(val property : MutableList<Property>): RecyclerView.A
                 propertyEdit.requestFocus()
             }
             else{
+                val currentUserID = FirebaseAuth.getInstance().currentUser!!.uid
                 propertyEdit.error = null
                 if(propertyEdit.text.toString() == propertyText.text.toString()){
                     ref1.child("status").setValue("unavailable")
                     showDialog1(abc, epicDialog)
-                    epicDialog.dismiss()
-                    abc.dismiss()
+
+                    val approvalRef = FirebaseDatabase.getInstance().getReference("Approval")
+                    var store1 = 0
+                    approvalRef.addValueEventListener(object:ValueEventListener {
+                        override fun onCancelled(error: DatabaseError) {
+                            TODO("Not yet implemented")
+                        }
+
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            if(store1 == 0){
+                                if (snapshot.exists()) {
+                                    for(h in snapshot.children){
+                                        var store2 = 0
+                                        Log.d("position", "position = " + h.child("propertyID").getValue().toString())
+                                        Log.d("position", "position = " + position)
+
+                                        if(h.child("propertyID").getValue().toString().equals(position) && h.child("status").getValue().toString()=="pending"){
+                                            val ref7 =FirebaseDatabase.getInstance().getReference("Approval").child(h.child("approvalID").getValue().toString())
+                                            ref7.child("status").setValue("unavailable")
+
+                                            val ref8 = FirebaseDatabase.getInstance().getReference("Notification")
+
+                                            var notificationID = ref8.push().key.toString()
+                                            //IMPORTANT - change the user ID to username
+                                            val notificationContent = username + " had remove his own property " + propertyName
+
+                                            val storeNotification = Notification(
+                                                notificationID,
+                                                currentUserID,
+                                                "delivered",
+                                                notificationContent,
+                                                getTime(),
+                                                "approvalConfirmation",
+                                                h.child("userID").getValue().toString()
+                                            )
+
+                                            if (store2 == 0) {
+                                                ref8.child(notificationID).setValue(storeNotification)
+                                                store2++
+                                            }
+
+                                        }
+                                    }
+                                }
+                                store1++
+                            }
+
+                        }
+                    })
+
+                    //epicDialog.dismiss()
+                    //abc.dismiss()
                 }
                 else{
                     propertyEdit.setError("Wrong property name")
@@ -308,7 +382,15 @@ class MyRentalHouseAdapter(val property : MutableList<Property>): RecyclerView.A
         var hiddenUserID:TextView=itemView.findViewById<TextView>(R.id.hiddenUserID)
         var profilePhoto: CircleImageView =itemView.findViewById<CircleImageView>(R.id.profilePhoto)
         var chatBtn:Button=itemView.findViewById<Button>(R.id.chatBtn)
+        var hiddenCurrentUsername:TextView=itemView.findViewById<TextView>(R.id.currentUsername)
 
 
+    }
+
+    private fun getTime(): String {
+
+        val today = LocalDateTime.now(ZoneId.systemDefault())
+
+        return today.format(DateTimeFormatter.ofPattern("d MMM uuuu HH:mm:ss "))
     }
 }

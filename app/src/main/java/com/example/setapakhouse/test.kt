@@ -60,7 +60,6 @@ class test : AppCompatActivity() {
 
             startActivityForResult(intent, 100)
 
-
         }
 
         table1.setOnClickListener {
@@ -91,36 +90,9 @@ class test : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         //Toast.makeText(this@MainActivity, "FAIL 99", Toast.LENGTH_SHORT).show()
-
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK) {
-
-            if(data!!.clipData != null){
-                val imageCount = data.clipData!!.itemCount
-                imageList.clear()
-                resolverList.clear()
-                for(x in 0 until imageCount){
-
-                    imageUri = data.clipData!!.getItemAt(x).uri
-
-                    imageList.add(imageUri)
-                    resolverList.add(contentResolver)
-                    Log.d("testmou", x.toString())
-                }
-
-                val adapter = UploadListAdapter(imageList, resolverList)
-                val mLayoutManager = LinearLayoutManager(applicationContext)
-                uploadPhotoView.layoutManager = mLayoutManager
-                uploadPhotoView.scrollToPosition(imageList.size-1)
-                uploadPhotoView.adapter = adapter
-
-                Toast.makeText(this, "Selected Multiple Files", Toast.LENGTH_SHORT).show()
-
-            }else{
-
-                Toast.makeText(this, "Please Select Files", Toast.LENGTH_SHORT).show()
-
-            }
-
+        if(requestCode == 100 && resultCode == RESULT_OK){
+            val place = Autocomplete.getPlaceFromIntent(data!!)
+            abc.setText(place.address)
         }
     }
 

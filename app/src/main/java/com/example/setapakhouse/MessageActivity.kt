@@ -3,6 +3,7 @@ package com.example.setapakhouse
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
@@ -27,6 +28,7 @@ import java.time.format.DateTimeFormatter
 
 class MessageActivity : AppCompatActivity() {
     lateinit var ref : DatabaseReference
+    lateinit var ref123 : DatabaseReference
     lateinit var chatList : MutableList<Chat>
     //val currentUserID="k83T1GSoDjRPH6XIwJlRVP89CEk2"
     //val currentUserID="LfOPyQJQgqPaziIT823zv7DZJzY2"
@@ -121,8 +123,8 @@ class MessageActivity : AppCompatActivity() {
 
     private fun seenMessage(userid:String){
         val currentUserID = FirebaseAuth.getInstance().currentUser!!.uid
-        ref=FirebaseDatabase.getInstance().getReference("Chats")
-        seenListener=ref.addValueEventListener(object:ValueEventListener{
+        ref123=FirebaseDatabase.getInstance().getReference("Chats")
+        seenListener=ref123.addValueEventListener(object:ValueEventListener{
             override fun onCancelled(error: DatabaseError) {
                 TODO("Not yet implemented")
             }
@@ -131,9 +133,9 @@ class MessageActivity : AppCompatActivity() {
                 for(h in snapshot.children){
                     val chat=h.getValue(Chat::class.java)
                     if(chat!!.receiver.equals(currentUserID) && chat!!.sender.equals(userid)){
-                        val chat=h.getValue(Chat::class.java)
-                        chat!!.isseen="true"
-                        h.getRef().setValue(chat)
+                        val chat2=h.getValue(Chat::class.java)
+                        chat2!!.isseen="true"
+                        h.getRef().setValue(chat2)
                     }
                 }
             }
@@ -186,6 +188,11 @@ class MessageActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
-        ref.removeEventListener(seenListener)
+        ref123.removeEventListener(seenListener)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        ref123.removeEventListener(seenListener)
     }
 }

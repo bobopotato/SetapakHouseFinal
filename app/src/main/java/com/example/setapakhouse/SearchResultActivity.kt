@@ -160,7 +160,7 @@ class SearchResultActivity : AppCompatActivity() {
                                     resultFound.text = propertyList2.size.toString() + " results founded"
                                     recycler_view.layoutManager = mLayoutManager
                                     recycler_view.scrollToPosition(propertyList2.size-1)
-                                    recycler_view.adapter = HomeAdapter(propertyList2)
+                                    recycler_view.adapter = HomeAdapter(propertyList2, true)
 
                                 }
                             }
@@ -283,7 +283,7 @@ class SearchResultActivity : AppCompatActivity() {
                                     resultFound.text = propertyList2.size.toString() + " results founded"
                                     recycler_view.layoutManager = mLayoutManager
                                     recycler_view.scrollToPosition(propertyList2.size-1)
-                                    recycler_view.adapter = HomeAdapter(propertyList2)
+                                    recycler_view.adapter = HomeAdapter(propertyList2, true)
 
                                 }
                             }

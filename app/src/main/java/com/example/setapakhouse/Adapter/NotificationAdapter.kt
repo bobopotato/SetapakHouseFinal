@@ -78,11 +78,11 @@ class NotificationAdapter(val notificationList:MutableList<Notification>): Recyc
         holder.content.text = notificationList[position].content
 
         if(notificationList[position].status == "delivered"){
-            holder.wholeLayout.setBackgroundColor(Color.rgb(135,206,250))
+            holder.wholeLayout.setBackgroundColor(Color.rgb(204, 230, 255))
         }
 
         if(notificationList[position].type == "warning" && notificationList[position].status == "delivered"){
-            holder.wholeLayout.setBackgroundColor(Color.rgb(232,59,83))
+            holder.wholeLayout.setBackgroundColor(Color.rgb(255,204,203))
         }
 
         if(notificationList[position].sender == "system"){
@@ -125,7 +125,7 @@ class NotificationAdapter(val notificationList:MutableList<Notification>): Recyc
                     val intent = Intent(holder.wholeLayout.context, houseRentingActivity::class.java)
                     holder.wholeLayout.context.startActivity(intent)
                 }
-                if (notificationList[position].content.contains("rejected") || notificationList[position].content.contains("expired")){
+                if (notificationList[position].content.contains("rejected") || notificationList[position].content.contains("expired") || notificationList[position].content.contains("remove")){
 
                     epicDialog.setContentView(R.layout.popup_confirmation)
                     //val closeButton : ImageView = epicDialog.findViewById(R.id.closeBtn)
@@ -140,6 +140,9 @@ class NotificationAdapter(val notificationList:MutableList<Notification>): Recyc
                     }
                     if(notificationList[position].content.contains("expired")){
                         content.text = "Do you wish to chat with the owner for the reason getting ignored?"
+                    }
+                    if(notificationList[position].content.contains("expired")){
+                        content.text = "Do you wish to chat with the owner for the reason why the property is removed?"
                     }
                     yesButton.text = "Yes"
                     yesButton.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
@@ -190,6 +193,18 @@ class NotificationAdapter(val notificationList:MutableList<Notification>): Recyc
                     }
                 })
                 //ref1.removeEventListener(abcListener)
+            }
+
+            if(notificationList[position].type == "withdraw"){
+
+                val pref= PreferenceManager.getDefaultSharedPreferences(holder.wholeLayout.context)
+                val editor=pref.edit()
+                editor
+                    .putString("changeTabRentingHistory","yes")
+                    .apply()
+
+                val intent = Intent(holder.wholeLayout.context, houseRentingActivity::class.java)
+                holder.wholeLayout.context.startActivity(intent)
             }
 
             //Change notification status to "seen"

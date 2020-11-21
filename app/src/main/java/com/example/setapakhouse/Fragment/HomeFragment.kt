@@ -59,7 +59,7 @@ class HomeFragment : Fragment() {
 
                     root.recycler_view.layoutManager = mLayoutManager
                     root.recycler_view.scrollToPosition(propertyList.size-1)
-                    root.recycler_view.adapter = HomeAdapter(propertyList)
+                    root.recycler_view.adapter = HomeAdapter(propertyList, true)
                 }
             }
 

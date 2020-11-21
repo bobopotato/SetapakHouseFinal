@@ -6,19 +6,36 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
+        android:id="@+id/abc123"
+        >
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
 
+            />
+    </FrameLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/redDot"
+        android:src="@drawable/ic_red_dot"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:visibility="gone"
         />
     <androidx.drawerlayout.widget.DrawerLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/drawer"
-        android:layout_below="@id/toolbar"
+        android:layout_below="@id/abc123"
         android:layout_above="@id/bottom_nav"
         tools:context="com.splash.ws.drawerlayout.MainActivity"
         >
@@ -50,6 +67,13 @@
                 android:orientation="vertical"
                 android:padding="16dp"
                 >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/hiddenNotificationSize"
+                    android:visibility="gone"
+                    />
 
                 <Button
                     android:id="@+id/logout"

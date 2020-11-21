@@ -119,8 +119,9 @@ class detailPost : AppCompatActivity() {
                         val secondd = LocalDate.of(year2.toInt(), month2.toInt(), day2.toInt())
 
                         if (firstt.isBefore(today) || firstt.isEqual(today)) {
-                            Toast.makeText(this@detailPost,"Please choose start date after today",Toast.LENGTH_SHORT).show()
-                            calendarZ(this)
+                            //Toast.makeText(this@detailPost,"Please choose start date after today",Toast.LENGTH_SHORT).show()
+                            showDialog3(this)
+                            //calendarZ(this)
                         } else {
                             validDate = true
                         }
@@ -141,8 +142,10 @@ class detailPost : AppCompatActivity() {
                                 }
 
                                 if(!validDuration){
-                                    Toast.makeText(this@detailPost,"Please choose the same date of month afterward",Toast.LENGTH_SHORT).show()
-                                    calendarZ(this)
+                                    //Toast.makeText(this@detailPost,"Please choose the same date of month afterward",Toast.LENGTH_SHORT).show()
+                                    showDialog2(this)
+                                    //calendarZ(this)
+
                                 }
 
 
@@ -158,8 +161,10 @@ class detailPost : AppCompatActivity() {
                             //Toast.makeText(this@detailPost, "abc = " + monthCount.toString() , Toast.LENGTH_SHORT).show()
                         }
                     }else{
-                        Toast.makeText(this@detailPost, "Please choose both start date and end date" , Toast.LENGTH_SHORT).show()
-                        calendarZ(this)
+                        //Toast.makeText(this@detailPost, "Please choose both start date and end date" , Toast.LENGTH_SHORT).show()
+                        showDialog1(this)
+                        //calendarZ(this)
+
                     }
                     //Toast.makeText(this@detailPost, "abc = " + today.dayOfMonth.toString() , Toast.LENGTH_SHORT).show()
 
@@ -384,6 +389,63 @@ class detailPost : AppCompatActivity() {
             .show(supportFragmentManager, "TAG_SLYCALENDAR")
     }
 
+    private fun showDialog1(callback : SlyCalendarDialog.Callback){
+        epicDialog.setContentView(R.layout.popup_error)
+        //val closeButton : ImageView = epicDialog.findViewById(R.id.closeBtn)
+        val okButton : Button = epicDialog.findViewById(R.id.okBtn)
+        val title : TextView = epicDialog.findViewById(R.id.title)
+        val content : TextView = epicDialog.findViewById(R.id.content)
+
+        title.text = "Invalid Date"
+        content.text = "Please choose both start date and end date"
+
+        okButton.setOnClickListener {
+            epicDialog.dismiss()
+            calendarZ(callback)
+        }
+        epicDialog.setCancelable(true)
+        epicDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        epicDialog.show()
+    }
+
+    private fun showDialog2(callback : SlyCalendarDialog.Callback){
+        epicDialog.setContentView(R.layout.popup_error)
+        //val closeButton : ImageView = epicDialog.findViewById(R.id.closeBtn)
+        val okButton : Button = epicDialog.findViewById(R.id.okBtn)
+        val title : TextView = epicDialog.findViewById(R.id.title)
+        val content : TextView = epicDialog.findViewById(R.id.content)
+
+        title.text = "Invalid Date"
+        content.text = "Please choose the same date of month afterward"
+
+        okButton.setOnClickListener {
+            epicDialog.dismiss()
+            calendarZ(callback)
+        }
+        epicDialog.setCancelable(true)
+        epicDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        epicDialog.show()
+    }
+
+    private fun showDialog3(callback : SlyCalendarDialog.Callback){
+        epicDialog.setContentView(R.layout.popup_error)
+        //val closeButton : ImageView = epicDialog.findViewById(R.id.closeBtn)
+        val okButton : Button = epicDialog.findViewById(R.id.okBtn)
+        val title : TextView = epicDialog.findViewById(R.id.title)
+        val content : TextView = epicDialog.findViewById(R.id.content)
+
+        title.text = "Invalid Date"
+        content.text = "Please choose start date after today"
+
+        okButton.setOnClickListener {
+            epicDialog.dismiss()
+            calendarZ(callback)
+        }
+        epicDialog.setCancelable(true)
+        epicDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        epicDialog.show()
+    }
+
     private fun showDialog(selectedPropertyID : String, selectedUserID : String, firstDate : String, secondDate : String){
         epicDialog.setContentView(R.layout.popup_confirmation)
         //val closeButton : ImageView = epicDialog.findViewById(R.id.closeBtn)
@@ -475,7 +537,7 @@ class detailPost : AppCompatActivity() {
                             val content1: TextView = epicDialog2.findViewById(R.id.content)
 
                             title1.text = "Request Successful"
-                            content1.text = "You will be redirected to the main page"
+                            content1.text = "Your approval has been sent to the owner. Please wait for the owner's reply."
 
                             okButton1.setOnClickListener {
                                 epicDialog.dismiss()

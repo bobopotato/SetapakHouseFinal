@@ -76,15 +76,7 @@ class EditRentalHouse : AppCompatActivity() {
             val preference = getPreference()
 
             if(accomodation.isEmpty() || preference.isEmpty()){
-                val builder = AlertDialog.Builder(this@EditRentalHouse)
-                builder.setTitle("Please follow the form requirement")
-                builder.setMessage("Select more than 6 accomodations\nSelect more than 4 preferences")
-
-                builder.setNeutralButton("Okay", { dialog: DialogInterface?, which: Int ->
-
-                })
-                builder.setCancelable(false)
-                builder.show()
+                showDialog2()
             }
             else{
                 //check validation
@@ -129,6 +121,25 @@ class EditRentalHouse : AppCompatActivity() {
                 }
             }
         }
+
+    }
+
+    private fun showDialog2(){
+        epicDialog.setContentView(R.layout.popup_error)
+        //val closeButton : ImageView = epicDialog.findViewById(R.id.closeBtn)
+        val okButton : Button = epicDialog.findViewById(R.id.okBtn)
+        val title : TextView = epicDialog.findViewById(R.id.title)
+        val content : TextView = epicDialog.findViewById(R.id.content)
+
+        title.text = "Insufficient Information"
+        content.text = "Please select more than 6 accommodations and 4 preferences."
+
+        okButton.setOnClickListener {
+            epicDialog.dismiss()
+        }
+        epicDialog.setCancelable(true)
+        epicDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        epicDialog.show()
 
     }
 

@@ -90,11 +90,21 @@ class MessageAdapter(private var chat:MutableList<Chat>,private var image:String
         holder.show_message.setOnClickListener {
             if(position!=chat.size-1) {
                 if (holder.date_message.getVisibility() == View.VISIBLE && holder.date_message.getVisibility() == View.VISIBLE) {
+                    if(chat[position].isseen.equals("true")){
+                        holder.seen_message.text="Seen"
+                    }else{
+                        holder.seen_message.text="Delivered"
+                    }
                     holder.date_message.setVisibility(View.GONE)
                     holder.seen_message.setVisibility(View.GONE)
                     timer.cancel()
                     timer.start()
                 } else {
+                    if(chat[position].isseen.equals("true")){
+                        holder.seen_message.text="Seen"
+                    }else{
+                        holder.seen_message.text="Delivered"
+                    }
                     holder.date_message.setVisibility(View.VISIBLE)
                     holder.seen_message.setVisibility(View.VISIBLE)
 

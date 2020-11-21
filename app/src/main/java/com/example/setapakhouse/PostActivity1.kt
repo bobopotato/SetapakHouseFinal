@@ -11,8 +11,12 @@ import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.core.widget.addTextChangedListener
 import androidx.core.widget.doOnTextChanged
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.widget.Autocomplete
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import kotlinx.android.synthetic.main.activity_post1.*
-
+import java.util.*
 
 
 class PostActivity1 : AppCompatActivity() {
@@ -33,6 +37,10 @@ class PostActivity1 : AppCompatActivity() {
 
         var renterType = "Long-Term"
         var propertyType = "House"
+
+        Places.initialize(this, "AIzaSyBAtADCWISs8VHLbeNRZq2Kk1jPBEGVpRg")
+
+        locationText.setFocusable(false)
 
         longTermButton.setOnTouchListener { v, event ->
             val action = event.action
@@ -121,6 +129,18 @@ class PostActivity1 : AppCompatActivity() {
             validatePropertyName()
         }
 
+        locationText.setOnClickListener {
+            var fieldList : List<Place.Field>  = Arrays.asList(
+                Place.Field.ADDRESS, Place.Field.LAT_LNG, Place.Field.NAME
+            )
+
+            val intent = Autocomplete.IntentBuilder(
+                AutocompleteActivityMode.OVERLAY, fieldList
+            ).build(this)
+
+            startActivityForResult(intent, 100)
+        }
+
         saveNextButton.setOnClickListener {
             if(validatePropertyName() && validateLocation() && validatePostCode()){
                 val intent = Intent(this, PostActivity2::class.java)
@@ -131,6 +151,15 @@ class PostActivity1 : AppCompatActivity() {
                 intent.putExtra("PostCode", postCodeText.text.toString())
                 startActivity(intent)
             }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        //Toast.makeText(this@MainActivity, "FAIL 99", Toast.LENGTH_SHORT).show()
+        if(requestCode == 100 && resultCode == RESULT_OK){
+            val place = Autocomplete.getPlaceFromIntent(data!!)
+            locationText.setText(place.address)
         }
     }
 
@@ -160,11 +189,13 @@ class PostActivity1 : AppCompatActivity() {
         var location = locationText.text.toString().trim()
 
         if(location.isEmpty()){
+            locationText.setFocusable(true)
             locationText.setError("                     Field can't be empty !")
             locationText.requestFocus()
             return false
+            locationText.setFocusable(false)
         }else{
-            propertyNameText.setError(null)
+            locationText.setError(null)
             return true
         }
     }

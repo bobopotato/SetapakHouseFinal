@@ -1,15 +1,25 @@
 package com.example.setapakhouse
 
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.SharedPreferences
+import android.graphics.BitmapFactory
+import android.graphics.Color
+import android.graphics.Color.rgb
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.preference.PreferenceManager
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.RemoteViews
 import android.widget.Toast
 import androidx.annotation.NonNull
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -24,6 +34,7 @@ import com.example.setapakhouse.Model.Review
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import kotlinx.android.synthetic.main.activity_house_renting.*
 import kotlinx.android.synthetic.main.activity_main.*
 import java.text.SimpleDateFormat
 import java.time.LocalDate
@@ -46,6 +57,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     lateinit var handler:Handler
     lateinit var runnable:Runnable
     var count=0
+    lateinit var notificationManager : NotificationManager
+    lateinit var notificationChannel: NotificationChannel
+    lateinit var builder : android.app.Notification.Builder
+    private val channelID = "com.example.setapakhouse"
+    private val description = "Test notification"
+    var abc123 = 0
 
     private fun content(){
         var settings:SharedPreferences= PreferenceManager.getDefaultSharedPreferences(this)
@@ -116,6 +133,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             editor.commit()
         }
 
+        redDot.bringToFront()
+
         var lastTimeStarted1 = settings.getInt("date",0)
         //Log.d("TODAY",lastTimeStarted1.toString())
         //Log.d("TODAYFIRST","FIRSTACTION".toString())
@@ -167,6 +186,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         mToggle.syncState()
 
 
+        notificationManager =  getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
         //Navigation Drawer
         nav_drawer.setNavigationItemSelectedListener(this)
 
@@ -188,6 +209,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         //log out
         logout.setOnClickListener {
             //Toast.makeText(this, "Log Out Successfully", Toast.LENGTH_SHORT).show()
+            val pref= PreferenceManager.getDefaultSharedPreferences(this)
+            val editor=pref.edit()
+            editor
+                .putBoolean("firstTime",true)
+                .apply()
             FirebaseAuth.getInstance().signOut()
             val intent = Intent(this, LoginActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -196,6 +222,123 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             // val intent = Intent(this, LoginActivity::class.java)
             //startActivity(intent)
         }
+
+        if(intent.getStringExtra("GoNotification")!=null){
+            if (intent.getStringExtra("GoNotification")!!.equals("true")){
+                makeCurrentFragment(notificationFragment)
+            }
+        }
+
+        if(intent.getStringExtra("GoNotification1")!=null){
+            if (intent.getStringExtra("GoNotification1")!!.equals("true")){
+                makeCurrentFragment(notificationFragment)
+            }
+        }
+        var first = true;
+        var store = 0
+
+        val pref= PreferenceManager.getDefaultSharedPreferences(this)
+
+        pref.apply{
+            val checkFirst =getBoolean("firstTime",true)
+            if(checkFirst){
+                first = true
+                val editor=pref.edit()
+                editor
+                    .putBoolean("firstTime",false)
+                    .apply()
+            }else{
+                first = false
+            }
+        }
+
+        if(currentUser!=null){
+            val notificationRef = FirebaseDatabase.getInstance().getReference("Notification").orderByChild("userID").equalTo(currentUser!!.uid)
+
+            notificationRef.addValueEventListener(object : ValueEventListener {
+                override fun onCancelled(p0: DatabaseError) {
+                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                }
+
+                override fun onDataChange(p0: DataSnapshot) {
+                        var size = 0;
+                        var stop = false;
+                        if (p0.exists()) {
+                            for (h in p0.children) {
+                                val notification1 = h.getValue(Notification::class.java)
+                                if(notification1!!.status=="delivered"){
+                                    if(!stop) {
+                                        size++
+
+                                    }
+                                }
+
+                            }
+                            if(size>0){
+                                if(first){
+                                    if(!stop) {
+                                        if(intent.getStringExtra("GoNotification")==null && intent.getStringExtra("GoNotification1")==null){
+                                            notification(size.toString())
+                                            hiddenNotificationSize.text = size.toString()
+                                            first = false
+                                            stop = true
+                                        }
+                                    }
+                                }
+                                else{
+                                    if(!stop && hiddenNotificationSize.text.toString().isNotEmpty()) {
+                                        if(hiddenNotificationSize.text.toString().toInt()<size){
+                                            notification1()
+                                            stop = true
+                                        }
+
+                                    }
+                                    hiddenNotificationSize.text = size.toString()
+                                }
+                            }else if (size == 0){
+                                //Toast.makeText(this@MainActivity, "Boolean = " + getKey.first, Toast.LENGTH_SHORT).show()
+                                hiddenNotificationSize.text = size.toString()
+                                first = false
+                            }else{
+                                first =true
+                            }
+                        }
+
+                }
+            })
+        }
+
+        val chatRef = FirebaseDatabase.getInstance().getReference("Chats").orderByChild("receiver").equalTo(currentUser!!.uid)
+
+        chatRef.addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                var gotMessage = false
+                if (p0.exists()) {
+                    for (h in p0.children) {
+                        if (h.child("isseen").getValue().toString().equals("false")) {
+                            gotMessage = true
+                        }
+                    }
+
+                    if (gotMessage) {
+                        redDot.visibility = View.VISIBLE
+                    }
+                    else{
+                        redDot.visibility = View.GONE
+                    }
+                }
+            }
+        })
+
+        if(intent.getStringExtra("goProfile")!=null){
+            makeCurrentFragment(notificationFragment)
+            bottom_nav.selectedItemId = R.id.ic_profile
+        }
+
     }
 
 
@@ -254,6 +397,20 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             replace(R.id.fl_wrapper, fragment)
             commit()
         }
+
+    override fun onStart() {
+        super.onStart()
+        abc123++
+        Log.d("zzzzzzz123", abc123.toString())
+        val currentUser= FirebaseAuth.getInstance().currentUser
+        if(currentUser==null || currentUser!!.email!!.isEmpty()){
+            val intent = Intent(this, LoginActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+            finish()
+
+        }
+    }
 
 
     override fun onResume() {
@@ -804,6 +961,24 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                                                                                 if(r.propertyID.equals(pr.child("propertyID").getValue().toString())&&
                                                                                     pr.child("status").getValue().toString().equals("renting")){
                                                                                     ref5.child(pr.child("propertyID").getValue().toString()).child("status").setValue("available")
+
+                                                                                    //add withdraw notification
+                                                                                    val notificationContent ="Your rent for (" + pr.child("propertyName").getValue().toString() + ") had been withdrawned"
+
+                                                                                    //add notification
+                                                                                    val ref55 =FirebaseDatabase.getInstance().getReference("Notification")
+                                                                                    var notificationID =ref55.push().key.toString()
+                                                                                    val storeNotification = Notification(
+                                                                                        notificationID,
+                                                                                        "system",
+                                                                                        "delivered",
+                                                                                        notificationContent,
+                                                                                        getTime(),
+                                                                                        "withdraw",
+                                                                                        r.userID
+                                                                                    )
+                                                                                    ref55.child(notificationID).setValue(storeNotification)
+
                                                                                 }
                                                                             }
                                                                             countProperty++
@@ -812,6 +987,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                                                                 }
 
                                                             })
+
 
 
                                                         } //long term process
@@ -1058,6 +1234,24 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                                                                                 if(r.propertyID.equals(pr.child("propertyID").getValue().toString())&&
                                                                                     pr.child("status").getValue().toString().equals("renting")){
                                                                                     ref5.child(pr.child("propertyID").getValue().toString()).child("status").setValue("available")
+
+
+                                                                                    //add withdraw notification
+                                                                                    val notificationContent ="Your rent for (" + pr.child("propertyName").getValue().toString() + ") had been withdrawned"
+
+                                                                                    //add notification
+                                                                                    val ref55 =FirebaseDatabase.getInstance().getReference("Notification")
+                                                                                    var notificationID =ref55.push().key.toString()
+                                                                                    val storeNotification = Notification(
+                                                                                        notificationID,
+                                                                                        "system",
+                                                                                        "delivered",
+                                                                                        notificationContent,
+                                                                                        getTime(),
+                                                                                        "withdraw",
+                                                                                        r.userID
+                                                                                    )
+                                                                                    ref55.child(notificationID).setValue(storeNotification)
                                                                                 }
                                                                             }
                                                                             countProperty++
@@ -1086,6 +1280,96 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
 
         })
+
+    }
+
+    private fun notification(notificationCount : String){
+
+        val intent = Intent(this, MainActivity::class.java)
+        intent.putExtra("GoNotification", "true")
+        val pendingIntent =  PendingIntent.getActivity(this, 0, intent,PendingIntent.FLAG_UPDATE_CURRENT)
+
+        val contentView = RemoteViews(packageName, R.layout.notification_popup)
+        contentView.setImageViewResource(R.id.tv_icon, R.drawable.ic_home2)
+        contentView.setTextViewText(R.id.tv_title, "Setapak House")
+        contentView.setTextViewText(R.id.tv_content, "You have " + notificationCount + " unread notifications")
+
+        if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.O) {
+            notificationChannel = NotificationChannel(channelID, description, NotificationManager.IMPORTANCE_HIGH)
+            notificationChannel.enableLights(true)
+            notificationChannel.lightColor = Color.GREEN
+            notificationChannel.enableVibration(true)
+            notificationManager.createNotificationChannel(notificationChannel)
+
+            builder = android.app.Notification.Builder(this,channelID)
+                .setContentTitle("Setapak House")
+                .setContentText("You have " + notificationCount + " unread notification")
+                .setSmallIcon(R.drawable.ic_home2)
+                .setColor(rgb(38, 153, 251))
+                .setLargeIcon((BitmapFactory.decodeResource(this.resources, R.drawable.ic_home2)))
+                .setBadgeIconType(R.drawable.ic_home2)
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true)
+
+        }
+        else{
+            builder = android.app.Notification.Builder(this)
+                .setContentTitle("Setapak House")
+                .setContentText("You have " + notificationCount + " unread notification")
+                .setColor(rgb(38, 153, 251))
+                .setSmallIcon(R.drawable.ic_home2)
+                .setLargeIcon((BitmapFactory.decodeResource(this.resources, R.drawable.ic_home2)))
+                .setBadgeIconType(R.drawable.ic_home2)
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true)
+        }
+
+        notificationManager.notify(1234,builder.build())
+
+    }
+
+    private fun notification1(){
+
+        val intent = Intent(this, MainActivity::class.java)
+        intent.putExtra("GoNotification1", "true")
+        val pendingIntent =  PendingIntent.getActivity(this, 0, intent,PendingIntent.FLAG_UPDATE_CURRENT)
+
+        val contentView = RemoteViews(packageName, R.layout.notification_popup)
+        contentView.setImageViewResource(R.id.tv_icon, R.drawable.ic_home2)
+        contentView.setTextViewText(R.id.tv_title, "Setapak House")
+        contentView.setTextViewText(R.id.tv_content, "You have new notification! Please check it out.")
+
+        if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.O) {
+            notificationChannel =
+                NotificationChannel(channelID, description, NotificationManager.IMPORTANCE_HIGH)
+            notificationChannel.enableLights(true)
+            notificationChannel.lightColor = Color.GREEN
+            notificationChannel.enableVibration(true)
+            notificationManager.createNotificationChannel(notificationChannel)
+
+            builder = android.app.Notification.Builder(this,channelID)
+                .setContentTitle("Setapak House")
+                .setColor(rgb(38, 153, 251))
+                .setContentText("You have new notification! Please check it out.")
+                .setSmallIcon(R.drawable.ic_home2)
+                .setLargeIcon((BitmapFactory.decodeResource(this.resources, R.drawable.ic_home2)))
+                .setBadgeIconType(R.drawable.ic_home2)
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true)
+        }
+        else{
+            builder = android.app.Notification.Builder(this)
+                .setContentTitle("Setapak House")
+                .setContentText("You have new notification! Please check it out.")
+                .setSmallIcon(R.drawable.ic_home2)
+                .setColor(rgb(38, 153, 251))
+                .setLargeIcon((BitmapFactory.decodeResource(this.resources, R.drawable.ic_home2)))
+                .setBadgeIconType(R.drawable.ic_home2)
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true)
+        }
+
+        notificationManager.notify(1234,builder.build())
 
     }
 }

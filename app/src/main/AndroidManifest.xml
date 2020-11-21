@@ -13,6 +13,7 @@
         android:roundIcon="@drawable/ic_page"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".OtherUserProfileActivity"></activity>
         <activity android:name=".SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -78,9 +79,7 @@
         <activity
             android:name=".SearchActivity"
             android:parentActivityName=".MainActivity" />
-        <activity android:name=".MainActivity">
-
-        </activity>
+        <activity android:name=".MainActivity"></activity>
 
         <meta-data
             android:name="preloaded_fonts"

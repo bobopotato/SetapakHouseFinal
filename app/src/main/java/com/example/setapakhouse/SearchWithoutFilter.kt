@@ -84,7 +84,7 @@ class SearchWithoutFilter : AppCompatActivity() {
                     resultFound.text = propertyList.size.toString() + " results founded"
                     recycler_view.layoutManager = mLayoutManager
                     recycler_view.scrollToPosition(propertyList.size-1)
-                    recycler_view.adapter = HomeAdapter(propertyList)
+                    recycler_view.adapter = HomeAdapter(propertyList, true)
                 }
             }
         })

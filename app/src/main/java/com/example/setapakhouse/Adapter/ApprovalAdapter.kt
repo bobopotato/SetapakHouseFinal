@@ -2,6 +2,7 @@ package com.example.setapakhouse.Adapter
 
 import android.app.Dialog
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.preference.PreferenceManager
@@ -20,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.setapakhouse.Fragment.NotificationFragment
 import com.example.setapakhouse.Model.*
 import com.example.setapakhouse.R
+import com.example.setapakhouse.detailPost
 import com.google.android.material.tabs.TabLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
@@ -68,9 +70,7 @@ class ApprovalAdapter(val approvalList: MutableList<Approval>): RecyclerView.Ada
 
         epicDialog = Dialog(holder.wholeLayout.context)
 
-        query = FirebaseDatabase.getInstance().getReference("Users").orderByChild("userID").equalTo(
-            currentUserID
-        )
+        query = FirebaseDatabase.getInstance().getReference("Users").orderByChild("userID").equalTo(currentUserID)
 
         query.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
@@ -121,7 +121,11 @@ class ApprovalAdapter(val approvalList: MutableList<Approval>): RecyclerView.Ada
         holder.content.text = approvalList[position].approvalContent
 
         if(approvalList[position].status == "pending"){
-            holder.wholeLayout.setBackgroundColor(Color.rgb(135, 206, 250))
+            holder.wholeLayout.setBackgroundColor(Color.rgb(204, 230, 255))
+            holder.approveBtn.visibility = View.VISIBLE
+            holder.rejectBtn.visibility = View.VISIBLE
+            holder.statusBtn.visibility = View.GONE
+            Log.d("colourTest", position.toString())
         }
         if(approvalList[position].status == "rejected"){
             holder.approveBtn.visibility = View.GONE
@@ -129,13 +133,27 @@ class ApprovalAdapter(val approvalList: MutableList<Approval>): RecyclerView.Ada
             holder.statusBtn.visibility = View.VISIBLE
             holder.statusBtn.setText("Status : Rejected")
             holder.statusBtn.setBackgroundResource(R.drawable.round_button_red)
+            holder.wholeLayout.setBackgroundColor(Color.rgb(255, 255, 255))
             //holder.wholeLayout.setBackgroundColor(Color.rgb(128,128,128))
         }
+
+        if(approvalList[position].status == "unavailable"){
+            holder.approveBtn.visibility = View.GONE
+            holder.rejectBtn.visibility = View.GONE
+            holder.statusBtn.visibility = View.VISIBLE
+            holder.statusBtn.setText("Status : Unavailable")
+            holder.statusBtn.setBackgroundResource(R.drawable.round_button_disable2)
+
+            holder.wholeLayout.setBackgroundColor(Color.rgb(255, 255, 255))
+            //holder.wholeLayout.setBackgroundColor(Color.rgb(128,128,128))
+        }
+
         if(approvalList[position].status == "approved"){
             holder.approveBtn.visibility = View.GONE
             holder.rejectBtn.visibility = View.GONE
             holder.statusBtn.visibility = View.VISIBLE
             holder.statusBtn.setText("Status : Approved")
+            holder.wholeLayout.setBackgroundColor(Color.rgb(255, 255, 255))
             holder.statusBtn.setBackgroundResource(R.drawable.round_button_green)
             //holder.wholeLayout.setBackgroundColor(Color.rgb(128,128,128))
         }
@@ -145,8 +163,28 @@ class ApprovalAdapter(val approvalList: MutableList<Approval>): RecyclerView.Ada
             holder.rejectBtn.visibility = View.GONE
             holder.statusBtn.visibility = View.VISIBLE
             holder.statusBtn.setText("Status : Expired")
+            holder.wholeLayout.setBackgroundColor(Color.rgb(255, 255, 255))
             holder.statusBtn.setBackgroundResource(R.drawable.round_button_disable)
             //holder.wholeLayout.setBackgroundColor(Color.rgb(128,128,128))
+        }
+
+        //onclick go in detailPost
+        holder.wholeLayout.setOnClickListener{
+
+
+            if(approvalList[position].status == "unavailable1"){
+
+                showDialog3()
+                val intent = Intent(holder.wholeLayout.context, detailPost::class.java)
+                intent.putExtra("selectedPosition", approvalList[position].propertyID)
+                intent.putExtra("selectedUserID",currentUserID)
+                holder.wholeLayout.context.startActivity(intent)
+            }else{
+                val intent = Intent(holder.wholeLayout.context, detailPost::class.java)
+                intent.putExtra("selectedPosition", approvalList[position].propertyID)
+                intent.putExtra("selectedUserID",currentUserID)
+                holder.wholeLayout.context.startActivity(intent)
+            }
         }
 
 
@@ -768,6 +806,24 @@ class ApprovalAdapter(val approvalList: MutableList<Approval>): RecyclerView.Ada
         okButton.setOnClickListener {
             epicDialog.dismiss()
             abc.dismiss()
+        }
+        epicDialog.setCancelable(true)
+        epicDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        epicDialog.show()
+    }
+
+    private fun showDialog3(){
+        epicDialog.setContentView(R.layout.popup_error)
+        //val closeButton : ImageView = epicDialog.findViewById(R.id.closeBtn)
+        val okButton : Button = epicDialog.findViewById(R.id.okBtn)
+        val title : TextView = epicDialog.findViewById(R.id.title)
+        val content : TextView = epicDialog.findViewById(R.id.content)
+
+        title.text = "Property Non-exist"
+        content.text = "This property is being removed !"
+
+        okButton.setOnClickListener {
+            epicDialog.dismiss()
         }
         epicDialog.setCancelable(true)
         epicDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))

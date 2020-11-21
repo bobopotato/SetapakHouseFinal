@@ -285,6 +285,7 @@ class PostActivity4 : AppCompatActivity() {
             epicDialog.dismiss()
             val intent = Intent(this@PostActivity4, MainActivity::class.java)
             startActivity(intent)
+
         }
         epicDialog.setCancelable(true)
         epicDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))

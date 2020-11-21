@@ -1,10 +1,15 @@
 package com.example.setapakhouse
 
+import android.app.Dialog
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.renderscript.Script
 import android.util.Log
+import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -17,6 +22,8 @@ import kotlinx.android.synthetic.main.activity_post3.toolbar
 
 class PostActivity3 : AppCompatActivity() {
 
+    lateinit var epicDialog : Dialog
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_post3)
@@ -26,6 +33,8 @@ class PostActivity3 : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         expandableLayout.collapse()
+
+        epicDialog = Dialog(this)
 
         //Get previous intent data
         val renterType = intent.getStringExtra("RenterType")!!
@@ -51,15 +60,7 @@ class PostActivity3 : AppCompatActivity() {
 
             if(accomodation.isEmpty() || preference.isEmpty()){
                 //Log.d("fail", "Cannot empty lah sohai")
-                val builder = AlertDialog.Builder(this@PostActivity3)
-                builder.setTitle("Please follow the form requirement")
-                builder.setMessage("Select more than 6 accomodations\nSelect more than 4 preferences")
-
-                builder.setNeutralButton("Okay", { dialog: DialogInterface?, which: Int ->
-
-                })
-                builder.setCancelable(false)
-                builder.show()
+                showDialog()
             }
             else{
                 if(propertyType == "House"){
@@ -405,6 +406,25 @@ class PostActivity3 : AppCompatActivity() {
         }
 
         return preference
+    }
+
+    private fun showDialog(){
+        epicDialog.setContentView(R.layout.popup_error)
+        //val closeButton : ImageView = epicDialog.findViewById(R.id.closeBtn)
+        val okButton : Button = epicDialog.findViewById(R.id.okBtn)
+        val title : TextView = epicDialog.findViewById(R.id.title)
+        val content : TextView = epicDialog.findViewById(R.id.content)
+
+        title.text = "Insufficient Information"
+        content.text = "Please select more than 6 accommodations and 4 preferences."
+
+        okButton.setOnClickListener {
+            epicDialog.dismiss()
+        }
+        epicDialog.setCancelable(true)
+        epicDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        epicDialog.show()
+
     }
 
 

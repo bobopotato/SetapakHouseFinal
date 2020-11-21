@@ -3,6 +3,7 @@ package com.example.setapakhouse.Adapter
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,16 +11,24 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.startActivity
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.setapakhouse.Fragment.ProfileFragment
+import com.example.setapakhouse.MainActivity
 import com.example.setapakhouse.Model.Property
+import com.example.setapakhouse.OtherUserProfileActivity
 import com.example.setapakhouse.R
 import com.example.setapakhouse.detailPost
+import com.google.android.material.internal.ContextUtils.getActivity
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.activity_detail_post.*
 
 
-class HomeAdapter(val property : MutableList<Property>): RecyclerView.Adapter<HomeAdapter.MyViewHolder>() {
+class HomeAdapter(val property : MutableList<Property>,val clickableOrNot:Boolean): RecyclerView.Adapter<HomeAdapter.MyViewHolder>() {
 
     lateinit var ref:DatabaseReference
 
@@ -47,6 +56,24 @@ class HomeAdapter(val property : MutableList<Property>): RecyclerView.Adapter<Ho
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+        val currentUserID= FirebaseAuth.getInstance().currentUser!!.uid
+
+        if(clickableOrNot) {
+            holder.img_user.setOnClickListener {
+                if (property[position].userID.equals(currentUserID)) {
+                    val intent = Intent(holder.img_property.context, MainActivity::class.java)
+                    intent.putExtra("goProfile", "yes")
+                    holder.img_property.context.startActivity(intent)
+                } else {
+                    val intent =
+                        Intent(holder.img_user.context, OtherUserProfileActivity::class.java)
+                    intent.putExtra("otherUserID", property[position].userID)
+
+                    holder.img_user.context.startActivity(intent)
+                }
+            }
+        }
+
         holder.txt_dateTime.text=property[position].releaseDateTime
         holder.txt_location.text=property[position].location
         if(property[position].rentalType.toString().equals("Long-Term")) {
@@ -97,6 +124,21 @@ class HomeAdapter(val property : MutableList<Property>): RecyclerView.Adapter<Ho
 
         })
 
+
+
+
+
+//        holder.img_user.setOnClickListener {
+//
+//            if(property[position].userID.equals(currentUserID)){
+//            }else {
+//                val intent = Intent(holder.img_user.context, OtherUserProfileActivity::class.java)
+//                intent.putExtra("otherUserID", property[position].userID)
+//
+//                holder.img_user.context.startActivity(intent)
+//            }
+//
+//        }
         holder.img_property.setOnClickListener{
             val intent = Intent(holder.img_property.context, detailPost::class.java)
             intent.putExtra("selectedPosition", property[position].propertyID)

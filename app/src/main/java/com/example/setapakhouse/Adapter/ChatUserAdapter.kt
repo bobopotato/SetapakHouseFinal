@@ -2,6 +2,7 @@ package com.example.setapakhouse.Adapter
 
 import android.content.Intent
 import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,12 +11,10 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.example.setapakhouse.MainActivity
-import com.example.setapakhouse.MessageActivity
+import com.example.setapakhouse.*
 import com.example.setapakhouse.Model.Chat
 import com.example.setapakhouse.Model.User
 import com.example.setapakhouse.R
-import com.example.setapakhouse.detailPost
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.squareup.picasso.Picasso
@@ -32,6 +31,7 @@ class ChatUserAdapter(private var user:MutableList<User>,private var isChat:Bool
         val user_img: ImageView =itemView.findViewById<ImageView>(R.id.chatUserImage)
         val user_name: TextView =itemView.findViewById<TextView>(R.id.chatUserName)
         val last_message:TextView=itemView.findViewById<TextView>(R.id.lastMessage)
+        val blueDot:ImageView=itemView.findViewById<ImageView>(R.id.blue_dot)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -44,6 +44,15 @@ class ChatUserAdapter(private var user:MutableList<User>,private var isChat:Bool
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+
+        holder.user_img.setOnClickListener {
+
+            val intent = Intent(holder.user_img.context, OtherUserProfileActivity::class.java)
+            intent.putExtra("otherUserID", user[position].userID)
+            holder.user_img.context.startActivity(intent)
+
+        }
+
         holder.user_name.text=user[position].username
         Picasso.get().load(user[position].image).placeholder(R.drawable.ic_profile).into(holder.user_img)
 
@@ -56,6 +65,44 @@ class ChatUserAdapter(private var user:MutableList<User>,private var isChat:Bool
 
         if(isChat) {
             lastMessage(user[position].userID,holder.last_message)
+
+            val currentUserID = FirebaseAuth.getInstance().currentUser!!.uid
+
+            val chatRef = FirebaseDatabase.getInstance().getReference("Chats")
+
+            var countSeen = 0
+            var seen = false
+
+            chatRef.addValueEventListener(object:ValueEventListener{
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if(snapshot.exists()) {
+                        var count = 0
+                        for(h in snapshot.children) {
+                            if(user[position].userID.equals(h.child("sender").getValue().toString()) && h.child("receiver").getValue().toString().equals(currentUserID)){
+                                if(h.child("isseen").getValue().toString().equals("false")){
+                                    //holder.blueDot.visibility = View.VISIBLE
+                                    seen = true
+
+                                }
+                            }
+
+                        }
+                        if (seen){
+                            holder.blueDot.visibility = View.VISIBLE
+                        }
+                        else{
+                            holder.blueDot.visibility = View.GONE
+                        }
+                    }
+                }
+
+            })
+
+
         }else {
             holder.last_message.setVisibility(View.GONE)
         }

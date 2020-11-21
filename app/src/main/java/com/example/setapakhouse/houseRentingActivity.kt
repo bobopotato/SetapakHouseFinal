@@ -2,6 +2,7 @@ package com.example.setapakhouse
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.setapakhouse.Adapter.fragmentAdapter3
 import com.example.setapakhouse.Adapter.houseRentingAdapter
@@ -12,8 +13,7 @@ import com.example.setapakhouse.Model.Rent
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_house_renting.*
-import kotlinx.android.synthetic.main.activity_my_payment.*
-import kotlinx.android.synthetic.main.fragment_outgoing.view.*
+
 
 class houseRentingActivity : AppCompatActivity() {
 
@@ -28,8 +28,25 @@ class houseRentingActivity : AppCompatActivity() {
             finish()
         }
 
+
         viewPagerRentingHouse.adapter= rentingHouseFragmentAdapter(supportFragmentManager)
         tabLayoutRentingHouse.setupWithViewPager(viewPagerRentingHouse)
+
+        val pref= PreferenceManager.getDefaultSharedPreferences(this)
+
+        pref.apply{
+            val changeTabMou=getString("changeTabRentingHistory","")
+            if(changeTabMou=="yes"){
+                tabLayoutRentingHouse.getTabAt(1)!!.select()
+                val pref= PreferenceManager.getDefaultSharedPreferences(this@houseRentingActivity)
+                val editor=pref.edit()
+                editor
+                    .putString("changeTabRentingHistory","")
+                    .apply()
+            }else{
+                tabLayoutRentingHouse.getTabAt(0)!!.select()
+            }
+        }
 
     }
 }
