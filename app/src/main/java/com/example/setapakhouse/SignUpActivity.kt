@@ -28,6 +28,7 @@ class SignUpActivity : AppCompatActivity() {
 
     lateinit var ref : DatabaseReference
     lateinit var ref1: DatabaseReference
+    lateinit var createListener : ValueEventListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,7 +74,7 @@ class SignUpActivity : AppCompatActivity() {
             var username1 = usernameText.editText?.text.toString().trim()
             var exist = "false"
 
-            ref1.addValueEventListener(object: ValueEventListener {
+            createListener = ref1.addValueEventListener(object: ValueEventListener {
                 override fun onCancelled(error: DatabaseError) {
                     TODO("Not yet implemented")
                 }
@@ -117,6 +118,7 @@ class SignUpActivity : AppCompatActivity() {
 
         //Continue Submit Button
         createAccButton.setOnClickListener {
+            ref1.removeEventListener(createListener)
             createAccButton.isEnabled = false
             createAccButton.setBackgroundResource(R.color.transparent)
             progressBar.visibility =  View.VISIBLE

@@ -28,6 +28,7 @@ class VerifyOtpActivity : AppCompatActivity() {
     lateinit var mAuth : FirebaseAuth
     lateinit var mAuthVerificationId : String
     lateinit var epicDialog : Dialog
+    lateinit var timer : CountDownTimer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,15 +44,15 @@ class VerifyOtpActivity : AppCompatActivity() {
 
         mAuthVerificationId = intent.getStringExtra("code1")!!
 
-        val timer = object: CountDownTimer(60000, 1000) {
+        timer = object: CountDownTimer(60000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
-                countdownText.text = "OTP expired in " + (TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) % 60).toString() + "seconds..."
+                countdownText.text = "OTP expired in " + (TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) % 60).toString() + " seconds..."
             }
 
             override fun onFinish() {
                 countdownText.text = "OTP is already expired!!"
 
-                showDialog3()
+                showDialog1()
 
             }
         }
@@ -137,19 +138,19 @@ class VerifyOtpActivity : AppCompatActivity() {
         yesButton.setOnClickListener {
             val intent = Intent(this@VerifyOtpActivity, LoginActivity::class.java)
             startActivity(intent)
+            timer.cancel()
             finish()
+            epicDialog.dismiss()
         }
         cancelButton.setOnClickListener {
             epicDialog.dismiss()
-            val intent = Intent(this@VerifyOtpActivity, VerifyPhoneNumberActivity::class.java)
-            startActivity(intent)
         }
         epicDialog.setCancelable(true)
         epicDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         epicDialog.show()
     }
 
-    private fun showDialog1(abc: Dialog){
+    private fun showDialog1(){
         epicDialog.setContentView(R.layout.popup_error)
         //val closeButton : ImageView = epicDialog.findViewById(R.id.closeBtn)
         val okButton : Button = epicDialog.findViewById(R.id.okBtn)

@@ -2,17 +2,22 @@ package com.example.setapakhouse
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.Dialog
 import android.app.ProgressDialog
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
 import android.view.animation.Animation
 import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -39,6 +44,7 @@ class UploadProfilePictureActivity : AppCompatActivity() {
     private var PICK_IMAGE_REQUEST = 1234
     lateinit var ref: DatabaseReference
     lateinit var token: String
+    lateinit var epicDialog : Dialog
     var valid : Boolean = false
 
 
@@ -49,6 +55,8 @@ class UploadProfilePictureActivity : AppCompatActivity() {
         setSupportActionBar(toolbar as Toolbar?)
         supportActionBar?.setTitle("Upload Profile Picture")
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        epicDialog = Dialog(this)
 
         scaleUp = android.view.animation.AnimationUtils.loadAnimation(this, R.anim.scale_up)
         scaleDown = android.view.animation.AnimationUtils.loadAnimation(this, R.anim.scale_down)
@@ -191,6 +199,41 @@ class UploadProfilePictureActivity : AppCompatActivity() {
         val intent = Intent(this, LoginActivity::class.java)
         startActivity(intent)
         finish()
+    }
+
+    override fun onBackPressed() {
+        //super.onBackPressed()
+        showDialog1()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        if(item.itemId == android.R.id.home){
+
+
+            showDialog1()
+        }
+        //return super.onOptionsItemSelected(item)
+        return true
+
+    }
+
+    private fun showDialog1(){
+        epicDialog.setContentView(R.layout.popup_error)
+        //val closeButton : ImageView = epicDialog.findViewById(R.id.closeBtn)
+        val okButton : Button = epicDialog.findViewById(R.id.okBtn)
+        val title : TextView = epicDialog.findViewById(R.id.title)
+        val content : TextView = epicDialog.findViewById(R.id.content)
+
+        title.text = "Invalid Action"
+        content.text = "Unable to back to previous page. Please finish your registration first."
+
+        okButton.setOnClickListener {
+            epicDialog.dismiss()
+        }
+        epicDialog.setCancelable(false)
+        epicDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        epicDialog.show()
     }
 
     /*private fun createAccount(
