@@ -61,6 +61,12 @@ class NotificationFragment2 : Fragment() {
                                 count++
 
                             }
+                            if(count ==0){
+                                root.markRead.visibility = View.GONE
+                            }
+                            else{
+                                root.markRead.visibility = View.VISIBLE
+                            }
                             root.notificationCount.text = count.toString()
                         }
 
@@ -83,7 +89,7 @@ class NotificationFragment2 : Fragment() {
                     val title : TextView = epicDialog.findViewById(R.id.title)
                     val content : TextView = epicDialog.findViewById(R.id.content)
 
-                    title.text = "Mask As Read"
+                    title.text = "Mark As Read"
 
                     content.text = "Are you sure to mark all notification as read?"
 
@@ -106,7 +112,7 @@ class NotificationFragment2 : Fragment() {
                                             if(h.child("status").getValue().toString().equals("delivered")){
                                                 var ref555 = FirebaseDatabase.getInstance().getReference("Notification")
 
-                                                ref555.child(h.child("notificationID").getValue().toString()).setValue("seen")
+                                                ref555.child(h.child("notificationID").getValue().toString()).child("status").setValue("seen")
                                             }
                                         }
                                     }
@@ -158,9 +164,11 @@ class NotificationFragment2 : Fragment() {
 
                     if(notificationList.size == 0){
                         root.noRecordFound.visibility = View.VISIBLE
+                        root.markRead.visibility = View.GONE
                     }
                     else{
                         root.noRecordFound.visibility = View.GONE
+                        root.markRead.visibility = View.VISIBLE
                     }
                     val adapter = NotificationAdapter(notificationList)
                     val mLayoutManager = LinearLayoutManager(activity)

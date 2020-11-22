@@ -3,6 +3,7 @@ package com.example.setapakhouse
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Spinner
@@ -21,6 +22,7 @@ class PostActivity2 : AppCompatActivity() {
         setSupportActionBar(toolbar as Toolbar?)
         supportActionBar?.setTitle("Post - Step 2")
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
 
         val renterType = intent.getStringExtra("RenterType")!!
         val propertyType = intent.getStringExtra("PropertyType")!!
@@ -180,6 +182,14 @@ class PostActivity2 : AppCompatActivity() {
             spinner2.adapter = adapter
         }
 
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        if(item.itemId == android.R.id.home){
+            finish()
+        }
+        return super.onOptionsItemSelected(item)
     }
 
 }

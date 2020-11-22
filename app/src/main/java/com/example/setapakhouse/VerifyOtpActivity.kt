@@ -162,6 +162,7 @@ class VerifyOtpActivity : AppCompatActivity() {
 
         okButton.setOnClickListener {
             epicDialog.dismiss()
+            finish()
         }
         epicDialog.setCancelable(true)
         epicDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))

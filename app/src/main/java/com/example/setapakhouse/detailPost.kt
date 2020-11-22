@@ -230,7 +230,7 @@ class detailPost : AppCompatActivity() {
                                 requestBtn.setBackgroundResource(R.drawable.round_button_disable)
                                 //requestBtn.visibility = View.INVISIBLE
                             }
-                            if(h.child("rentalType").getValue().toString().equals("long")){
+                            if(h.child("rentalType").getValue().toString().equals("Long-Term")){
                                 txtPrice.text="RM"+String.format("%.2f",h.child("price").getValue().toString().toDouble())+"/MONTH"
                             }else{
                                 txtPrice.text="RM"+String.format("%.2f",h.child("price").getValue().toString().toDouble())+"/DAY"

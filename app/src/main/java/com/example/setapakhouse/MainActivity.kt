@@ -226,12 +226,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         if(intent.getStringExtra("GoNotification")!=null){
             if (intent.getStringExtra("GoNotification")!!.equals("true")){
                 makeCurrentFragment(notificationFragment)
+                bottom_nav.selectedItemId = R.id.ic_notification
             }
         }
 
         if(intent.getStringExtra("GoNotification1")!=null){
             if (intent.getStringExtra("GoNotification1")!!.equals("true")){
                 makeCurrentFragment(notificationFragment)
+                bottom_nav.selectedItemId = R.id.ic_notification
             }
         }
         var first = true;
@@ -261,48 +263,48 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 }
 
                 override fun onDataChange(p0: DataSnapshot) {
-                        var size = 0;
-                        var stop = false;
-                        if (p0.exists()) {
-                            for (h in p0.children) {
-                                val notification1 = h.getValue(Notification::class.java)
-                                if(notification1!!.status=="delivered"){
-                                    if(!stop) {
-                                        size++
+                    var size = 0;
+                    var stop = false;
+                    if (p0.exists()) {
+                        for (h in p0.children) {
+                            val notification1 = h.getValue(Notification::class.java)
+                            if(notification1!!.status=="delivered"){
+                                if(!stop) {
+                                    size++
 
-                                    }
                                 }
-
                             }
-                            if(size>0){
-                                if(first){
-                                    if(!stop) {
-                                        if(intent.getStringExtra("GoNotification")==null && intent.getStringExtra("GoNotification1")==null){
-                                            notification(size.toString())
-                                            hiddenNotificationSize.text = size.toString()
-                                            first = false
-                                            stop = true
-                                        }
-                                    }
-                                }
-                                else{
-                                    if(!stop && hiddenNotificationSize.text.toString().isNotEmpty()) {
-                                        if(hiddenNotificationSize.text.toString().toInt()<size){
-                                            notification1()
-                                            stop = true
-                                        }
 
-                                    }
-                                    hiddenNotificationSize.text = size.toString()
-                                }
-                            }else if (size == 0){
-                                //Toast.makeText(this@MainActivity, "Boolean = " + getKey.first, Toast.LENGTH_SHORT).show()
-                                hiddenNotificationSize.text = size.toString()
-                                first = false
-                            }else{
-                                first =true
-                            }
                         }
+                        if(size>0){
+                            if(first){
+                                if(!stop) {
+                                    if(intent.getStringExtra("GoNotification")==null && intent.getStringExtra("GoNotification1")==null){
+                                        notification(size.toString())
+                                        hiddenNotificationSize.text = size.toString()
+                                        first = false
+                                        stop = true
+                                    }
+                                }
+                            }
+                            else{
+                                if(!stop && hiddenNotificationSize.text.toString().isNotEmpty()) {
+                                    if(hiddenNotificationSize.text.toString().toInt()<size){
+                                        notification1()
+                                        stop = true
+                                    }
+
+                                }
+                                hiddenNotificationSize.text = size.toString()
+                            }
+                        }else if (size == 0){
+                            //Toast.makeText(this@MainActivity, "Boolean = " + getKey.first, Toast.LENGTH_SHORT).show()
+                            hiddenNotificationSize.text = size.toString()
+                            first = false
+                        }else{
+                            first =true
+                        }
+                    }
 
                 }
             })
@@ -476,7 +478,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                                     //Log.d("MESSAGE",notificationContent)
                                     val storeNotification = Notification(
                                         notificationID,
-                                        "system",
+                                        ap.child("receiverID").getValue().toString(),
                                         "delivered",
                                         notificationContent,
                                         getTime(),

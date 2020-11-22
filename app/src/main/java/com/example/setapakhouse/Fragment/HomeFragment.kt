@@ -1,6 +1,7 @@
 package com.example.setapakhouse.Fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +18,7 @@ class HomeFragment : Fragment() {
 
     lateinit var ref : DatabaseReference
     lateinit var propertyList : MutableList<Property>
+    lateinit var seenListener : ValueEventListener
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -30,21 +32,20 @@ class HomeFragment : Fragment() {
 
 
 
-
         return root
     }
 
 
     private fun addToList(root:View){
         ref = FirebaseDatabase.getInstance().getReference("Property")
-        ref.addValueEventListener(object:ValueEventListener{
+        seenListener = ref.addValueEventListener(object:ValueEventListener{
             override fun onCancelled(error: DatabaseError) {
                 TODO("Not yet implemented")
             }
 
             override fun onDataChange(snapshot: DataSnapshot) {
+                propertyList.clear()
                 if(snapshot.exists()){
-                    propertyList.clear()
                     for (h in snapshot.children){
                         if(h.child("status").getValue().toString().equals("available")) {
                             val property = h.getValue(Property::class.java)
@@ -65,6 +66,12 @@ class HomeFragment : Fragment() {
 
         })
 
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d("stopppp", "stopped")
+        ref.removeEventListener(seenListener)
     }
 
 }

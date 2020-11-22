@@ -43,6 +43,7 @@ class SearchResultActivity : AppCompatActivity() {
         }
         else{
             resultText.text = "Search Result For"
+            resultText1.text = propertyName
             resultText1.visibility = View.VISIBLE
         }
 

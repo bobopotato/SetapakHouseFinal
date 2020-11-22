@@ -65,7 +65,9 @@ class changepwaActivity : AppCompatActivity() {
             displayPasswordSuggestions(value, specialImg, specialText)
         })
 
-
+        oldPasswordText.editText?.addTextChangedListener {
+            oldPasswordText.error=null
+        }
         passwordText.editText?.addTextChangedListener {
             passwordText.error=null
         }
@@ -81,6 +83,16 @@ class changepwaActivity : AppCompatActivity() {
             changePasswordButton.isEnabled = false
             changePasswordButton.setBackgroundResource(R.color.transparent)
             progressBar2.visibility =  View.VISIBLE
+
+            var validOldPassword = false
+            var oldPasss = oldPasswordText.editText?.text.toString()
+            if(oldPasss.isEmpty()){
+                oldPasswordText.error="                     Password can't be null"
+            }
+            else{
+                validOldPassword = true
+            }
+
 
             var password = passwordText.editText?.text.toString()
             var validPassword = false

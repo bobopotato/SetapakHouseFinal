@@ -118,7 +118,7 @@ class SignUpActivity : AppCompatActivity() {
 
         //Continue Submit Button
         createAccButton.setOnClickListener {
-            ref1.removeEventListener(createListener)
+
             createAccButton.isEnabled = false
             createAccButton.setBackgroundResource(R.color.transparent)
             progressBar.visibility =  View.VISIBLE
@@ -127,6 +127,7 @@ class SignUpActivity : AppCompatActivity() {
 
             if(validateUsername() && validateFullName() && validateEmail()){
                 valid = true
+                ref1.removeEventListener(createListener)
             }
 
             if(valid == true){

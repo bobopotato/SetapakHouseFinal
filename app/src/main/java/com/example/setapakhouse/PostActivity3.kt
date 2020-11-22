@@ -8,6 +8,7 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.renderscript.Script
 import android.util.Log
+import android.view.MenuItem
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -31,6 +32,7 @@ class PostActivity3 : AppCompatActivity() {
         setSupportActionBar(toolbar as Toolbar?)
         supportActionBar?.setTitle("Post - Step 3")
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
 
         expandableLayout.collapse()
 
@@ -425,6 +427,14 @@ class PostActivity3 : AppCompatActivity() {
         epicDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         epicDialog.show()
 
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        if(item.itemId == android.R.id.home){
+            finish()
+        }
+        return super.onOptionsItemSelected(item)
     }
 
 

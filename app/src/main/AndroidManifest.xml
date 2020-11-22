@@ -43,14 +43,14 @@
         <activity android:name=".detailPost" />
         <activity
             android:name=".PostActivity4"
-            android:parentActivityName=".PostActivity4" />
+             />
         <activity android:name=".test" />
         <activity
             android:name=".PostActivity3"
-            android:parentActivityName=".PostActivity2" />
+             />
         <activity
             android:name=".PostActivity2"
-            android:parentActivityName=".PostActivity1" />
+             />
         <activity android:name=".PostActivity1" />
         <activity android:name=".UploadProfilePictureActivity" />
         <activity android:name=".VerifyOtpActivity" />

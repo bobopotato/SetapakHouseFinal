@@ -55,24 +55,7 @@ class NotificationAdapter(val notificationList:MutableList<Notification>): Recyc
 
         query = FirebaseDatabase.getInstance().getReference("Users").orderByChild("userID").equalTo(notificationList[position].sender)
 
-        query.addValueEventListener(object: ValueEventListener {
-            override fun onCancelled(p0: DatabaseError) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
 
-            override fun onDataChange(p0: DataSnapshot) {
-                if(p0.exists()){
-                    for(h in p0.children){
-                        val targetUser = h.getValue(User::class.java)
-                        val user = targetUser!!.username
-                        val profilePhoto = targetUser!!.image
-
-                        holder.username.text = user
-                        Picasso.get().load(profilePhoto).placeholder(R.drawable.profile).into(holder.profilePhoto)
-                    }
-                }
-            }
-        })
 
         holder.date.text = notificationList[position].notificationDateTime
         holder.content.text = notificationList[position].content
@@ -80,18 +63,51 @@ class NotificationAdapter(val notificationList:MutableList<Notification>): Recyc
         if(notificationList[position].status == "delivered"){
             holder.wholeLayout.setBackgroundColor(Color.rgb(204, 230, 255))
         }
+        else{
+            holder.wholeLayout.setBackgroundColor(Color.rgb(255, 255, 255))
+        }
 
         if(notificationList[position].type == "warning" && notificationList[position].status == "delivered"){
             holder.wholeLayout.setBackgroundColor(Color.rgb(255,204,203))
         }
 
-        if(notificationList[position].sender == "system"){
-            holder.profilePhoto.setImageResource(R.drawable.ic_page)
+        if(notificationList[position].type == "withdraw" && notificationList[position].status == "delivered"){
+            holder.wholeLayout.setBackgroundColor(Color.rgb(255,204,203))
+        }
+
+        if((notificationList[position].sender == "system" && notificationList[position].status == "delivered") || (notificationList[position].content.contains("expired") && notificationList[position].status == "delivered") || (notificationList[position].content.contains("remove") && notificationList[position].status == "delivered")){
+            //holder.profilePhoto.setImageResource(R.drawable.ic_page)
             //holder.profilePhoto.setBackgroundResource(R.drawable.ic_page)
-            holder.username.text = "System Message"
+            holder.wholeLayout.setBackgroundColor(Color.rgb(255,204,203))
+            //holder.username.text = "System Message"
         }
 
         var username = holder.username.text
+
+        if(notificationList[position].sender == "system" || notificationList[position].content.contains("expired") || notificationList[position].content.contains("remove")){
+            holder.profilePhoto.setImageResource(R.drawable.ic_page)
+            holder.username.text = "System Message"
+        }
+        else{
+            query.addValueEventListener(object: ValueEventListener {
+                override fun onCancelled(p0: DatabaseError) {
+                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                }
+
+                override fun onDataChange(p0: DataSnapshot) {
+                    if(p0.exists()){
+                        for(h in p0.children){
+                            val targetUser = h.getValue(User::class.java)
+                            val user = targetUser!!.username
+                            val profilePhoto = targetUser!!.image
+
+                            holder.username.text = user
+                            Picasso.get().load(profilePhoto).placeholder(R.drawable.profile).into(holder.profilePhoto)
+                        }
+                    }
+                }
+            })
+        }
 
         holder.wholeLayout.setOnClickListener {
             if(notificationList[position].type=="approval"){
@@ -141,7 +157,7 @@ class NotificationAdapter(val notificationList:MutableList<Notification>): Recyc
                     if(notificationList[position].content.contains("expired")){
                         content.text = "Do you wish to chat with the owner for the reason getting ignored?"
                     }
-                    if(notificationList[position].content.contains("expired")){
+                    if(notificationList[position].content.contains("remove")){
                         content.text = "Do you wish to chat with the owner for the reason why the property is removed?"
                     }
                     yesButton.text = "Yes"
@@ -193,6 +209,11 @@ class NotificationAdapter(val notificationList:MutableList<Notification>): Recyc
                     }
                 })
                 //ref1.removeEventListener(abcListener)
+            }
+
+            if(notificationList[position].content.contains("paid")){
+                val intent = Intent(holder.wholeLayout.context, myTransactionActivity::class.java)
+                holder.wholeLayout.context.startActivity(intent)
             }
 
             if(notificationList[position].type == "withdraw"){

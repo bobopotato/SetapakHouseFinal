@@ -158,6 +158,7 @@ class PaymentActivity2 : AppCompatActivity() {
                     //set payment notificationID
                     ref3 = FirebaseDatabase.getInstance().getReference("Payment").child(paymentID)
                     ref3.child("notificationID").setValue(notificationID)
+                    ref3.child("rewardPointUsed").setValue(discountText.text.toString().toDouble())
 
                     val notificationContent = hiddenUsername.text.toString() + " had paid for your rental"
 
@@ -231,8 +232,6 @@ class PaymentActivity2 : AppCompatActivity() {
 
         okButton.setOnClickListener {
             epicDialog.dismiss()
-            val intent = Intent(this@PaymentActivity2, PaymentActivity::class.java)
-            startActivity(intent)
             finish()
         }
         epicDialog.setCancelable(true)

@@ -280,9 +280,10 @@ class ApprovalAdapter(val approvalList: MutableList<Approval>): RecyclerView.Ada
                 var monthCount = ChronoUnit.MONTHS.between(firstt, secondd)
                 var dayCount = ChronoUnit.DAYS.between(firstt, secondd)
 
-                if(dayCount%30>20){
-                    monthCount++
-                }
+                //if(dayCount%30>20){
+                //   monthCount++
+                //    Log.d("addMonth", "added")
+                //}
                 //Create payment
 
                 //Long-Term Payment + Short-Term Payment
@@ -309,113 +310,117 @@ class ApprovalAdapter(val approvalList: MutableList<Approval>): RecyclerView.Ada
 
                                     var i = 0
                                     var count = 0
-                                    while(i < monthCount){
+                                    if(monthh != month2 || yearr != year2) {
+                                        while(monthh != (month2+1) || yearr != year2){
 
-                                        Log.d("abc", "count = " + count)
-                                        if(i == (monthCount-1).toInt()){
-                                            if(monthh != month2){
-                                                i--
-                                                Log.d("abc", "last1 = " + i)
+                                            Log.d("abc", "count = " + monthCount)
+                                            if(i == (monthCount-1).toInt()){
+                                                if(monthh != month2){  //23-01 to 23-02, 23-02 to 23-03
+                                                    i--
+                                                    Log.d("abc", "last1 = " + i)
+                                                    Log.d("abc", "monthh = " + monthh + "month2 = " + month2)
 
-                                            }
+                                                }
 
-                                            //Log.d("abc", "last2 = " + monthCount)
-                                        }
-                                        if((day1 == 30 && (month1 == 4 || month1 == 6 || month1 == 9 || month1 == 11))|| (day1==31 && (month1 == 1 || month1 == 3 || month1 == 5 || month1 == 7|| month1 == 8|| month1 == 10|| month1 == 12))){
-                                            if(month == 4 || month == 6 || month == 9 || month == 11){
-                                                if(day == 31){
-                                                    day = 30
-                                                }
+                                                //Log.d("abc", "last2 = " + monthCount)
                                             }
-                                            if(monthh == 4 || monthh == 6 || monthh == 9 || monthh == 11){
-                                                if(dayy == 31){
-                                                    dayy = 30
+                                            if((day1 == 30 && (month1 == 4 || month1 == 6 || month1 == 9 || month1 == 11))|| (day1==31 && (month1 == 1 || month1 == 3 || month1 == 5 || month1 == 7|| month1 == 8|| month1 == 10|| month1 == 12))){
+                                                if(month == 4 || month == 6 || month == 9 || month == 11){
+                                                    if(day == 31){
+                                                        day = 30
+                                                    }
                                                 }
-                                            }
-                                            if(month == 1 || month == 3 || month == 5 || month == 7|| month == 8|| month == 10|| month == 12){
-                                                if(day == 30  && (month1 == 4 || month1 == 6 || month1 == 9 || month1 == 11)){
-                                                    day = 30
+                                                if(monthh == 4 || monthh == 6 || monthh == 9 || monthh == 11){
+                                                    if(dayy == 31){
+                                                        dayy = 30
+                                                    }
                                                 }
-                                                else{
-                                                    day = 31
+                                                if(month == 1 || month == 3 || month == 5 || month == 7|| month == 8|| month == 10|| month == 12){
+                                                    if(day == 30  && (month1 == 4 || month1 == 6 || month1 == 9 || month1 == 11)){
+                                                        day = 30
+                                                    }
+                                                    else{
+                                                        day = 31
+                                                    }
                                                 }
-                                            }
-                                            if(monthh == 1 || monthh == 3 || monthh == 5 || monthh == 7|| monthh == 8|| monthh == 10|| monthh == 12){
-                                                if(dayy == 30  && (month1 == 4 || month1 == 6 || month1 == 9 || month1 == 11)){
-                                                    dayy = 30
+                                                if(monthh == 1 || monthh == 3 || monthh == 5 || monthh == 7|| monthh == 8|| monthh == 10|| monthh == 12){
+                                                    if(dayy == 30  && (month1 == 4 || month1 == 6 || month1 == 9 || month1 == 11)){
+                                                        dayy = 30
+                                                    }
+                                                    else{
+                                                        dayy = 31
+                                                    }
                                                 }
-                                                else{
-                                                    dayy = 31
+                                                if(month == 2){
+                                                    if(day == 31 || day == 30){
+                                                        if(year%4 == 0){
+                                                            day = 29
+                                                        }else{
+                                                            day = 28
+                                                        }
+                                                    }
                                                 }
-                                            }
-                                            if(month == 2){
-                                                if(day == 31 || day == 30){
-                                                    if(year%4 == 0){
-                                                        day = 29
-                                                    }else{
-                                                        day = 28
+                                                if(monthh == 2){
+                                                    if(dayy == 31 || dayy == 30){
+                                                        if(yearr%4 == 0){
+                                                            dayy = 29
+                                                        }else{
+                                                            dayy = 28
+                                                        }
+                                                    }
+                                                }
+                                                if(month ==3){
+                                                    if(day == 28 || day == 29){
+                                                        day = 31
+                                                    }
+                                                }
+                                                if(monthh ==3){
+                                                    if(dayy == 28 || dayy == 29){
+                                                        dayy = 31
                                                     }
                                                 }
                                             }
-                                            if(monthh == 2){
-                                                if(dayy == 31 || dayy == 30){
-                                                    if(yearr%4 == 0){
-                                                        dayy = 29
-                                                    }else{
-                                                        dayy = 28
-                                                    }
-                                                }
+
+                                            var first = day.toString() + "/" + month.toString() + "/" + year.toString()
+                                            var second = dayy.toString() + "/" + monthh.toString() + "/" + yearr.toString()
+                                            var paymentTitle = first + " to " + second + " Rental"
+
+                                            ref5 =
+                                                FirebaseDatabase.getInstance().getReference("Payment")
+
+                                            val paymentID = ref5.push().key.toString()
+
+                                            val storePayment = Payment(
+                                                paymentID,
+                                                paymentTitle,
+                                                getTime(),
+                                                p0.child("price").getValue().toString().toDouble(),
+                                                0,
+                                                "new",
+                                                "",
+                                                "",
+                                                rentID,
+                                                "installment"
+                                            )
+
+
+                                            ref5.child(paymentID).setValue(storePayment)
+
+                                            month++
+                                            monthh++
+                                            if (month == 13) {
+                                                month = 1
+                                                year++
                                             }
-                                            if(month ==3){
-                                                if(day == 28 || day == 29){
-                                                    day = 31
-                                                }
+                                            if (monthh == 13) {
+                                                monthh = 1
+                                                yearr++
                                             }
-                                            if(monthh ==3){
-                                                if(dayy == 28 || dayy == 29){
-                                                    dayy = 31
-                                                }
-                                            }
+
+                                            i++
                                         }
-
-                                        var first = day.toString() + "/" + month.toString() + "/" + year.toString()
-                                        var second = dayy.toString() + "/" + monthh.toString() + "/" + yearr.toString()
-                                        var paymentTitle = first + " to " + second + " Rental"
-
-                                        ref5 =
-                                            FirebaseDatabase.getInstance().getReference("Payment")
-
-                                        val paymentID = ref5.push().key.toString()
-
-                                        val storePayment = Payment(
-                                            paymentID,
-                                            paymentTitle,
-                                            getTime(),
-                                            p0.child("price").getValue().toString().toDouble(),
-                                            0,
-                                            "new",
-                                            "",
-                                            "",
-                                            rentID,
-                                            "installment"
-                                        )
-
-
-                                        ref5.child(paymentID).setValue(storePayment)
-
-                                        month++
-                                        monthh++
-                                        if (month == 13) {
-                                            month = 1
-                                            year++
-                                        }
-                                        if (monthh == 13) {
-                                            monthh = 1
-                                            yearr++
-                                        }
-
-                                        i++
                                     }
+
 
                                     /*for (x in 0 until monthCount) { //monthCount = 0
                                         Log.d("abc", "abbb = " + x)
